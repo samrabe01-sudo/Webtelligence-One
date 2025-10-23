@@ -140,7 +140,120 @@ function animateCounters() {
     });
 }
 
-// Skill Bar Animation
+// Interactive Tech Cards Animation
+function animateTechCards() {
+    const techCards = document.querySelectorAll('.tech-card');
+    const levelBars = document.querySelectorAll('.level-bar');
+    
+    // Animate skill level bars
+    levelBars.forEach(bar => {
+        const level = bar.getAttribute('data-level');
+        setTimeout(() => {
+            bar.style.width = level + '%';
+        }, Math.random() * 500);
+    });
+    
+    // Add staggered animation to tech cards
+    techCards.forEach((card, index) => {
+        setTimeout(() => {
+            card.style.opacity = '1';
+            card.style.transform = 'translateY(0)';
+        }, index * 100);
+    });
+}
+
+// Tech Card Hover Effects
+function initTechCardEffects() {
+    const techCards = document.querySelectorAll('.tech-card');
+    
+    techCards.forEach(card => {
+        card.addEventListener('mouseenter', () => {
+            // Add pulsing effect to skill level
+            const levelBar = card.querySelector('.level-bar');
+            if (levelBar) {
+                levelBar.style.animation = 'pulse-skill 0.8s ease-in-out';
+            }
+        });
+        
+        card.addEventListener('mouseleave', () => {
+            const levelBar = card.querySelector('.level-bar');
+            if (levelBar) {
+                levelBar.style.animation = '';
+            }
+        });
+        
+        // Click effect for skill details
+        card.addEventListener('click', () => {
+            const skillName = card.getAttribute('data-skill');
+            const skillLevel = card.getAttribute('data-level');
+            showSkillModal(skillName, skillLevel);
+        });
+    });
+}
+
+// Skill Modal for detailed information
+function showSkillModal(skillName, skillLevel) {
+    // Create modal overlay
+    const modalOverlay = document.createElement('div');
+    modalOverlay.className = 'skill-modal-overlay';
+    modalOverlay.innerHTML = `
+        <div class="skill-modal">
+            <div class="skill-modal-header">
+                <h3>${skillName}</h3>
+                <button class="skill-modal-close">&times;</button>
+            </div>
+            <div class="skill-modal-content">
+                <div class="skill-level-display">
+                    <div class="skill-percentage">${skillLevel}%</div>
+                    <div class="skill-level-circle">
+                        <svg viewBox="0 0 100 100">
+                            <circle cx="50" cy="50" r="45" fill="none" stroke="#e9ecef" stroke-width="8"/>
+                            <circle cx="50" cy="50" r="45" fill="none" stroke="#6c5ce7" stroke-width="8" 
+                                    stroke-dasharray="283" stroke-dashoffset="${283 - (283 * skillLevel / 100)}" 
+                                    transform="rotate(-90 50 50)" class="skill-progress-circle"/>
+                        </svg>
+                    </div>
+                </div>
+                <div class="skill-description">
+                    <p>Bu teknolojide ${skillLevel}% yetkinlik seviyesindeyim. Projelerimde aktif olarak kullanıyorum.</p>
+                </div>
+            </div>
+        </div>
+    `;
+    
+    // Add modal styles
+    modalOverlay.style.cssText = `
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 0, 0, 0.8);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        z-index: 10000;
+        animation: fadeIn 0.3s ease;
+    `;
+    
+    document.body.appendChild(modalOverlay);
+    
+    // Close modal functionality
+    const closeBtn = modalOverlay.querySelector('.skill-modal-close');
+    closeBtn.addEventListener('click', () => {
+        modalOverlay.style.animation = 'fadeOut 0.3s ease forwards';
+        setTimeout(() => modalOverlay.remove(), 300);
+    });
+    
+    modalOverlay.addEventListener('click', (e) => {
+        if (e.target === modalOverlay) {
+            modalOverlay.style.animation = 'fadeOut 0.3s ease forwards';
+            setTimeout(() => modalOverlay.remove(), 300);
+        }
+    });
+}
+
+// Skill Bar Animation (Legacy support)
 function animateSkillBars() {
     const skillBars = document.querySelectorAll('.skill-progress');
     
@@ -148,6 +261,9 @@ function animateSkillBars() {
         const width = bar.getAttribute('data-width');
         bar.style.width = width;
     });
+    
+    // Also animate new tech cards
+    animateTechCards();
 }
 
 // Portfolio Filter
@@ -198,7 +314,7 @@ const observer = new IntersectionObserver((entries) => {
             }
             
             // Trigger skill bar animation for skills section
-            if (entry.target.classList.contains('skills-content')) {
+            if (entry.target.classList.contains('skills-content') || entry.target.classList.contains('tech-showcase')) {
                 animateSkillBars();
             }
         }
@@ -230,9 +346,14 @@ document.addEventListener('DOMContentLoaded', () => {
     // Observe stats and skills sections
     const statsSection = document.querySelector('.about-stats');
     const skillsSection = document.querySelector('.skills-content');
+    const techShowcase = document.querySelector('.tech-showcase');
     
     if (statsSection) observer.observe(statsSection);
     if (skillsSection) observer.observe(skillsSection);
+    if (techShowcase) observer.observe(techShowcase);
+    
+    // Initialize tech card effects
+    initTechCardEffects();
 });
 
 // Contact Form Handling
