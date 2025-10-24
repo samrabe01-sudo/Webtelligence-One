@@ -141,115 +141,87 @@ function animateCounters() {
 }
 
 // Interactive Tech Cards Animation
+// Interactive Tech Cards Animation - Simplified
 function animateTechCards() {
-    const techCards = document.querySelectorAll('.tech-card');
     const levelBars = document.querySelectorAll('.level-bar');
     
-    // Animate skill level bars
-    levelBars.forEach(bar => {
+    // Animate skill level bars with staggered timing
+    levelBars.forEach((bar, index) => {
         const level = bar.getAttribute('data-level');
-        setTimeout(() => {
-            bar.style.width = level + '%';
-        }, Math.random() * 500);
-    });
-    
-    // Add staggered animation to tech cards
-    techCards.forEach((card, index) => {
-        setTimeout(() => {
-            card.style.opacity = '1';
-            card.style.transform = 'translateY(0)';
-        }, index * 100);
+        if (level) {
+            setTimeout(() => {
+                bar.style.width = level + '%';
+            }, index * 100 + 200); // Reduced timing for smoother effect
+        }
     });
 }
 
-// Tech Card Hover Effects
+// Tech Card Hover Effects - Simplified
 function initTechCardEffects() {
     const techCards = document.querySelectorAll('.tech-card');
     
     techCards.forEach(card => {
-        card.addEventListener('mouseenter', () => {
-            // Add pulsing effect to skill level
-            const levelBar = card.querySelector('.level-bar');
-            if (levelBar) {
-                levelBar.style.animation = 'pulse-skill 0.8s ease-in-out';
-            }
-        });
-        
-        card.addEventListener('mouseleave', () => {
-            const levelBar = card.querySelector('.level-bar');
-            if (levelBar) {
-                levelBar.style.animation = '';
-            }
-        });
-        
         // Click effect for skill details
-        card.addEventListener('click', () => {
+        card.addEventListener('click', (e) => {
+            e.preventDefault();
             const skillName = card.getAttribute('data-skill');
             const skillLevel = card.getAttribute('data-level');
-            showSkillModal(skillName, skillLevel);
+            
+            if (skillName && skillLevel) {
+                showSkillToast(skillName, skillLevel);
+            }
         });
     });
 }
 
-// Skill Modal for detailed information
-function showSkillModal(skillName, skillLevel) {
-    // Create modal overlay
-    const modalOverlay = document.createElement('div');
-    modalOverlay.className = 'skill-modal-overlay';
-    modalOverlay.innerHTML = `
-        <div class="skill-modal">
-            <div class="skill-modal-header">
-                <h3>${skillName}</h3>
-                <button class="skill-modal-close">&times;</button>
-            </div>
-            <div class="skill-modal-content">
-                <div class="skill-level-display">
-                    <div class="skill-percentage">${skillLevel}%</div>
-                    <div class="skill-level-circle">
-                        <svg viewBox="0 0 100 100">
-                            <circle cx="50" cy="50" r="45" fill="none" stroke="#e9ecef" stroke-width="8"/>
-                            <circle cx="50" cy="50" r="45" fill="none" stroke="#6c5ce7" stroke-width="8" 
-                                    stroke-dasharray="283" stroke-dashoffset="${283 - (283 * skillLevel / 100)}" 
-                                    transform="rotate(-90 50 50)" class="skill-progress-circle"/>
-                        </svg>
-                    </div>
-                </div>
-                <div class="skill-description">
-                    <p>Bu teknolojide ${skillLevel}% yetkinlik seviyesindeyim. Projelerimde aktif olarak kullanıyorum.</p>
-                </div>
-            </div>
+// Simple Toast Notification instead of modal
+function showSkillToast(skillName, skillLevel) {
+    // Remove existing toasts
+    const existingToasts = document.querySelectorAll('.skill-toast');
+    existingToasts.forEach(toast => toast.remove());
+    
+    // Create toast
+    const toast = document.createElement('div');
+    toast.className = 'skill-toast';
+    toast.innerHTML = `
+        <div class="toast-content">
+            <strong>${skillName}</strong>
+            <div class="toast-level">Yetkinlik: ${skillLevel}%</div>
         </div>
     `;
     
-    // Add modal styles
-    modalOverlay.style.cssText = `
+    // Add toast styles
+    toast.style.cssText = `
         position: fixed;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        background: rgba(0, 0, 0, 0.8);
-        display: flex;
-        align-items: center;
-        justify-content: center;
+        top: 20px;
+        right: 20px;
+        background: white;
+        border: 2px solid #6c5ce7;
+        border-radius: 10px;
+        padding: 15px;
+        box-shadow: 0 10px 30px rgba(108, 92, 231, 0.2);
         z-index: 10000;
-        animation: fadeIn 0.3s ease;
+        animation: slideInRight 0.3s ease;
+        min-width: 200px;
     `;
     
-    document.body.appendChild(modalOverlay);
+    document.body.appendChild(toast);
     
-    // Close modal functionality
-    const closeBtn = modalOverlay.querySelector('.skill-modal-close');
-    closeBtn.addEventListener('click', () => {
-        modalOverlay.style.animation = 'fadeOut 0.3s ease forwards';
-        setTimeout(() => modalOverlay.remove(), 300);
-    });
-    
-    modalOverlay.addEventListener('click', (e) => {
-        if (e.target === modalOverlay) {
-            modalOverlay.style.animation = 'fadeOut 0.3s ease forwards';
-            setTimeout(() => modalOverlay.remove(), 300);
-        }
+    // Auto remove after 3 seconds
+    setTimeout(() => {
+        toast.style.animation = 'slideOutRight 0.3s ease forwards';
+        setTimeout(() => toast.remove(), 300);
+    }, 3000);
+}
+            const skillLevel = card.getAttribute('data-level');
+            
+            // Add click animation
+            card.style.transform = 'scale(0.95)';
+            setTimeout(() => {
+                card.style.transform = '';
+                showSkillModal(skillName, skillLevel);
+            }, 150);
+        });
     });
 }
 
@@ -259,7 +231,9 @@ function animateSkillBars() {
     
     skillBars.forEach(bar => {
         const width = bar.getAttribute('data-width');
-        bar.style.width = width;
+        if (width) {
+            bar.style.width = width;
+        }
     });
     
     // Also animate new tech cards
