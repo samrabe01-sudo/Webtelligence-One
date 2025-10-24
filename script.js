@@ -213,14 +213,19 @@ function showSkillToast(skillName, skillLevel) {
         setTimeout(() => toast.remove(), 300);
     }, 3000);
 }
+
+// Tech Cards Animation
+function animateTechCards() {
+    const techCards = document.querySelectorAll('.tech-card');
+    
+    techCards.forEach(card => {
+        card.addEventListener('click', function() {
+            const skillName = this.querySelector('h4').textContent;
             const skillLevel = card.getAttribute('data-level');
             
-            // Add click animation
-            card.style.transform = 'scale(0.95)';
-            setTimeout(() => {
-                card.style.transform = '';
-                showSkillModal(skillName, skillLevel);
-            }, 150);
+            if (skillName && skillLevel) {
+                showSkillToast(skillName, skillLevel);
+            }
         });
     });
 }
