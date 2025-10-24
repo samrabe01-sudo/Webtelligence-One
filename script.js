@@ -46,6 +46,9 @@ function typeWriter() {
 // Start typing animation when page loads
 document.addEventListener('DOMContentLoaded', () => {
     setTimeout(typeWriter, 1000);
+    
+    // Initialize skills animations
+    initializeSkills();
 });
 
 // Mobile Menu Toggle
@@ -214,36 +217,131 @@ function showSkillToast(skillName, skillLevel) {
     }, 3000);
 }
 
-// Tech Cards Animation
-function animateTechCards() {
-    const techCards = document.querySelectorAll('.tech-card');
+// Modern Skills Animation
+function initializeSkills() {
+    // Animate skill level bars
+    animateSkillBars();
     
-    techCards.forEach(card => {
-        card.addEventListener('click', function() {
-            const skillName = this.querySelector('h4').textContent;
-            const skillLevel = card.getAttribute('data-level');
-            
-            if (skillName && skillLevel) {
-                showSkillToast(skillName, skillLevel);
+    // Animate progress bars
+    animateProgressBars();
+    
+    // Add hover effects
+    addSkillHoverEffects();
+}
+
+// Animate skill level indicators
+function animateSkillBars() {
+    const skillBars = document.querySelectorAll('.level-bar');
+    
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                const bar = entry.target;
+                const level = bar.getAttribute('data-level');
+                if (level) {
+                    bar.style.setProperty('--level', level + '%');
+                }
             }
+        });
+    }, { threshold: 0.5 });
+    
+    skillBars.forEach(bar => observer.observe(bar));
+}
+
+// Animate progress bars in technical skills
+function animateProgressBars() {
+    const progressBars = document.querySelectorAll('.progress-bar');
+    
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                const progressBar = entry.target;
+                const fill = progressBar.querySelector('.progress-fill');
+                const level = progressBar.getAttribute('data-level');
+                
+                if (fill && level) {
+                    setTimeout(() => {
+                        fill.style.width = level + '%';
+                    }, 200);
+                }
+            }
+        });
+    }, { threshold: 0.5 });
+    
+    progressBars.forEach(bar => observer.observe(bar));
+}
+
+// Add interactive hover effects
+function addSkillHoverEffects() {
+    const skillCards = document.querySelectorAll('.skill-card');
+    
+    skillCards.forEach(card => {
+        card.addEventListener('mouseenter', function() {
+            this.style.transform = 'translateY(-10px) scale(1.02)';
+        });
+        
+        card.addEventListener('mouseleave', function() {
+            this.style.transform = 'translateY(0) scale(1)';
+        });
+        
+        // Add click effect for skill cards
+        card.addEventListener('click', function() {
+            const skillName = this.querySelector('h3').textContent;
+            const levelText = this.querySelector('.level-text').textContent;
+            
+            showSkillNotification(skillName, levelText);
         });
     });
 }
 
-// Skill Bar Animation (Legacy support)
-function animateSkillBars() {
-    const skillBars = document.querySelectorAll('.skill-progress');
+// Show skill notification
+function showSkillNotification(skillName, level) {
+    // Remove existing notifications
+    const existingToast = document.querySelector('.skill-notification');
+    if (existingToast) {
+        existingToast.remove();
+    }
     
-    skillBars.forEach(bar => {
-        const width = bar.getAttribute('data-width');
-        if (width) {
-            bar.style.width = width;
-        }
-    });
+    const notification = document.createElement('div');
+    notification.className = 'skill-notification';
+    notification.innerHTML = `
+        <div class="notification-content">
+            <h4>${skillName}</h4>
+            <p>Yetenek Seviyesi: <strong>${level}</strong></p>
+        </div>
+    `;
     
-    // Also animate new tech cards
-    animateTechCards();
+    notification.style.cssText = `
+        position: fixed;
+        top: 20px;
+        right: 20px;
+        background: linear-gradient(135deg, #6c5ce7, #a29bfe);
+        color: white;
+        border-radius: 15px;
+        padding: 20px;
+        box-shadow: 0 15px 35px rgba(108, 92, 231, 0.3);
+        z-index: 10000;
+        animation: slideInRight 0.4s ease;
+        max-width: 280px;
+        transform: translateX(100%);
+    `;
+    
+    document.body.appendChild(notification);
+    
+    // Animate in
+    setTimeout(() => {
+        notification.style.transform = 'translateX(0)';
+        notification.style.transition = 'transform 0.4s ease';
+    }, 10);
+    
+    // Auto remove after 3 seconds
+    setTimeout(() => {
+        notification.style.transform = 'translateX(100%)';
+        setTimeout(() => notification.remove(), 400);
+    }, 3000);
 }
+
+
 
 // Portfolio Filter
 const filterButtons = document.querySelectorAll('.filter-btn');
