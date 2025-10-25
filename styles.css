@@ -313,6 +313,25 @@ body {
     margin-bottom: 20px;
 }
 
+.profile-img .avatar-img {
+    width: 180px;
+    height: 180px;
+    border-radius: 50%;
+    transition: all 0.3s ease;
+    filter: drop-shadow(0 10px 25px rgba(108, 92, 231, 0.15));
+    animation: avatarFloat 4s ease-in-out infinite;
+}
+
+.profile-img .avatar-img:hover {
+    transform: scale(1.05);
+    filter: drop-shadow(0 15px 35px rgba(108, 92, 231, 0.25));
+}
+
+@keyframes avatarFloat {
+    0%, 100% { transform: translateY(0px) rotate(0deg); }
+    50% { transform: translateY(-10px) rotate(2deg); }
+}
+
 .profile-img i {
     font-size: 8rem;
     color: #6c5ce7;
@@ -1965,6 +1984,11 @@ body {
     
     .profile-card {
         padding: 20px;
+    }
+    
+    .profile-img .avatar-img {
+        width: 120px;
+        height: 120px;
     }
     
     .profile-img i {
