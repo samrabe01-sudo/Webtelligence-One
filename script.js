@@ -159,24 +159,6 @@ function animateTechCards() {
     });
 }
 
-// Tech Card Hover Effects - Simplified
-function initTechCardEffects() {
-    const techCards = document.querySelectorAll('.tech-card');
-    
-    techCards.forEach(card => {
-        // Click effect for skill details
-        card.addEventListener('click', (e) => {
-            e.preventDefault();
-            const skillName = card.getAttribute('data-skill');
-            const skillLevel = card.getAttribute('data-level');
-            
-            if (skillName && skillLevel) {
-                showSkillToast(skillName, skillLevel);
-            }
-        });
-    });
-}
-
 // Simple Toast Notification instead of modal
 function showSkillToast(skillName, skillLevel) {
     // Remove existing toasts
@@ -428,9 +410,6 @@ document.addEventListener('DOMContentLoaded', () => {
     if (statsSection) observer.observe(statsSection);
     if (skillsSection) observer.observe(skillsSection);
     if (techShowcase) observer.observe(techShowcase);
-    
-    // Initialize tech card effects
-    initTechCardEffects();
 });
 
 // Contact Form Handling
