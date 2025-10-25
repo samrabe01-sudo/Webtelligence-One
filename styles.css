@@ -345,6 +345,7 @@ body {
     right: 0;
     bottom: 0;
     pointer-events: none;
+    overflow: hidden;
 }
 
 .float-element {
@@ -357,7 +358,15 @@ body {
     align-items: center;
     justify-content: center;
     box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
-    animation: floatAround 8s ease-in-out infinite;
+    animation: floatAround 6s ease-in-out infinite;
+    transition: all 0.3s ease;
+    opacity: 1;
+    z-index: 2;
+}
+
+.float-element.falling {
+    animation: fallDown 2s ease-in forwards;
+    opacity: 0;
 }
 
 .float-element i {
@@ -365,38 +374,61 @@ body {
 }
 
 .html { 
-    top: -30px; 
-    left: -30px; 
+    top: -20px; 
+    left: -20px; 
     animation-delay: 0s;
 }
 .html i { color: #e34f26; }
 
 .css { 
-    top: -30px; 
-    right: -30px; 
-    animation-delay: 2s;
+    top: -20px; 
+    right: -20px; 
+    animation-delay: 1.5s;
 }
 .css i { color: #1572b6; }
 
 .js { 
-    bottom: -30px; 
-    left: -30px; 
-    animation-delay: 4s;
+    bottom: -20px; 
+    left: -20px; 
+    animation-delay: 3s;
 }
 .js i { color: #f7df1e; }
 
 .react { 
-    bottom: -30px; 
-    right: -30px; 
-    animation-delay: 6s;
+    bottom: -20px; 
+    right: -20px; 
+    animation-delay: 4.5s;
 }
 .react i { color: #61dafb; }
 
 @keyframes floatAround {
-    0%, 100% { transform: translateY(0px) rotate(0deg); }
-    25% { transform: translateY(-10px) rotate(90deg); }
-    50% { transform: translateY(-5px) rotate(180deg); }
-    75% { transform: translateY(-15px) rotate(270deg); }
+    0%, 100% { 
+        transform: translateY(0px) translateX(0px) rotate(0deg) scale(1); 
+    }
+    25% { 
+        transform: translateY(-15px) translateX(5px) rotate(90deg) scale(1.05); 
+    }
+    50% { 
+        transform: translateY(-8px) translateX(-5px) rotate(180deg) scale(0.95); 
+    }
+    75% { 
+        transform: translateY(-20px) translateX(8px) rotate(270deg) scale(1.1); 
+    }
+}
+
+@keyframes fallDown {
+    0% { 
+        transform: translateY(0px) rotate(0deg) scale(1);
+        opacity: 1;
+    }
+    50% { 
+        transform: translateY(200px) rotate(180deg) scale(0.8);
+        opacity: 0.7;
+    }
+    100% { 
+        transform: translateY(500px) rotate(360deg) scale(0.3);
+        opacity: 0;
+    }
 }
 
 /* About Section */
@@ -2136,6 +2168,24 @@ body {
         padding: 60px 0;
     }
     
+    .floating-elements {
+        display: none; /* Hide floating elements on small screens */
+    }
+    
+    .profile-card {
+        padding: 25px;
+        transform: none !important; /* Disable parallax on mobile */
+    }
+    
+    .float-element {
+        width: 40px;
+        height: 40px;
+    }
+    
+    .float-element i {
+        font-size: 1.2rem;
+    }
+    
     .hero-content h1 {
         font-size: 1.8rem;
         line-height: 1.2;
@@ -2311,11 +2361,12 @@ body {
 .benefit-item {
     display: flex;
     align-items: center;
-    gap: 12px;
-    padding: 15px;
+    justify-content: center;
+    padding: 18px 15px;
     background: linear-gradient(135deg, #f8f9ff, #e8e6ff);
     border-radius: 12px;
     transition: all 0.3s ease;
+    text-align: center;
 }
 
 .benefit-item:hover {
@@ -2323,16 +2374,11 @@ body {
     box-shadow: 0 10px 25px rgba(108, 92, 231, 0.15);
 }
 
-.benefit-item i {
-    color: #6c5ce7;
-    font-size: 1.2rem;
-    min-width: 20px;
-}
-
 .benefit-item span {
     font-weight: 500;
     color: #2d3436;
     font-size: 0.95rem;
+    line-height: 1.4;
 }
 
 .consultation-process {
@@ -2590,5 +2636,221 @@ body {
     .btn-consultation {
         padding: 15px 30px;
         font-size: 1rem;
+    }
+}
+
+/* ==========================================
+   HERO CONSULTATION CTA
+   ========================================== */
+
+.consultation-cta-hero {
+    margin: 30px 0 20px 0;
+    display: flex;
+    justify-content: center;
+    animation: pulseGlow 3s ease-in-out infinite;
+}
+
+.btn-consultation-hero {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    padding: 20px 30px;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 50%, #6B73FF 100%);
+    color: white;
+    text-decoration: none;
+    border-radius: 50px;
+    box-shadow: 0 8px 30px rgba(102, 126, 234, 0.4);
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    position: relative;
+    overflow: hidden;
+    font-weight: 600;
+    border: 2px solid rgba(255, 255, 255, 0.2);
+    backdrop-filter: blur(10px);
+    max-width: 500px;
+    width: 100%;
+}
+
+.btn-consultation-hero::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+    transition: left 0.6s;
+}
+
+.btn-consultation-hero:hover::before {
+    left: 100%;
+}
+
+.btn-consultation-hero:hover {
+    transform: translateY(-5px) scale(1.05);
+    box-shadow: 0 15px 40px rgba(102, 126, 234, 0.6);
+    background: linear-gradient(135deg, #764ba2 0%, #667eea 50%, #9b59b6 100%);
+}
+
+.consultation-icon {
+    position: relative;
+    font-size: 1.8rem;
+    animation: bounce 2s ease-in-out infinite;
+}
+
+.icon-sparkles {
+    position: absolute;
+    top: -10px;
+    right: -10px;
+}
+
+.sparkle {
+    position: absolute;
+    width: 4px;
+    height: 4px;
+    background: #fff;
+    border-radius: 50%;
+    animation: sparkle 1.5s ease-in-out infinite;
+}
+
+.sparkle:nth-child(1) {
+    top: 0;
+    right: 0;
+    animation-delay: 0s;
+}
+
+.sparkle:nth-child(2) {
+    top: -5px;
+    right: 5px;
+    animation-delay: 0.5s;
+}
+
+.sparkle:nth-child(3) {
+    top: 5px;
+    right: -5px;
+    animation-delay: 1s;
+}
+
+.consultation-text {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    flex: 1;
+}
+
+.main-text {
+    font-size: 1.1rem;
+    font-weight: 700;
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+.sub-text {
+    font-size: 0.9rem;
+    opacity: 0.9;
+    font-weight: 400;
+}
+
+.consultation-arrow {
+    font-size: 1.2rem;
+    transition: transform 0.3s ease;
+}
+
+.btn-consultation-hero:hover .consultation-arrow {
+    transform: translateX(10px);
+}
+
+.btn-consultation-hero:hover .consultation-icon {
+    animation: rocketBoost 0.6s ease;
+}
+
+/* Animations */
+@keyframes pulseGlow {
+    0%, 100% {
+        filter: drop-shadow(0 0 5px rgba(102, 126, 234, 0.3));
+    }
+    50% {
+        filter: drop-shadow(0 0 20px rgba(102, 126, 234, 0.6));
+    }
+}
+
+@keyframes bounce {
+    0%, 20%, 50%, 80%, 100% {
+        transform: translateY(0);
+    }
+    40% {
+        transform: translateY(-8px);
+    }
+    60% {
+        transform: translateY(-4px);
+    }
+}
+
+@keyframes sparkle {
+    0%, 100% {
+        opacity: 0;
+        transform: scale(0);
+    }
+    50% {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+@keyframes rocketBoost {
+    0% {
+        transform: translateY(0);
+    }
+    50% {
+        transform: translateY(-10px) scale(1.1);
+    }
+    100% {
+        transform: translateY(0);
+    }
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .consultation-cta-hero {
+        margin: 25px 0 15px 0;
+    }
+
+    .btn-consultation-hero {
+        padding: 18px 25px;
+        gap: 12px;
+        max-width: 100%;
+        border-radius: 25px;
+    }
+
+    .main-text {
+        font-size: 1rem;
+    }
+
+    .sub-text {
+        font-size: 0.85rem;
+    }
+
+    .consultation-icon {
+        font-size: 1.6rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .btn-consultation-hero {
+        padding: 15px 20px;
+        gap: 10px;
+        flex-direction: row;
+        justify-content: center;
+    }
+
+    .consultation-text {
+        align-items: center;
+        text-align: center;
+    }
+
+    .main-text {
+        font-size: 0.95rem;
+    }
+
+    .sub-text {
+        font-size: 0.8rem;
     }
 }

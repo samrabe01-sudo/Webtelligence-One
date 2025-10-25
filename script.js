@@ -49,6 +49,9 @@ document.addEventListener('DOMContentLoaded', () => {
     
     // Initialize skills animations
     initializeSkills();
+    
+    // Initialize consultation functionality
+    initializeConsultation();
 });
 
 // Mobile Menu Toggle
@@ -65,14 +68,37 @@ document.querySelectorAll('.nav-link').forEach(link => {
     });
 });
 
-// Navbar Scroll Effect
+// Navbar Scroll Effect & Floating Elements
 window.addEventListener('scroll', () => {
-    if (window.scrollY > 100) {
+    const scrollY = window.scrollY;
+    
+    // Navbar effect
+    if (scrollY > 100) {
         navbar.classList.add('scrolled');
         scrollToTopBtn.classList.add('visible');
     } else {
         navbar.classList.remove('scrolled');
         scrollToTopBtn.classList.remove('visible');
+    }
+    
+    // Floating elements falling effect
+    const floatingElements = document.querySelectorAll('.float-element');
+    const heroSection = document.querySelector('.hero');
+    
+    if (heroSection && floatingElements.length > 0) {
+        const heroHeight = heroSection.offsetHeight;
+        const scrollProgress = scrollY / (heroHeight * 0.5); // Start effect at 50% scroll
+        
+        floatingElements.forEach((element, index) => {
+            if (scrollProgress > 0.3) { // Start falling when scrolled 30% through hero
+                // Add delay for each element
+                setTimeout(() => {
+                    element.classList.add('falling');
+                }, index * 200); // 200ms delay between each element
+            } else {
+                element.classList.remove('falling');
+            }
+        });
     }
 });
 
@@ -554,14 +580,39 @@ notificationStyles.innerHTML = `
 `;
 document.head.appendChild(notificationStyles);
 
-// Parallax effect for hero section
+// Parallax effect for hero section (Enhanced)
 window.addEventListener('scroll', () => {
     const scrolled = window.pageYOffset;
+    const heroSection = document.querySelector('.hero');
+    const profileCard = document.querySelector('.profile-card');
+    
+    // Profile card parallax effect
+    if (profileCard && heroSection) {
+        const heroHeight = heroSection.offsetHeight;
+        const scrollProgress = scrolled / heroHeight;
+        
+        if (scrollProgress <= 1) { // Only apply effect while in hero section
+            const rotateX = scrollProgress * 15; // Max 15 degrees
+            const rotateY = Math.sin(scrollProgress * Math.PI) * 10; // Sine wave effect
+            const translateY = scrollProgress * 30; // Move up slightly
+            
+            profileCard.style.transform = `
+                translateY(${translateY}px) 
+                rotateX(${rotateX}deg) 
+                rotateY(${rotateY}deg)
+            `;
+        }
+    }
+    
+    // Enhanced floating elements effect
     const parallaxElements = document.querySelectorAll('.floating-elements .float-element');
     
     parallaxElements.forEach((element, index) => {
-        const speed = (index + 1) * 0.5;
-        element.style.transform = `translateY(${scrolled * speed}px)`;
+        if (!element.classList.contains('falling')) {
+            const speed = (index + 1) * 0.3;
+            const rotation = scrolled * 0.5;
+            element.style.transform = `translateY(${scrolled * speed}px) rotate(${rotation}deg)`;
+        }
     });
 });
 
@@ -754,11 +805,16 @@ document.addEventListener('DOMContentLoaded', () => {
 // CONSULTATION SECTION FUNCTIONALITY
 // ==========================================
 
-document.addEventListener('DOMContentLoaded', function() {
+function initializeConsultation() {
     const optionCards = document.querySelectorAll('.option-card');
     const selectedOptionInput = document.getElementById('selectedOption');
     const projectGoalInput = document.getElementById('project-goal');
     const consultationForm = document.getElementById('consultationForm');
+    
+    if (!optionCards.length || !selectedOptionInput || !projectGoalInput) {
+        console.log('Consultation elements not found');
+        return;
+    }
     
     // Option cards selection functionality
     optionCards.forEach(card => {
@@ -775,6 +831,8 @@ document.addEventListener('DOMContentLoaded', function() {
             
             selectedOptionInput.value = optionNumber;
             projectGoalInput.value = optionTitle;
+            
+            console.log('Option selected:', optionTitle, 'Number:', optionNumber);
             
             // Add selection animation
             this.style.transform = 'translateY(-8px) scale(1.02)';
@@ -843,141 +901,7 @@ document.addEventListener('DOMContentLoaded', function() {
             }, 2000);
         });
     }
-});
-
-// Helper function to show selection feedback
-function showSelectionFeedback(optionTitle) {
-    const feedback = document.createElement('div');
-    feedback.className = 'selection-feedback';
-    feedback.innerHTML = `
-        <div class="feedback-content">
-            <i class="fas fa-check-circle"></i>
-            <span>Seçildi: ${optionTitle}</span>
-        </div>
-    `;
-    
-    feedback.style.cssText = `
-        position: fixed;
-        top: 20px;
-        right: 20px;
-        background: linear-gradient(135deg, #00b894, #00cec9);
-        color: white;
-        padding: 15px 25px;
-        border-radius: 12px;
-        box-shadow: 0 10px 30px rgba(0, 184, 148, 0.3);
-        z-index: 10000;
-        animation: slideInRight 0.5s ease, fadeOut 0.5s ease 2.5s forwards;
-        font-weight: 500;
-        font-size: 0.95rem;
-        min-width: 250px;
-    `;
-    
-    document.body.appendChild(feedback);
-    
-    // Remove after 3 seconds
-    setTimeout(() => {
-        if (feedback.parentNode) {
-            feedback.remove();
-        }
-    }, 3000);
 }
-
-// Enhanced notification function for consultation
-function showNotification(message, type = 'info') {
-    // Remove existing notifications
-    const existingNotification = document.querySelector('.consultation-notification');
-    if (existingNotification) {
-        existingNotification.remove();
-    }
-    
-    const notification = document.createElement('div');
-    notification.className = 'consultation-notification';
-    
-    const icons = {
-        success: 'fas fa-check-circle',
-        error: 'fas fa-exclamation-triangle',
-        info: 'fas fa-info-circle'
-    };
-    
-    const colors = {
-        success: 'linear-gradient(135deg, #00b894, #00cec9)',
-        error: 'linear-gradient(135deg, #e17055, #d63031)',
-        info: 'linear-gradient(135deg, #6c5ce7, #a29bfe)'
-    };
-    
-    notification.innerHTML = `
-        <div class="notification-content">
-            <i class="${icons[type]}"></i>
-            <span>${message}</span>
-        </div>
-    `;
-    
-    notification.style.cssText = `
-        position: fixed;
-        top: 20px;
-        right: 20px;
-        background: ${colors[type]};
-        color: white;
-        padding: 20px 25px;
-        border-radius: 12px;
-        box-shadow: 0 15px 35px rgba(108, 92, 231, 0.3);
-        z-index: 10000;
-        animation: slideInRight 0.5s ease, fadeOut 0.5s ease 4.5s forwards;
-        font-weight: 500;
-        font-size: 1rem;
-        max-width: 400px;
-        line-height: 1.5;
-    `;
-    
-    document.body.appendChild(notification);
-    
-    // Remove after 5 seconds
-    setTimeout(() => {
-        if (notification.parentNode) {
-            notification.remove();
-        }
-    }, 5000);
-}
-
-// Add CSS animations for notifications
-const notificationStyles = document.createElement('style');
-notificationStyles.textContent = `
-    @keyframes slideInRight {
-        from {
-            transform: translateX(100%);
-            opacity: 0;
-        }
-        to {
-            transform: translateX(0);
-            opacity: 1;
-        }
-    }
-    
-    @keyframes fadeOut {
-        from {
-            opacity: 1;
-            transform: translateX(0);
-        }
-        to {
-            opacity: 0;
-            transform: translateX(100%);
-        }
-    }
-    
-    .consultation-notification .notification-content,
-    .selection-feedback .feedback-content {
-        display: flex;
-        align-items: center;
-        gap: 12px;
-    }
-    
-    .consultation-notification i,
-    .selection-feedback i {
-        font-size: 1.2rem;
-        flex-shrink: 0;
-    }
-`;
-document.head.appendChild(notificationStyles);
 
 console.log('🚀 Mert Yüksel Portfolio Website Loaded Successfully!');
 console.log('📧 Contact: mertyuksll@gmail.com');
