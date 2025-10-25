@@ -750,6 +750,236 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 });
 
+// ==========================================
+// CONSULTATION SECTION FUNCTIONALITY
+// ==========================================
+
+document.addEventListener('DOMContentLoaded', function() {
+    const optionCards = document.querySelectorAll('.option-card');
+    const selectedOptionInput = document.getElementById('selectedOption');
+    const projectGoalInput = document.getElementById('project-goal');
+    const consultationForm = document.getElementById('consultationForm');
+    
+    // Option cards selection functionality
+    optionCards.forEach(card => {
+        card.addEventListener('click', function() {
+            // Remove selected class from all cards
+            optionCards.forEach(c => c.classList.remove('selected'));
+            
+            // Add selected class to clicked card
+            this.classList.add('selected');
+            
+            // Update hidden input and project goal field
+            const optionNumber = this.getAttribute('data-option');
+            const optionTitle = this.querySelector('h4').textContent;
+            
+            selectedOptionInput.value = optionNumber;
+            projectGoalInput.value = optionTitle;
+            
+            // Add selection animation
+            this.style.transform = 'translateY(-8px) scale(1.02)';
+            setTimeout(() => {
+                this.style.transform = '';
+            }, 200);
+            
+            // Show success feedback
+            showSelectionFeedback(optionTitle);
+        });
+        
+        // Hover effects
+        card.addEventListener('mouseenter', function() {
+            if (!this.classList.contains('selected')) {
+                this.style.transform = 'translateY(-5px)';
+            }
+        });
+        
+        card.addEventListener('mouseleave', function() {
+            if (!this.classList.contains('selected')) {
+                this.style.transform = '';
+            }
+        });
+    });
+    
+    // Consultation form submission
+    if (consultationForm) {
+        consultationForm.addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            // Validate required fields
+            const sector = document.getElementById('sector').value.trim();
+            const email = document.getElementById('consultation-email').value.trim();
+            const selectedOption = selectedOptionInput.value;
+            
+            if (!sector || !email || !selectedOption) {
+                showNotification('Lütfen tüm zorunlu alanları doldurun ve bir proje tipi seçin.', 'error');
+                return;
+            }
+            
+            // Show loading state
+            const submitButton = this.querySelector('.btn-consultation');
+            const originalText = submitButton.innerHTML;
+            submitButton.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Gönderiliyor...';
+            submitButton.disabled = true;
+            
+            // Simulate form submission (replace with actual form handling)
+            setTimeout(() => {
+                showNotification('Teşekkürler! Danışmanlık talebiniz alındı. 24 saat içinde size dönüş yapacağım.', 'success');
+                
+                // Reset form
+                this.reset();
+                optionCards.forEach(c => c.classList.remove('selected'));
+                projectGoalInput.value = '';
+                
+                // Reset button
+                submitButton.innerHTML = originalText;
+                submitButton.disabled = false;
+                
+                // Track consultation request
+                trackEvent('consultation_request', {
+                    sector: sector,
+                    project_type: selectedOption,
+                    form_name: 'consultation_form'
+                });
+            }, 2000);
+        });
+    }
+});
+
+// Helper function to show selection feedback
+function showSelectionFeedback(optionTitle) {
+    const feedback = document.createElement('div');
+    feedback.className = 'selection-feedback';
+    feedback.innerHTML = `
+        <div class="feedback-content">
+            <i class="fas fa-check-circle"></i>
+            <span>Seçildi: ${optionTitle}</span>
+        </div>
+    `;
+    
+    feedback.style.cssText = `
+        position: fixed;
+        top: 20px;
+        right: 20px;
+        background: linear-gradient(135deg, #00b894, #00cec9);
+        color: white;
+        padding: 15px 25px;
+        border-radius: 12px;
+        box-shadow: 0 10px 30px rgba(0, 184, 148, 0.3);
+        z-index: 10000;
+        animation: slideInRight 0.5s ease, fadeOut 0.5s ease 2.5s forwards;
+        font-weight: 500;
+        font-size: 0.95rem;
+        min-width: 250px;
+    `;
+    
+    document.body.appendChild(feedback);
+    
+    // Remove after 3 seconds
+    setTimeout(() => {
+        if (feedback.parentNode) {
+            feedback.remove();
+        }
+    }, 3000);
+}
+
+// Enhanced notification function for consultation
+function showNotification(message, type = 'info') {
+    // Remove existing notifications
+    const existingNotification = document.querySelector('.consultation-notification');
+    if (existingNotification) {
+        existingNotification.remove();
+    }
+    
+    const notification = document.createElement('div');
+    notification.className = 'consultation-notification';
+    
+    const icons = {
+        success: 'fas fa-check-circle',
+        error: 'fas fa-exclamation-triangle',
+        info: 'fas fa-info-circle'
+    };
+    
+    const colors = {
+        success: 'linear-gradient(135deg, #00b894, #00cec9)',
+        error: 'linear-gradient(135deg, #e17055, #d63031)',
+        info: 'linear-gradient(135deg, #6c5ce7, #a29bfe)'
+    };
+    
+    notification.innerHTML = `
+        <div class="notification-content">
+            <i class="${icons[type]}"></i>
+            <span>${message}</span>
+        </div>
+    `;
+    
+    notification.style.cssText = `
+        position: fixed;
+        top: 20px;
+        right: 20px;
+        background: ${colors[type]};
+        color: white;
+        padding: 20px 25px;
+        border-radius: 12px;
+        box-shadow: 0 15px 35px rgba(108, 92, 231, 0.3);
+        z-index: 10000;
+        animation: slideInRight 0.5s ease, fadeOut 0.5s ease 4.5s forwards;
+        font-weight: 500;
+        font-size: 1rem;
+        max-width: 400px;
+        line-height: 1.5;
+    `;
+    
+    document.body.appendChild(notification);
+    
+    // Remove after 5 seconds
+    setTimeout(() => {
+        if (notification.parentNode) {
+            notification.remove();
+        }
+    }, 5000);
+}
+
+// Add CSS animations for notifications
+const notificationStyles = document.createElement('style');
+notificationStyles.textContent = `
+    @keyframes slideInRight {
+        from {
+            transform: translateX(100%);
+            opacity: 0;
+        }
+        to {
+            transform: translateX(0);
+            opacity: 1;
+        }
+    }
+    
+    @keyframes fadeOut {
+        from {
+            opacity: 1;
+            transform: translateX(0);
+        }
+        to {
+            opacity: 0;
+            transform: translateX(100%);
+        }
+    }
+    
+    .consultation-notification .notification-content,
+    .selection-feedback .feedback-content {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+    }
+    
+    .consultation-notification i,
+    .selection-feedback i {
+        font-size: 1.2rem;
+        flex-shrink: 0;
+    }
+`;
+document.head.appendChild(notificationStyles);
+
 console.log('🚀 Mert Yüksel Portfolio Website Loaded Successfully!');
-console.log('📧 Contact: mert.yuksel@email.com');
+console.log('📧 Contact: mertyuksll@gmail.com');
+console.log('💼 Professional Web Design Consultation Available!');
 console.log('🌐 Ready to create amazing web experiences!');
