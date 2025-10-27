@@ -1,5 +1,10 @@
 # Mert Yüksel - Profesyonel Web Tasarımcısı Portfolio
 
+[![Deploy to GitHub Pages](https://github.com/samrabe01-sudo/Webtelligence-One/actions/workflows/pages.yml/badge.svg)](https://github.com/samrabe01-sudo/Webtelligence-One/actions/workflows/pages.yml)
+[![Live](https://img.shields.io/badge/Live-mexsuweb.com-0ea5e9?logo=githubpages&logoColor=white)](https://mexsuweb.com)
+[![Backup](https://img.shields.io/badge/Backup-gh--pages-6c5ce7)](https://samrabe01-sudo.github.io/Webtelligence-One/)
+
+
 Modern, responsive ve interaktif bir portföy web sitesi. Yaratıcılık ve teknolojinin buluştuğu noktada, dijital dünyada fark yaratan web siteleri oluşturan Mert Yüksel'in profesyonel portföyü.
 
 ## 🌟 Özellikler
@@ -129,7 +134,7 @@ Webtelligence-One/
 
 ### 1. Projeyi İndirin
 ```bash
-git clone https://github.com/yourusername/Webtelligence-One.git
+git clone https://github.com/samrabe01-sudo/Webtelligence-One.git
 cd Webtelligence-One
 ```
 
@@ -197,6 +202,13 @@ transition: all 0.3s ease;
 - **Accessibility**: WCAG 2.1 AA
 
 ## 🔧 Geliştirme
+
+### 🟣 Deployment
+- Otomatik yayın: GitHub Actions → `pages.yml`
+- Canlı adres: https://mexsuweb.com (CNAME)
+- Yedek adres: https://samrabe01-sudo.github.io/Webtelligence-One/
+
+> Not: `deploy.yml` ve `static.yml` iş akışları devre dışı bırakıldı. Tek kaynak olarak `pages.yml` kullanılmaktadır.
 
 ### CSS Değişkenleri
 ```css
