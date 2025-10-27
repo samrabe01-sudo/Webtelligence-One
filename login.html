@@ -1,0 +1,127 @@
+<!doctype html>
+<html lang="tr">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Giriş Yap | Webtelligence</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css" />
+  <meta name="color-scheme" content="light only">
+</head>
+<body>
+  <main class="auth-wrap">
+    <section class="auth-card" aria-labelledby="login-title">
+      <header class="auth-head">
+        <div class="brand" aria-label="Webtelligence">
+          <span class="brand__dot" aria-hidden="true"></span>
+          <span>Webtelligence</span>
+        </div>
+        <h1 id="login-title" class="auth-title">Giriş Yap</h1>
+        <p class="auth-sub">Hesabınıza erişin ve çalışmalarınıza devam edin.</p>
+      </header>
+
+      <div class="auth-body">
+        <form id="login-form" class="form" novalidate>
+          <!-- E-posta veya Kullanıcı Adı -->
+          <div class="form-row">
+            <label for="identifier" class="label">E-posta Adresi veya Kullanıcı Adı</label>
+            <div class="input-wrap">
+              <input id="identifier" name="identifier" class="input" type="text" required
+                     autocomplete="username" placeholder="ornek@domain.com veya kullanici_adi"
+                     aria-describedby="identifier-err" />
+            </div>
+            <div id="identifier-err" class="error-msg" role="alert"></div>
+          </div>
+
+          <!-- Şifre -->
+          <div class="form-row">
+            <label for="password" class="label">Şifre</label>
+            <div class="input-wrap">
+              <input id="password" name="password" class="input" type="password" required
+                     autocomplete="current-password" placeholder="Şifreniz" aria-describedby="password-err" />
+              <button type="button" class="toggle-btn" data-toggle="password" aria-label="Şifreyi göster/gizle">Göster</button>
+            </div>
+            <div id="password-err" class="error-msg" role="alert"></div>
+          </div>
+
+          <button id="login-btn" class="btn" style="background: linear-gradient(180deg, #2ea0ff, #007bff); color: #fff; box-shadow: 0 6px 18px rgba(0,123,255,0.35);" type="submit">Giriş Yap</button>
+
+          <div class="hr-text">veya</div>
+          <a class="btn btn-primary-outline" href="signup.html" rel="nofollow">Hesabın yok mu? Kaydol</a>
+
+          <p class="alt" style="margin-top:12px"><a href="#" rel="nofollow">Şifremi Unuttum</a></p>
+          <div id="login-success" class="alert success" role="status">✅ Giriş başarılı (demo). Ana sayfaya yönlendiriliyormuş gibi düşünün.</div>
+        </form>
+        <p class="alt" style="margin-top:12px">Bu bir demo formudur; kimlik doğrulama için backend entegre edilmemiştir.</p>
+      </div>
+    </section>
+  </main>
+
+  <script>
+    (function(){
+      const form = document.getElementById('login-form');
+      const idInput = document.getElementById('identifier');
+      const passInput = document.getElementById('password');
+      const idErr = document.getElementById('identifier-err');
+      const passErr = document.getElementById('password-err');
+      const success = document.getElementById('login-success');
+
+      const usernameRe = /^[A-Za-z0-9_\.\-]{3,}$/;
+      const emailRe = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
+
+      function setErr(input, el, msg){
+        input.classList.add('error');
+        el.textContent = msg; el.classList.add('show');
+        input.setAttribute('aria-invalid','true');
+      }
+      function clearErr(input, el){
+        input.classList.remove('error');
+        el.textContent = ''; el.classList.remove('show');
+        input.removeAttribute('aria-invalid');
+      }
+
+      document.querySelectorAll('.toggle-btn').forEach(btn => {
+        btn.addEventListener('click', () => {
+          const targetId = btn.getAttribute('data-toggle');
+          const input = document.getElementById(targetId);
+          const isPwd = input.type === 'password';
+          input.type = isPwd ? 'text' : 'password';
+          btn.textContent = isPwd ? 'Gizle' : 'Göster';
+          input.focus();
+        });
+      });
+
+      form.addEventListener('submit', (e) => {
+        e.preventDefault();
+        success.style.display = 'none';
+        let valid = true;
+
+        const idVal = idInput.value.trim();
+        if(!idVal){ setErr(idInput, idErr, 'Bu alan zorunludur.'); valid = false; }
+        else if(!(idVal.includes('@') ? emailRe.test(idVal) : usernameRe.test(idVal))){
+          setErr(idInput, idErr, 'Geçerli bir e-posta veya kullanıcı adı girin.'); valid = false;
+        } else { clearErr(idInput, idErr); }
+
+        if(!passInput.value){ setErr(passInput, passErr, 'Şifre zorunludur.'); valid = false; }
+        else { clearErr(passInput, passErr); }
+
+        if(!valid){ (document.querySelector('.input.error')||idInput).focus(); return; }
+
+        console.log('Demo login payload', { identifier: idVal });
+        success.style.display = 'block';
+        form.reset();
+        document.querySelectorAll('.toggle-btn').forEach(btn => btn.textContent = 'Göster');
+      });
+
+      [idInput, passInput].forEach(el => el.addEventListener('input', ()=>{
+        if(el === idInput){
+          const val = idInput.value.trim();
+          if(val && (val.includes('@') ? emailRe.test(val) : usernameRe.test(val))){ clearErr(idInput, idErr); }
+        } else if(passInput.value){ clearErr(passInput, passErr); }
+      }));
+    })();
+  </script>
+</body>
+</html>
