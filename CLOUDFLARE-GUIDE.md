@@ -95,3 +95,40 @@ wrangler deploy
 Backend'iniz için (örn. Render) `api.mexsuweb.com` CNAME kaydı oluşturun; Render'ın verdiği hosta yönlendirin.
 
 > Avantaj: Frontend kodu `/api/...` kullanmaya devam eder; CORS/çapraz origin sorunları minimuma iner.
+
+---
+
+## 🛡️ Önerilen Cache Rules ve Security Ayarları
+
+Cloudflare Dashboard > Caching > Cache Rules ve Security alanlarında aşağıdaki önerileri uygulayın:
+
+### Cache Rules
+- Kural 1: Bypass cache for API
+	- If URL Path matches: `/api/*`
+	- Then: Cache level → Bypass
+	- Not: API istekleri asla cache'lenmesin.
+
+- Kural 2: Bypass cache for Service Worker
+	- If URL Path matches: `/sw.js`
+	- Then: Cache level → Bypass
+
+- Kural 3: Cache Everything for static
+	- If URL Path matches: `*`
+	- And NOT matches: `/api/*|/sw.js`
+	- Then: Cache level → Cache Everything, Edge TTL: 1 day (ihtiyaca göre)
+	- Optionally: Add Browser Cache TTL e.g. 1 hour
+
+Not: Netlify/GitHub Pages gibi platformlarda değişim frekansınıza göre TTL değerlerini ayarlayın.
+
+### Security
+- Security Level: Medium veya High (trafik durumunuza göre)
+- Bot Fight Mode: Açık (API davranışında sorun görürseniz sadece statik için açık bırakın)
+- WAF: /api/* için rate limiting düşünebilirsiniz (örn. 60 req/1m/IP)
+- Always Use HTTPS: Açık
+
+### SSL/TLS
+- SSL/TLS mode: Full (Strict) önerilir (origin’de geçerli sertifika varsa)
+- Automatic HTTPS Rewrites: Açık
+- HTTP/2 ve HTTP/3: Açık
+
+Bu ayarlar, statik içeriğin hızlı ve verimli sunulmasını, API isteklerinin ise her zaman origin’e yönlenmesini sağlar.

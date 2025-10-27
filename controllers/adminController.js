@@ -24,6 +24,29 @@ export async function adminLogin(req, res) {
   }
 }
 
+export async function changePassword(req, res) {
+  try {
+    const { oldPassword, newPassword } = req.body || {};
+    if (!oldPassword || !newPassword) {
+      return res.status(400).json({ message: 'oldPassword ve newPassword zorunludur' });
+    }
+
+    const admin = await Admin.findById(req.admin.id);
+    if (!admin) return res.status(404).json({ message: 'Admin bulunamadı' });
+
+    const match = await admin.comparePassword(oldPassword);
+    if (!match) return res.status(401).json({ message: 'Mevcut şifre hatalı' });
+
+    admin.password = newPassword; // pre-save hook hashler
+    await admin.save();
+
+    return res.json({ ok: true });
+  } catch (err) {
+    console.error('Change password error:', err);
+    return res.status(500).json({ message: 'Sunucu hatası' });
+  }
+}
+
 export async function listUsers(req, res) {
   try {
     const users = await User.find({}).select('-password').lean();

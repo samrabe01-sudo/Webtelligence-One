@@ -39,6 +39,14 @@ Render, deploy sonrası bir host adı verir: örn. `webtelligence-one.onrender.c
 - Admin: `POST https://api.mexsuweb.com/api/admin/login { username, password }`
 - Public: `POST https://api.mexsuweb.com/api/public/login { email, password }`
 
+### Render Health Check Ayarı
+- Service > Settings > Health Checks bölümünde:
+  - Health Check Path: `/api/health`
+  - Health Check Interval: 10-30s arası (planınıza göre)
+  - Failure Threshold: 3 (varsayılan uygundur)
+
+Not: server.js içinde `/api/health` endpoint’i hazırdır ve `{ ok: true }` döner.
+
 ## 6) Sık Sorunlar
 - 502/504: Instance uykuya geçmiş olabilir (free plan). İlk istek yavaş gelebilir.
 - CORS: Aynı domain proxy ile sorun çözülür. Ayrı domaindeyseniz backend CORS'u açık (app.use(cors())).

@@ -2217,6 +2217,44 @@ console.log('⚡ PWA & Performance Optimizations Active!');
             }
         } catch(_) {}
         
+        // Paket satın alma: .btn-package tıklamalarını yakala
+        document.addEventListener('click', async (e) => {
+            const btn = e.target.closest('.btn-package');
+            if(!btn) return;
+            e.preventDefault();
+            const pkgName = btn.dataset.package || btn.closest('.package-item')?.querySelector('.package-header h3')?.textContent?.trim();
+            if(!pkgName){
+                console.warn('Paket adı bulunamadı');
+                return;
+            }
+
+            const token = localStorage.getItem('user_token');
+            if(!token){
+                showNotification('Satın almak için lütfen giriş yapın.', 'info');
+                openAuthModal('login');
+                return;
+            }
+
+            try{
+                const res = await fetch(API_BASE + '/api/public/purchase-package', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${token}`
+                    },
+                    body: JSON.stringify({ packageName: pkgName })
+                });
+                const data = await res.json();
+                if(!res.ok) throw new Error(data.message || 'Satın alma başarısız');
+
+                // UI geri bildirimi
+                showNotification(`🎉 "${pkgName}" paketi hesabınıza eklendi.`, 'success');
+                btn.classList.add('purchased');
+            }catch(err){
+                showNotification(err.message, 'error');
+            }
+        });
+
         console.log('Auth modal initialization complete');
     }
 })();
