@@ -6768,22 +6768,23 @@ img[data-src]:not(.lazy-loaded) {
 
 .btn-auth{
     display: inline-flex; align-items: center; justify-content: center;
-    height: 40px; padding: 0 14px; border-radius: 999px; font-weight: 700;
-    border: 1.5px solid transparent; cursor: pointer; transition: all .2s ease;
-    font-size: 0.95rem; letter-spacing: .2px;
+    height: 46px; padding: 0 20px; border-radius: 999px; font-weight: 700;
+    border: 2px solid transparent; cursor: pointer; transition: all .2s ease;
+    font-size: 1rem; letter-spacing: .3px;
 }
 .btn-auth--login{
-    background: #ffffff;
-    color: #0b63d1;
-    border-color: rgba(0,123,255,.35);
+    background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%);
+    color: #ffffff;
+    border-color: transparent;
+    box-shadow: 0 8px 24px rgba(59,130,246,.35);
 }
-.btn-auth--login:hover{ box-shadow: 0 8px 20px rgba(0,123,255,.18); transform: translateY(-1px); }
+.btn-auth--login:hover{ box-shadow: 0 12px 32px rgba(59,130,246,.5); transform: translateY(-2px); filter: brightness(1.05); }
 .btn-auth--signup{
     background: linear-gradient(135deg, #22c55e 0%, #16a34a 100%);
     color: #fff;
-    box-shadow: 0 8px 22px rgba(34,197,94,.35);
+    box-shadow: 0 8px 24px rgba(34,197,94,.35);
 }
-.btn-auth--signup:hover{ filter: brightness(1.04); transform: translateY(-1px); }
+.btn-auth--signup:hover{ box-shadow: 0 12px 32px rgba(34,197,94,.5); filter: brightness(1.04); transform: translateY(-2px); }
 
 /* Auth CTAs in nav (mobile menu fallback) */
 .nav-link.login-cta::before { background: linear-gradient(135deg, #2ea0ff 0%, #007bff 100%); }
@@ -6816,3 +6817,48 @@ img[data-src]:not(.lazy-loaded) {
 .auth-alt a{ text-decoration:none; font-weight:700; }
 .auth-alt .link-login{ color:#007bff; }
 .auth-alt .link-signup{ color:#16a34a; }
+
+/* Hero Auth CTA */
+.hero-auth-cta{ margin-top: 32px; padding: 24px; background: rgba(255,255,255,.75); backdrop-filter: blur(10px); border-radius: 16px; border: 1px solid rgba(108,92,231,.15); }
+.hero-auth-text{ text-align: center; font-size: 1.05rem; color: #374151; margin-bottom: 16px; font-weight: 500; }
+.hero-auth-buttons{ display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; }
+.btn-auth--hero{ height: 50px; padding: 0 24px; font-size: 1.05rem; }
+.btn-auth--hero i{ margin-right: 6px; }
+
+@media (max-width: 768px){
+    .hero-auth-cta{ padding: 20px 16px; }
+    .hero-auth-text{ font-size: 0.95rem; }
+    .btn-auth--hero{ height: 44px; padding: 0 18px; font-size: 0.95rem; width: 100%; }
+    .hero-auth-buttons{ flex-direction: column; }
+}
+
+/* Packages Auth Banner */
+.section-auth-banner{ display: flex; align-items: center; justify-content: space-between; gap: 20px; padding: 24px 28px; background: linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 100%); border-radius: 18px; border: 2px solid #bae6fd; margin-bottom: 48px; flex-wrap: wrap; }
+.auth-banner-content{ display: flex; align-items: center; gap: 16px; flex: 1; }
+.auth-banner-icon{ font-size: 3rem; }
+.auth-banner-text h3{ margin: 0 0 4px 0; font-size: 1.3rem; color: #0c4a6e; }
+.auth-banner-text p{ margin: 0; color: #475569; font-size: 0.95rem; }
+.auth-banner-actions{ display: flex; gap: 10px; flex-wrap: wrap; }
+
+@media (max-width: 768px){
+    .section-auth-banner{ flex-direction: column; text-align: center; padding: 20px; }
+    .auth-banner-content{ flex-direction: column; text-align: center; }
+    .auth-banner-actions{ width: 100%; flex-direction: column; }
+    .auth-banner-actions .btn-auth{ width: 100%; }
+}
+
+/* Contact Auth Prompt */
+.contact-auth-prompt{ margin-bottom: 48px; }
+.contact-auth-card{ text-align: center; padding: 40px 32px; background: linear-gradient(135deg, #fef3c7 0%, #fde68a 100%); border-radius: 20px; border: 2px solid #fbbf24; }
+.contact-auth-icon{ font-size: 3.5rem; color: #d97706; margin-bottom: 12px; }
+.contact-auth-card h3{ margin: 0 0 8px 0; font-size: 1.5rem; color: #78350f; }
+.contact-auth-card p{ margin: 0 0 20px 0; color: #92400e; font-size: 1rem; }
+.contact-auth-buttons{ display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; }
+
+@media (max-width: 768px){
+    .contact-auth-card{ padding: 32px 20px; }
+    .contact-auth-icon{ font-size: 2.5rem; }
+    .contact-auth-card h3{ font-size: 1.25rem; }
+    .contact-auth-buttons{ flex-direction: column; }
+    .contact-auth-buttons .btn-auth{ width: 100%; }
+}
