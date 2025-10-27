@@ -249,8 +249,32 @@ img[data-src]:not(.lazy-loaded) {
     }
 }
 
-.nav-logo span {
+/* Legacy: previously colored last name in heading; now brand uses custom parts */
+.nav-logo h3 span {
     color: #6c5ce7;
+}
+
+/* Brand text next to logo */
+.brand-text {
+    display: flex;
+    align-items: baseline;
+    gap: 0;
+    font-weight: 800;
+    font-size: 1.6rem;
+    line-height: 1;
+    letter-spacing: -0.02em;
+}
+.brand-me,
+.brand-su {
+    color: #111827;
+}
+.brand-x {
+    color: #6c5ce7;
+    margin: 0 1px;
+}
+
+@media (max-width: 768px) {
+    .brand-text { font-size: 1.3rem; }
 }
 
 /* Creative brand badge next to logo */
