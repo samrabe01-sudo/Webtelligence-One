@@ -160,12 +160,14 @@ html {
     grid-template-columns: 1fr;
     gap: 40px;
     align-items: start;
+    padding-right: 420px;
 }
 
 @media (min-width: 1024px) {
     .blog-layout {
-        grid-template-columns: 2fr 1fr;
+        grid-template-columns: 1fr;
         gap: 50px;
+        padding-right: 420px;
     }
 }
 
@@ -337,15 +339,20 @@ html {
     display: flex;
     flex-direction: column;
     gap: 30px;
-    position: sticky;
-    top: 140px;
-    max-height: calc(100vh - 160px);
+    position: fixed;
+    right: 0;
+    top: 0;
+    width: 400px;
+    height: 100vh;
     overflow-y: auto;
-    padding-right: 10px;
+    padding: 140px 30px 30px 30px;
+    background: linear-gradient(180deg, #f8f9fa 0%, #ffffff 100%);
+    box-shadow: -4px 0 20px rgba(0, 0, 0, 0.08);
+    z-index: 90;
 }
 
 .blog-sidebar::-webkit-scrollbar {
-    width: 6px;
+    width: 8px;
 }
 
 .blog-sidebar::-webkit-scrollbar-track {
@@ -354,12 +361,12 @@ html {
 }
 
 .blog-sidebar::-webkit-scrollbar-thumb {
-    background: #cbd5e1;
+    background: linear-gradient(135deg, #667eea, #764ba2);
     border-radius: 10px;
 }
 
 .blog-sidebar::-webkit-scrollbar-thumb:hover {
-    background: #94a3b8;
+    background: linear-gradient(135deg, #764ba2, #667eea);
 }
 
 .sidebar-card {
@@ -679,6 +686,7 @@ html {
 @media (max-width: 1024px) {
     .blog-layout {
         grid-template-columns: 1fr;
+        padding-right: 20px;
     }
     
     .blog-posts-grid {
@@ -687,10 +695,13 @@ html {
     
     .blog-sidebar {
         position: static;
+        width: 100%;
+        height: auto;
         max-height: none;
         overflow-y: visible;
-        padding-right: 0;
+        padding: 30px 20px;
         order: 2;
+        box-shadow: none;
     }
 }
 
