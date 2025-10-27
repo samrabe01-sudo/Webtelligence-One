@@ -957,6 +957,7 @@ class ModernSearch {
 
     createElements() {
         this.navSearchTrigger = document.getElementById('navSearchTrigger');
+        this.heroSearchTrigger = document.getElementById('heroSearchTrigger');
         this.searchOverlay = document.getElementById('searchOverlay');
         this.searchInput = document.getElementById('searchInput');
         this.searchClose = document.getElementById('searchClose');
@@ -970,6 +971,10 @@ class ModernSearch {
         // Navbar search trigger
         if (this.navSearchTrigger) {
             this.navSearchTrigger.addEventListener('click', () => this.openSearch());
+        }
+        // Hero search trigger
+        if (this.heroSearchTrigger) {
+            this.heroSearchTrigger.addEventListener('click', () => this.openSearch());
         }
         
         // Close search
