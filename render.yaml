@@ -1,0 +1,22 @@
+services:
+  - type: web
+    name: webtelligence-one-backend
+    env: node
+    plan: free
+    buildCommand: npm install
+    startCommand: node server.js
+    autoDeploy: true
+    healthCheckPath: /api/health
+    envVars:
+      - key: PORT
+        value: 4000
+      - key: MONGODB_URI
+        value: 
+      - key: JWT_SECRET
+        value: 
+      - key: ADMIN_AUTO_SEED
+        value: "true"
+      - key: ADMIN_SEED_USERNAME
+        value: mertsude
+      - key: ADMIN_SEED_PASSWORD
+        value: m14531977

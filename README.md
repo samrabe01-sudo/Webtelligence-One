@@ -210,6 +210,35 @@ transition: all 0.3s ease;
 
 > Not: `deploy.yml` ve `static.yml` iş akışları devre dışı bırakıldı. Tek kaynak olarak `pages.yml` kullanılmaktadır.
 
+### 🟠 Backend (Admin API) - Hızlı Başlangıç
+
+Admin paneli ve API, Node.js/Express + MongoDB (Mongoose) ile bu repo içinde yer alır.
+
+- Yerel çalıştırma:
+  1) `.env` oluşturun (bkz. `.env.example`):
+     - `MONGODB_URI` (lokal Mongo veya Atlas URI)
+     - `JWT_SECRET`
+  2) Paketleri kurun ve sunucuyu başlatın:
+     - `npm install`
+     - `npm run dev`
+  3) Sağlık kontrolü: `GET http://localhost:4000/api/health`
+  4) Admin seed (opsiyonel): `node scripts/seed-admin.js <username> <password>`
+  5) Parola sıfırlama (opsiyonel): `npm run admin:reset -- <username> <newPassword>`
+
+- Admin Panel URL (yerel): `http://localhost:4000/admin`
+
+### 🚀 Render ile Tek Tık Deploy
+
+[Deploy to Render](https://render.com/deploy?repo=https://github.com/samrabe01-sudo/Webtelligence-One)
+
+Bu repo kökünde `render.yaml` bulunur. Import ettikten sonra Render üzerinde:
+- Health Check Path: `/api/health`
+- Env Vars: `MONGODB_URI`, `JWT_SECRET`
+- İlk kurulum için otomatik admin seed etkin: `ADMIN_AUTO_SEED=true`, `ADMIN_SEED_USERNAME`, `ADMIN_SEED_PASSWORD`
+  - İlk giriş sonrası `ADMIN_AUTO_SEED=false` yapmanız önerilir.
+
+- Admin Panel URL (Render): `https://<render-host>/admin`
+
 ### CSS Değişkenleri
 ```css
 :root {

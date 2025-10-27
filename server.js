@@ -7,6 +7,7 @@ import cors from 'cors';
 import { connectDB } from './config/db.js';
 import adminRoutes from './routes/adminRoutes.js';
 import publicRoutes from './routes/publicRoutes.js';
+import { initAdminOnBoot } from './scripts/init-admin-on-boot.js';
 
 dotenv.config();
 
@@ -34,6 +35,7 @@ const PORT = process.env.PORT || 4000;
 
 // Connect DB then start server
 const MONGODB_URI = process.env.MONGODB_URI || 'mongodb://localhost:27017/webtelligence';
-connectDB(MONGODB_URI).then(() => {
+connectDB(MONGODB_URI).then(async () => {
+  await initAdminOnBoot();
   app.listen(PORT, () => console.log(`🚀 Server running on http://localhost:${PORT}`));
 });
