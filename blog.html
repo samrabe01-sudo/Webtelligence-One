@@ -1,0 +1,411 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Blog - Mert Yüksel | Web Tasarım Makaleleri</title>
+    <meta name="description" content="Web tasarım, frontend development ve UI/UX hakkında güncel makaleler ve ipuçları.">
+    
+    <!-- Font Awesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="blog.css">
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar" id="navbar">
+        <div class="nav-container">
+            <div class="nav-logo">
+                <h3>Mert<span>Yüksel</span></h3>
+            </div>
+            <ul class="nav-menu" id="nav-menu">
+                <li><a href="index.html" class="nav-link">Ana Sayfa</a></li>
+                <li><a href="index.html#about" class="nav-link">Hakkımda</a></li>
+                <li><a href="blog.html" class="nav-link active">Blog</a></li>
+                <li><a href="index.html#portfolio" class="nav-link">Portföy</a></li>
+                <li><a href="index.html#services" class="nav-link">Hizmetler</a></li>
+                <li><a href="index.html#contact" class="nav-link">İletişim</a></li>
+            </ul>
+            <div class="hamburger" id="hamburger">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Blog Hero Section -->
+    <section class="blog-hero">
+        <div class="container">
+            <div class="blog-hero-content">
+                <h1>📝 Web Tasarım & Development Blog</h1>
+                <p>Modern web teknolojileri, tasarım trendleri ve geliştirme ipuçları hakkında güncel içerikler</p>
+                
+                <!-- Search Box -->
+                <div class="blog-search">
+                    <input type="text" id="blogSearchInput" placeholder="Blog yazılarında ara..." class="blog-search-input">
+                    <button class="blog-search-btn">
+                        <i class="fas fa-search"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Blog Categories Filter -->
+    <section class="blog-categories">
+        <div class="container">
+            <div class="category-filters">
+                <button class="category-btn active" data-category="all">
+                    <i class="fas fa-th"></i> Tümü
+                </button>
+                <button class="category-btn" data-category="web-design">
+                    <i class="fas fa-palette"></i> Web Tasarım
+                </button>
+                <button class="category-btn" data-category="development">
+                    <i class="fas fa-code"></i> Development
+                </button>
+                <button class="category-btn" data-category="ui-ux">
+                    <i class="fas fa-magic"></i> UI/UX
+                </button>
+                <button class="category-btn" data-category="tips">
+                    <i class="fas fa-lightbulb"></i> İpuçları
+                </button>
+                <button class="category-btn" data-category="trends">
+                    <i class="fas fa-fire"></i> Trendler
+                </button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Blog Content -->
+    <section class="blog-content section-padding">
+        <div class="container">
+            <div class="blog-layout">
+                <!-- Blog Posts Grid -->
+                <div class="blog-posts-grid">
+                    <!-- Blog Post 1 -->
+                    <article class="blog-card" data-category="web-design">
+                        <div class="blog-card-image">
+                            <div class="blog-placeholder-image gradient-1">
+                                <i class="fas fa-palette"></i>
+                            </div>
+                            <span class="blog-category-badge">Web Tasarım</span>
+                        </div>
+                        <div class="blog-card-content">
+                            <div class="blog-meta">
+                                <span><i class="far fa-calendar"></i> 27 Ekim 2025</span>
+                                <span><i class="far fa-clock"></i> 12 dk okuma</span>
+                            </div>
+                            <h3>2025'in En İyi Modern Web Tasarım Trendleri</h3>
+                            <p>Web tasarım dünyasını şekillendiren en güncel trendler: Glassmorphism, 3D elementler, AI destekli tasarımlar, canlı gradientler ve daha fazlası.</p>
+                            <div class="blog-tags">
+                                <span class="tag">Design Trends</span>
+                                <span class="tag">Glassmorphism</span>
+                                <span class="tag">3D</span>
+                            </div>
+                            <a href="blog-modern-web-tasarim-trendleri-2025.html" class="blog-read-more">
+                                Devamını Oku <i class="fas fa-arrow-right"></i>
+                            </a>
+                        </div>
+                    </article>
+
+                    <!-- Blog Post 2 -->
+                    <article class="blog-card" data-category="ui-ux">
+                        <div class="blog-card-image">
+                            <div class="blog-placeholder-image gradient-2">
+                                <i class="fas fa-users"></i>
+                            </div>
+                            <span class="blog-category-badge">UX/UI</span>
+                        </div>
+                        <div class="blog-card-content">
+                            <div class="blog-meta">
+                                <span><i class="far fa-calendar"></i> 25 Ekim 2025</span>
+                                <span><i class="far fa-clock"></i> 15 dk okuma</span>
+                            </div>
+                            <h3>UX/UI Tasarım İlkeleri: Kullanıcı Odaklı Web Siteleri</h3>
+                            <p>Mükemmel kullanıcı deneyimi için bilmeniz gereken temel ilkeler: Hicks Kanunu, Fitts Kanunu, A/B testing ve user personas oluşturma.</p>
+                            <div class="blog-tags">
+                                <span class="tag">UX Design</span>
+                                <span class="tag">User Research</span>
+                                <span class="tag">Best Practices</span>
+                            </div>
+                            <a href="blog-ux-ui-tasarim-ilkeleri.html" class="blog-read-more">
+                                Devamını Oku <i class="fas fa-arrow-right"></i>
+                            </a>
+                        </div>
+                    </article>
+
+                    <!-- Blog Post 3 -->
+                    <article class="blog-card" data-category="development">
+                        <div class="blog-card-image">
+                            <div class="blog-placeholder-image gradient-3">
+                                <i class="fas fa-mobile-alt"></i>
+                            </div>
+                            <span class="blog-category-badge">Development</span>
+                        </div>
+                        <div class="blog-card-content">
+                            <div class="blog-meta">
+                                <span><i class="far fa-calendar"></i> 23 Ekim 2025</span>
+                                <span><i class="far fa-clock"></i> 14 dk okuma</span>
+                            </div>
+                            <h3>Responsive Web Tasarım: Mobile-First Yaklaşım</h3>
+                            <p>Modern responsive tasarım teknikleri, CSS Grid, Flexbox ve breakpoint stratejileri ile her ekran boyutunda mükemmel görünen siteler.</p>
+                            <div class="blog-tags">
+                                <span class="tag">Responsive</span>
+                                <span class="tag">Mobile-First</span>
+                                <span class="tag">CSS Grid</span>
+                            </div>
+                            <a href="blog-responsive-tasarim-teknikleri.html" class="blog-read-more">
+                                Devamını Oku <i class="fas fa-arrow-right"></i>
+                            </a>
+                        </div>
+                    </article>
+
+                    <!-- Blog Post 4 -->
+                    <article class="blog-card" data-category="web-design">
+                        <div class="blog-card-image">
+                            <div class="blog-placeholder-image gradient-4">
+                                <i class="fas fa-palette"></i>
+                            </div>
+                            <span class="blog-category-badge">Web Tasarım</span>
+                        </div>
+                        <div class="blog-card-content">
+                            <div class="blog-meta">
+                                <span><i class="far fa-calendar"></i> 20 Ekim 2025</span>
+                                <span><i class="far fa-clock"></i> 13 dk okuma</span>
+                            </div>
+                            <h3>Renk Psikolojisi: Web Tasarımında Renk Kullanımı</h3>
+                            <p>Renklerin kullanıcı davranışlarına etkisi, renk teorisi, marka kimliği için renk paleti oluşturma ve modern renk trendleri.</p>
+                            <div class="blog-tags">
+                                <span class="tag">Color Theory</span>
+                                <span class="tag">Branding</span>
+                                <span class="tag">Psychology</span>
+                            </div>
+                            <a href="blog-renk-psikolojisi-web-tasarim.html" class="blog-read-more">
+                                Devamını Oku <i class="fas fa-arrow-right"></i>
+                            </a>
+                        </div>
+                    </article>
+
+                    <!-- Blog Post 5 -->
+                    <article class="blog-card" data-category="development">
+                        <div class="blog-card-image">
+                            <div class="blog-placeholder-image gradient-5">
+                                <i class="fas fa-magic"></i>
+                            </div>
+                            <span class="blog-category-badge">Development</span>
+                        </div>
+                        <div class="blog-card-content">
+                            <div class="blog-meta">
+                                <span><i class="far fa-calendar"></i> 18 Ekim 2025</span>
+                                <span><i class="far fa-clock"></i> 16 dk okuma</span>
+                            </div>
+                            <h3>Web Animasyonları ve Mikro-Etkileşimler</h3>
+                            <p>CSS animations, transitions, JavaScript effects ile kullanıcı deneyimini zenginleştiren modern animasyon teknikleri ve performans optimizasyonu.</p>
+                            <div class="blog-tags">
+                                <span class="tag">Animations</span>
+                                <span class="tag">CSS</span>
+                                <span class="tag">JavaScript</span>
+                            </div>
+                            <a href="blog-web-animasyonlari-mikro-etkilesimler.html" class="blog-read-more">
+                                Devamını Oku <i class="fas fa-arrow-right"></i>
+                            </a>
+                        </div>
+                    </article>
+                </div>
+
+                <!-- Sidebar -->
+                <aside class="blog-sidebar">
+                    <!-- Author Card -->
+                    <div class="sidebar-card author-card">
+                        <div class="author-avatar">
+                            <i class="fas fa-user-circle"></i>
+                        </div>
+                        <h3>Mert Yüksel</h3>
+                        <p>Web Tasarımcı & Frontend Developer</p>
+                        <p class="author-bio">Modern web teknolojileri ve kullanıcı deneyimi üzerine yazıyorum.</p>
+                        <div class="author-social">
+                            <a href="#"><i class="fab fa-twitter"></i></a>
+                            <a href="#"><i class="fab fa-linkedin"></i></a>
+                            <a href="#"><i class="fab fa-github"></i></a>
+                        </div>
+                    </div>
+
+                    <!-- Popular Posts -->
+                    <div class="sidebar-card">
+                        <h3><i class="fas fa-fire"></i> Popüler Yazılar</h3>
+                        <div class="popular-posts">
+                            <a href="#" class="popular-post-item">
+                                <span class="popular-post-number">1</span>
+                                <div class="popular-post-content">
+                                    <h4>Web Tasarımında Renk Psikolojisi</h4>
+                                    <span class="popular-post-date">5 Ekim 2025</span>
+                                </div>
+                            </a>
+                            <a href="#" class="popular-post-item">
+                                <span class="popular-post-number">2</span>
+                                <div class="popular-post-content">
+                                    <h4>Responsive Tasarımda Breakpoint Seçimi</h4>
+                                    <span class="popular-post-date">1 Ekim 2025</span>
+                                </div>
+                            </a>
+                            <a href="#" class="popular-post-item">
+                                <span class="popular-post-number">3</span>
+                                <div class="popular-post-content">
+                                    <h4>JavaScript ES6+ Özellikleri</h4>
+                                    <span class="popular-post-date">28 Eylül 2025</span>
+                                </div>
+                            </a>
+                        </div>
+                    </div>
+
+                    <!-- Newsletter -->
+                    <div class="sidebar-card newsletter-card">
+                        <h3><i class="fas fa-envelope"></i> Newsletter</h3>
+                        <p>Yeni içeriklerden haberdar olun!</p>
+                        <form class="newsletter-form">
+                            <input type="email" placeholder="Email adresiniz" required>
+                            <button type="submit" class="btn btn-primary">Abone Ol</button>
+                        </form>
+                    </div>
+
+                    <!-- Categories -->
+                    <div class="sidebar-card">
+                        <h3><i class="fas fa-folder"></i> Kategoriler</h3>
+                        <ul class="sidebar-categories">
+                            <li><a href="#">Web Tasarım <span>(12)</span></a></li>
+                            <li><a href="#">Development <span>(18)</span></a></li>
+                            <li><a href="#">UI/UX <span>(9)</span></a></li>
+                            <li><a href="#">İpuçları <span>(15)</span></a></li>
+                            <li><a href="#">Trendler <span>(7)</span></a></li>
+                        </ul>
+                    </div>
+
+                    <!-- Tags Cloud -->
+                    <div class="sidebar-card">
+                        <h3><i class="fas fa-tags"></i> Etiketler</h3>
+                        <div class="tags-cloud">
+                            <a href="#" class="tag-item">React</a>
+                            <a href="#" class="tag-item">JavaScript</a>
+                            <a href="#" class="tag-item">CSS</a>
+                            <a href="#" class="tag-item">HTML</a>
+                            <a href="#" class="tag-item">UI/UX</a>
+                            <a href="#" class="tag-item">Design</a>
+                            <a href="#" class="tag-item">Frontend</a>
+                            <a href="#" class="tag-item">SEO</a>
+                            <a href="#" class="tag-item">Performance</a>
+                            <a href="#" class="tag-item">Responsive</a>
+                        </div>
+                    </div>
+                </aside>
+            </div>
+
+            <!-- Pagination -->
+            <div class="blog-pagination">
+                <button class="pagination-btn" disabled>
+                    <i class="fas fa-chevron-left"></i> Önceki
+                </button>
+                <div class="pagination-numbers">
+                    <button class="pagination-number active">1</button>
+                    <button class="pagination-number">2</button>
+                    <button class="pagination-number">3</button>
+                    <span class="pagination-dots">...</span>
+                    <button class="pagination-number">10</button>
+                </div>
+                <button class="pagination-btn">
+                    Sonraki <i class="fas fa-chevron-right"></i>
+                </button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h3>Mert<span>Yüksel</span></h3>
+                    <p>Web tasarım ve geliştirme hakkında güncel içerikler.</p>
+                    <div class="footer-social">
+                        <a href="#"><i class="fab fa-linkedin"></i></a>
+                        <a href="#"><i class="fab fa-github"></i></a>
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                    </div>
+                </div>
+                <div class="footer-section">
+                    <h4>Hızlı Linkler</h4>
+                    <ul>
+                        <li><a href="index.html">Ana Sayfa</a></li>
+                        <li><a href="index.html#about">Hakkımda</a></li>
+                        <li><a href="blog.html">Blog</a></li>
+                        <li><a href="index.html#contact">İletişim</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>Kategoriler</h4>
+                    <ul>
+                        <li><a href="#">Web Tasarım</a></li>
+                        <li><a href="#">Development</a></li>
+                        <li><a href="#">UI/UX</a></li>
+                        <li><a href="#">İpuçları</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>İletişim</h4>
+                    <div class="footer-contact">
+                        <p><i class="fas fa-envelope"></i> mertyuksll@gmail.com</p>
+                        <p><i class="fas fa-phone"></i> 0535 618 1302</p>
+                        <p><i class="fas fa-map-marker-alt"></i> İstanbul, Türkiye</p>
+                    </div>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2025 Mert Yüksel. Tüm hakları saklıdır.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Scroll to Top Button -->
+    <button class="scroll-to-top" id="scrollToTop">
+        <i class="fas fa-arrow-up"></i>
+    </button>
+
+    <!-- JavaScript -->
+    <script src="script.js"></script>
+    <script src="blog.js"></script>
+    <script src="analytics.js"></script>
+    
+    <!-- Google Analytics 4 (GA4) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-XXXXXXXXXX"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-XXXXXXXXXX');
+    </script>
+    
+    <!-- Google Tag Manager (noscript) -->
+    <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-XXXXXXX"
+    height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+    
+    <!-- Facebook Pixel Code -->
+    <script>
+      !function(f,b,e,v,n,t,s)
+      {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+      n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+      if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+      n.queue=[];t=b.createElement(e);t.async=!0;
+      t.src=v;s=b.getElementsByTagName(e)[0];
+      s.parentNode.insertBefore(t,s)}(window, document,'script',
+      'https://connect.facebook.net/en_US/fbevents.js');
+      fbq('init', 'YOUR_PIXEL_ID');
+      fbq('track', 'PageView');
+    </script>
+
+</body>
+</html>

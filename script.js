@@ -105,17 +105,22 @@ window.addEventListener('scroll', () => {
 // Smooth Scrolling for Navigation Links
 document.querySelectorAll('.nav-link, .btn[href^="#"]').forEach(link => {
     link.addEventListener('click', (e) => {
-        e.preventDefault();
         const targetId = link.getAttribute('href');
-        const targetSection = document.querySelector(targetId);
         
-        if (targetSection) {
-            const offsetTop = targetSection.offsetTop - 80;
-            window.scrollTo({
-                top: offsetTop,
-                behavior: 'smooth'
-            });
+        // Only prevent default for anchor links (starting with #)
+        if (targetId && targetId.startsWith('#')) {
+            e.preventDefault();
+            const targetSection = document.querySelector(targetId);
+            
+            if (targetSection) {
+                const offsetTop = targetSection.offsetTop - 80;
+                window.scrollTo({
+                    top: offsetTop,
+                    behavior: 'smooth'
+                });
+            }
         }
+        // For external links like blog.html, let the browser handle navigation naturally
     });
 });
 
@@ -903,7 +908,1052 @@ function initializeConsultation() {
     }
 }
 
-console.log('🚀 Mert Yüksel Portfolio Website Loaded Successfully!');
+// ==========================================
+// MODERN SEARCH SYSTEM
+// ==========================================
+
+class ModernSearch {
+    constructor() {
+        this.isOpen = false;
+        this.searchData = {
+            portfolio: [
+                { title: "E-ticaret Sitesi", description: "Modern online mağaza tasarımı", section: "#portfolio", category: "E-ticaret" },
+                { title: "Kurumsal Web Sitesi", description: "Profesyonel şirket sitesi", section: "#portfolio", category: "Kurumsal" },
+                { title: "Blog Platformu", description: "İçerik yönetim sistemi", section: "#portfolio", category: "Blog" },
+                { title: "Portfolio Sitesi", description: "Kişisel tanıtım sitesi", section: "#portfolio", category: "Portfolio" }
+            ],
+            services: [
+                { title: "Web Tasarım", description: "Modern ve responsive web tasarımı", section: "#services", category: "Hizmet" },
+                { title: "E-ticaret Çözümleri", description: "Online satış platformları", section: "#services", category: "Hizmet" },
+                { title: "SEO Optimizasyonu", description: "Arama motoru optimizasyonu", section: "#services", category: "Hizmet" },
+                { title: "Mobil Uygulama", description: "iOS ve Android uygulamaları", section: "#services", category: "Hizmet" }
+            ],
+            skills: [
+                { title: "JavaScript", description: "Modern JavaScript geliştirme", section: "#skills", category: "Teknoloji" },
+                { title: "React", description: "React framework geliştirme", section: "#skills", category: "Teknoloji" },
+                { title: "Node.js", description: "Backend geliştirme", section: "#skills", category: "Teknoloji" },
+                { title: "CSS3", description: "Modern CSS tasarım", section: "#skills", category: "Teknoloji" }
+            ],
+            about: [
+                { title: "Hakkımda", description: "Mert Yüksel - Web geliştirici", section: "#about", category: "Kişisel" },
+                { title: "Deneyim", description: "5+ yıl web geliştirme deneyimi", section: "#about", category: "Kişisel" },
+                { title: "Eğitim", description: "Bilgisayar mühendisliği", section: "#about", category: "Kişisel" }
+            ],
+            contact: [
+                { title: "İletişim", description: "Benimle iletişime geçin", section: "#contact", category: "İletişim" },
+                { title: "Email", description: "mertyuksll@gmail.com", section: "#contact", category: "İletişim" },
+                { title: "Randevu", description: "Proje görüşmesi için randevu alın", section: "#contact", category: "İletişim" }
+            ]
+        };
+        this.allData = this.flattenData();
+        this.init();
+    }
+
+    init() {
+        this.createElements();
+        this.bindEvents();
+        this.setupKeyboardShortcuts();
+    }
+
+    createElements() {
+        this.navSearchTrigger = document.getElementById('navSearchTrigger');
+        this.searchOverlay = document.getElementById('searchOverlay');
+        this.searchInput = document.getElementById('searchInput');
+        this.searchClose = document.getElementById('searchClose');
+        this.searchClear = document.getElementById('searchClear');
+        this.searchVoice = document.getElementById('searchVoice');
+        this.searchSuggestions = document.getElementById('searchSuggestions');
+        this.searchResults = document.getElementById('searchResults');
+    }
+
+    bindEvents() {
+        // Navbar search trigger
+        if (this.navSearchTrigger) {
+            this.navSearchTrigger.addEventListener('click', () => this.openSearch());
+        }
+        
+        // Close search
+        this.searchClose.addEventListener('click', () => this.closeSearch());
+        this.searchOverlay.addEventListener('click', (e) => {
+            if (e.target === this.searchOverlay) this.closeSearch();
+        });
+        
+        // Search input
+        this.searchInput.addEventListener('input', (e) => this.handleSearch(e.target.value));
+        this.searchInput.addEventListener('focus', () => this.showSuggestions());
+        
+        // Clear search
+        this.searchClear.addEventListener('click', () => this.clearSearch());
+        
+        // Voice search (placeholder)
+        this.searchVoice.addEventListener('click', () => this.handleVoiceSearch());
+        
+        // Suggestion clicks
+        this.searchSuggestions.addEventListener('click', (e) => {
+            const suggestionItem = e.target.closest('.suggestion-item');
+            if (suggestionItem) {
+                this.handleSuggestionClick(suggestionItem);
+            }
+        });
+        
+        // Result clicks
+        this.searchResults.addEventListener('click', (e) => {
+            const resultItem = e.target.closest('.search-result-item');
+            if (resultItem) {
+                this.handleResultClick(resultItem);
+            }
+        });
+    }
+
+    setupKeyboardShortcuts() {
+        document.addEventListener('keydown', (e) => {
+            // Ctrl/Cmd + K to open search
+            if ((e.ctrlKey || e.metaKey) && e.key === 'k') {
+                e.preventDefault();
+                this.openSearch();
+            }
+            
+            // Escape to close search
+            if (e.key === 'Escape' && this.isOpen) {
+                this.closeSearch();
+            }
+        });
+    }
+
+    openSearch() {
+        this.isOpen = true;
+        this.searchOverlay.classList.add('active');
+        setTimeout(() => {
+            this.searchInput.focus();
+        }, 100);
+        this.trackEvent('search_opened');
+    }
+
+    closeSearch() {
+        this.isOpen = false;
+        this.searchOverlay.classList.remove('active');
+        this.clearSearch();
+        this.trackEvent('search_closed');
+    }
+
+    clearSearch() {
+        this.searchInput.value = '';
+        this.searchClear.style.display = 'none';
+        this.showSuggestions();
+    }
+
+    showSuggestions() {
+        this.searchSuggestions.style.display = 'block';
+        this.searchResults.style.display = 'none';
+    }
+
+    handleSearch(query) {
+        if (query.trim() === '') {
+            this.searchClear.style.display = 'none';
+            this.showSuggestions();
+            return;
+        }
+        
+        this.searchClear.style.display = 'flex';
+        this.searchSuggestions.style.display = 'none';
+        this.searchResults.style.display = 'block';
+        
+        const results = this.searchInData(query);
+        this.displayResults(results, query);
+        
+        this.trackEvent('search_performed', { query, resultCount: results.length });
+    }
+
+    searchInData(query) {
+        const lowerQuery = query.toLowerCase();
+        return this.allData.filter(item => 
+            item.title.toLowerCase().includes(lowerQuery) ||
+            item.description.toLowerCase().includes(lowerQuery) ||
+            item.category.toLowerCase().includes(lowerQuery)
+        );
+    }
+
+    displayResults(results, query) {
+        if (results.length === 0) {
+            this.searchResults.innerHTML = `
+                <div class="no-results">
+                    <i class="fas fa-search-minus"></i>
+                    <h3>"${query}" için sonuç bulunamadı</h3>
+                    <p>Farklı anahtar kelimeler deneyin veya AI asistanımla konuşun!</p>
+                </div>
+            `;
+            return;
+        }
+
+        const resultHtml = results.map(result => `
+            <div class="search-result-item" data-section="${result.section}">
+                <div class="result-icon">
+                    <i class="${this.getCategoryIcon(result.category)}"></i>
+                </div>
+                <div class="result-content">
+                    <h4 class="result-title">${this.highlightText(result.title, query)}</h4>
+                    <p class="result-description">${this.highlightText(result.description, query)}</p>
+                    <span class="result-category">${result.category}</span>
+                </div>
+                <div class="result-arrow">
+                    <i class="fas fa-arrow-right"></i>
+                </div>
+            </div>
+        `).join('');
+
+        this.searchResults.innerHTML = `
+            <div class="search-results-header">
+                <span>${results.length} sonuç bulundu</span>
+            </div>
+            ${resultHtml}
+        `;
+    }
+
+    highlightText(text, query) {
+        const regex = new RegExp(`(${query})`, 'gi');
+        return text.replace(regex, '<mark>$1</mark>');
+    }
+
+    getCategoryIcon(category) {
+        const icons = {
+            'E-ticaret': 'fas fa-shopping-cart',
+            'Kurumsal': 'fas fa-building',
+            'Blog': 'fas fa-blog',
+            'Portfolio': 'fas fa-briefcase',
+            'Hizmet': 'fas fa-cogs',
+            'Teknoloji': 'fas fa-code',
+            'Kişisel': 'fas fa-user',
+            'İletişim': 'fas fa-envelope'
+        };
+        return icons[category] || 'fas fa-circle';
+    }
+
+    handleSuggestionClick(suggestionItem) {
+        const searchTerm = suggestionItem.dataset.search;
+        const targetSection = suggestionItem.dataset.target;
+        
+        if (searchTerm) {
+            this.searchInput.value = searchTerm;
+            this.handleSearch(searchTerm);
+        } else if (targetSection) {
+            this.closeSearch();
+            this.scrollToSection(targetSection);
+        }
+    }
+
+    handleResultClick(resultItem) {
+        const section = resultItem.dataset.section;
+        this.closeSearch();
+        this.scrollToSection(section);
+    }
+
+    scrollToSection(section) {
+        const targetElement = document.querySelector(section);
+        if (targetElement) {
+            targetElement.scrollIntoView({ 
+                behavior: 'smooth', 
+                block: 'start' 
+            });
+            
+            // Add highlight effect
+            targetElement.style.animation = 'highlight 2s ease-in-out';
+            setTimeout(() => {
+                targetElement.style.animation = '';
+            }, 2000);
+        }
+    }
+
+    handleVoiceSearch() {
+        // Voice search placeholder
+        alert('Ses arama özelliği yakında eklenecek! 🎤');
+        this.trackEvent('voice_search_attempted');
+    }
+
+    flattenData() {
+        let allData = [];
+        Object.values(this.searchData).forEach(category => {
+            allData = allData.concat(category);
+        });
+        return allData;
+    }
+
+    trackEvent(eventName, data = {}) {
+        if (typeof gtag !== 'undefined') {
+            gtag('event', eventName, {
+                custom_parameter_1: data,
+                event_category: 'Modern Search',
+                event_label: 'User Interaction'
+            });
+        }
+        console.log(`Modern Search Event: ${eventName}`, data);
+    }
+}
+
+// ==========================================
+// AI ASSISTANT WIDGET FUNCTIONALITY
+// ==========================================
+class AIAssistant {
+    constructor() {
+        this.isOpen = false;
+        this.messageHistory = [];
+        this.userContext = {
+            name: null,
+            interest: null,
+            budget: null,
+            timeline: null,
+            projectType: null
+        };
+        this.conversationState = 'greeting'; // greeting, collecting_info, providing_solution, closing
+        this.responses = {
+            greeting: [
+                "Merhaba! Ben Webtelligence AI asistanınızım! 🤖 Size nasıl yardımcı olabilirim?",
+                "Hoşgeldiniz! Web tasarım projeleriniz için buradayım. Hangi konuda yardıma ihtiyacınız var?",
+                "Selam! Profesyonel web çözümlerimiz hakkında size yardımcı olmaya hazırım! 💼"
+            ],
+            services: {
+                question: "Hangi tür web sitesi projeniz var? Size özel çözümler sunabilirim:",
+                options: [
+                    "🏢 Kurumsal Web Sitesi - Profesyonel şirket imajı",
+                    "� E-ticaret Sitesi - Online satış platformu", 
+                    "👤 Kişisel/Portfolio - Bireysel tanıtım sitesi",
+                    "📰 Blog/İçerik Sitesi - İçerik yönetim sistemi",
+                    "🎨 Özel Tasarım - Benzersiz ve yaratıcı çözümler"
+                ],
+                responses: {
+                    kurumsal: "Harika! Kurumsal web siteleri konusunda uzmanız. Size profesyonel bir teklif hazırlayabilirim. Şirketinizin adı nedir?",
+                    eticaret: "Mükemmel seçim! E-ticaret siteleri için özel çözümlerimiz var. Hangi ürünleri satacaksınız?",
+                    portfolio: "Süper! Portfolio siteleri için birçok modern template'imiz var. Hangi alanda çalışıyorsunuz?",
+                    blog: "Blog siteleri için CMS çözümlerimiz mevcut. İçerik türünüz nedir?",
+                    ozel: "Yaratıcı projeler favorimiz! Aklınızdaki tasarım nasıl? Detayları paylaşır mısınız?"
+                }
+            },
+            pricing: {
+                question: "Bütçeniz hakkında bilgi verebilir misiniz? Size en uygun paketi önerebilirim:",
+                options: [
+                    "💰 5.000₺ - 10.000₺ (Temel paket)",
+                    "💎 10.000₺ - 20.000₺ (Profesyonel paket)",
+                    "🚀 20.000₺+ (Premium paket)",
+                    "🤔 Emin değilim, danışmanlık istiyorum"
+                ],
+                responses: {
+                    temel: "Temel paketimiz ile harika başlangıçlar yapıyoruz! 5-7 sayfalık responsive site, SEO optimizasyonu dahil. Detayları görmek ister misiniz?",
+                    profesyonel: "Profesyonel paketimiz çok popüler! 10-15 sayfa, admin paneli, sosyal medya entegrasyonu dahil. Hemen detayları gösterelim!",
+                    premium: "Premium paketimiz ile sınırsız olanaklar! Özel tasarım, gelişmiş özellikler, 1 yıl destek dahil. Portföyümüzü inceleyin!",
+                    danismanlik: "Tabii ki! Size özel bir danışmanlık görüşmesi ayarlayalım. En uygun çözümü birlikte bulalım."
+                }
+            },
+            portfolio: {
+                question: "Hangi sektördeki projelerimizi görmek istersiniz?",
+                options: [
+                    "🏥 Sağlık ve Medikal",
+                    "🏭 Sanayi ve Üretim", 
+                    "🍕 Restoran ve Yemek",
+                    "🏫 Eğitim ve Akademi",
+                    "💼 Hizmet Sektörü",
+                    "🛒 E-ticaret Projeleri"
+                ],
+                responses: {
+                    saglik: "Sağlık sektöründe harika projelerimiz var! Modern, güvenli ve hasta dostu tasarımlar. Portfolyomuza göz atın!",
+                    sanayi: "Sanayi siteleri için B2B odaklı profesyonel tasarımlarımız mevcut. Güçlü ve etkileyici sonuçlar!",
+                    restoran: "Restoran siteleri favorilerimizden! Menü entegrasyonu, rezervasyon sistemi dahil lezzetli tasarımlar!",
+                    egitim: "Eğitim platformları için kullanıcı dostu ve interaktif çözümlerimiz var. Öğrenci odaklı tasarımlar!",
+                    hizmet: "Hizmet sektörü için güven veren, profesyonel tasarımlar. Müşteri memnuniyeti odaklı!",
+                    eticaret: "E-ticaret projelerimiz satış odaklı! Kolay alışveriş deneyimi ve yüksek dönüşüm oranları!"
+                }
+            },
+            contact: {
+                question: "Size nasıl ulaşalım? En hızlı iletişim yolunu seçin:",
+                options: [
+                    "📧 Email ile iletişim",
+                    "📞 Telefon görüşmesi",
+                    "💬 WhatsApp mesajlaşma",
+                    "🗓️ Randevu al",
+                    "� Detaylı form doldur"
+                ],
+                responses: {
+                    email: "Email: mertyuksll@gmail.com adresinden bana ulaşabilirsiniz. 24 saat içinde dönüş yapıyorum!",
+                    telefon: "Telefon görüşmesi için email ile uygun saatleri paylaşın. Size en kısa sürede dönüş yapacağım!",
+                    whatsapp: "WhatsApp için email adresimden iletişim bilgilerimi isteyebilirsiniz. Hızlı yanıt garantisi!",
+                    randevu: "Randevu almak için iletişim formunu doldurun. Size uygun tarih ve saati ayarlayalım!",
+                    form: "İletişim sayfasına yönlendirecek formla detaylı bilgi paylaşabilirsiniz!"
+                }
+            },
+            technical: {
+                question: "Teknik konularda size yardımcı olabilirim:",
+                options: [
+                    "⚡ Site hızı ve performans",
+                    "📱 Mobil uyumluluk", 
+                    "🔍 SEO optimizasyonu",
+                    "🔒 Güvenlik çözümleri",
+                    "🔧 Bakım ve destek",
+                    "📊 Analytics ve raporlama"
+                ],
+                responses: {
+                    performans: "Site hızı kritik önem taşıyor! %90+ PageSpeed skorları ile hızlı yüklenen siteler tasarlıyoruz.",
+                    mobil: "Responsive tasarım standardımız! Tüm cihazlarda mükemmel görünüm garantisi.",
+                    seo: "SEO konusunda uzmanız! Google'da üst sıralarda yer almanız için teknik SEO uyguluyoruz.",
+                    guvenlik: "SSL sertifikası, güvenlik duvarı ve düzenli backup ile sitenizi koruyoruz.",
+                    bakim: "1 yıl ücretsiz bakım ve destek! Sorunsuz çalışan siteler için sürekli takip.",
+                    analytics: "Google Analytics, heatmap ve detaylı raporlarla site performansını takip ediyoruz."
+                }
+            },
+            problem_solving: {
+                "site_calişmiyor": "Site çalışmıyor mu? Hemen kontrol edelim! Hosting, domain veya kod kaynaklı olabilir. Acil destek veriyorum!",
+                "yavaş_site": "Yavaş site can sıkıcı! Site hızını artırmak için optimizasyon hizmetimiz var. %300'e kadar hızlanma mümkün!",
+                "mobile_problem": "Mobil sorunları çözmek uzmanlığımız! Responsive tasarım ile tüm cihazlarda mükemmel görünüm.",
+                "seo_problem": "SEO sorunu mu? Google'da görünmeme nedenleri tespit ederiz. Teknik SEO ile çözüm!",
+                "design_old": "Eski tasarım mı? Modern, trend tasarımlarla sitenizi yeniliyoruz. 2024 standartları!",
+                "security_issue": "Güvenlik sorunu ciddi! Hemen SSL, firewall ve güvenlik taraması yapıyoruz."
+            }
+        };
+        this.pageRoutes = {
+            portfolio: "#portfolio",
+            services: "#services", 
+            pricing: "#pricing",
+            contact: "#contact",
+            about: "#about",
+            home: "#hero"
+        };
+        this.init();
+    }
+
+    init() {
+        this.createElements();
+        this.bindEvents();
+        this.addWelcomeMessage();
+    }
+
+    createElements() {
+        // AI widget already exists in HTML, just get references
+        this.widget = document.getElementById('ai-assistant');
+        console.log('AI Widget found:', this.widget);
+        
+        if (this.widget) {
+            this.chatWindow = this.widget.querySelector('.chat-window');
+            this.messagesContainer = this.widget.querySelector('.chat-messages');
+            this.input = this.widget.querySelector('.chat-input');
+            this.sendBtn = this.widget.querySelector('.send-button');
+            this.assistantToggle = this.widget.querySelector('.assistant-toggle');
+            this.closeBtn = this.widget.querySelector('.chat-close');
+            this.quickActionsContainer = this.widget.querySelector('.quick-actions');
+            
+            console.log('Chat Window found:', this.chatWindow);
+            console.log('Assistant Toggle found:', this.assistantToggle);
+            console.log('Input found:', this.input);
+        } else {
+            console.error('AI Assistant widget not found in DOM!');
+        }
+    }
+
+    bindEvents() {
+        // Widget toggle
+        if (this.assistantToggle) {
+            this.assistantToggle.addEventListener('click', () => {
+                console.log('AI Assistant clicked!');
+                this.toggleWidget();
+            });
+            
+            // Enhanced hover interactions
+            this.assistantToggle.addEventListener('mouseenter', () => {
+                this.startHoverAnimation();
+            });
+            
+            this.assistantToggle.addEventListener('mouseleave', () => {
+                this.stopHoverAnimation();
+            });
+        } else {
+            console.error('Assistant toggle not found!');
+        }
+
+        // Interactive CTA button in status bubble
+        const ctaButton = this.widget.querySelector('.status-cta');
+        if (ctaButton) {
+            ctaButton.addEventListener('click', (e) => {
+                e.stopPropagation();
+                this.handleCtaClick();
+            });
+        }
+
+        // Control buttons
+        if (this.closeBtn) {
+            this.closeBtn.addEventListener('click', (e) => {
+                e.stopPropagation();
+                this.closeWidget();
+            });
+        }
+
+        // Message input
+        if (this.input) {
+            this.input.addEventListener('keypress', (e) => {
+                if (e.key === 'Enter' && !e.shiftKey) {
+                    e.preventDefault();
+                    this.sendMessage();
+                }
+            });
+        }
+
+        if (this.sendBtn) {
+            this.sendBtn.addEventListener('click', () => {
+                this.sendMessage();
+            });
+        }
+
+        // Quick actions
+        if (this.quickActionsContainer) {
+            this.quickActionsContainer.addEventListener('click', (e) => {
+                if (e.target.classList.contains('quick-action') || e.target.closest('.quick-action')) {
+                    const button = e.target.closest('.quick-action');
+                    const message = button.dataset.message;
+                    if (message) {
+                        this.input.value = message;
+                        this.sendMessage();
+                    }
+                }
+            });
+        }
+    }
+
+    startHoverAnimation() {
+        // Add dynamic text rotation in status bubble
+        const statusText = this.widget.querySelector('.status-subtitle');
+        const messages = [
+            'Çevrimiçi ve Hazır',
+            '7/24 Destek',
+            'Anında Yanıt',
+            'Problem Çözer'
+        ];
+        
+        let messageIndex = 0;
+        this.hoverInterval = setInterval(() => {
+            messageIndex = (messageIndex + 1) % messages.length;
+            if (statusText) {
+                statusText.textContent = messages[messageIndex];
+            }
+        }, 1500);
+    }
+
+    stopHoverAnimation() {
+        if (this.hoverInterval) {
+            clearInterval(this.hoverInterval);
+            const statusText = this.widget.querySelector('.status-subtitle');
+            if (statusText) {
+                statusText.textContent = 'Çevrimiçi ve Hazır';
+            }
+        }
+    }
+
+    handleCtaClick() {
+        // Animate CTA button click
+        const ctaButton = this.widget.querySelector('.status-cta');
+        if (ctaButton) {
+            ctaButton.style.transform = 'scale(0.95)';
+            setTimeout(() => {
+                ctaButton.style.transform = 'scale(1)';
+                this.toggleWidget();
+            }, 150);
+        }
+    }
+
+    toggleWidget() {
+        this.isOpen = !this.isOpen;
+        
+        if (this.isOpen) {
+            this.chatWindow.style.display = 'flex';
+            // Add a small delay to trigger CSS transitions
+            setTimeout(() => {
+                this.chatWindow.classList.add('active');
+            }, 10);
+            this.input.focus();
+            this.trackEvent('ai_assistant_opened');
+        } else {
+            this.chatWindow.classList.remove('active');
+            // Hide after transition completes
+            setTimeout(() => {
+                if (!this.isOpen) {
+                    this.chatWindow.style.display = 'none';
+                }
+            }, 300);
+        }
+    }
+
+    closeWidget() {
+        this.isOpen = false;
+        this.chatWindow.classList.remove('active');
+        setTimeout(() => {
+            this.chatWindow.style.display = 'none';
+        }, 300);
+    }
+
+    addWelcomeMessage() {
+        // Enhanced welcome message with user detection
+        const welcomeTimeElement = document.getElementById('welcomeTime');
+        if (welcomeTimeElement) {
+            welcomeTimeElement.textContent = new Date().toLocaleTimeString('tr-TR', {hour: '2-digit', minute: '2-digit'});
+        }
+        
+        // Add intelligent welcome based on time
+        setTimeout(() => {
+            const hour = new Date().getHours();
+            let timeGreeting = "";
+            
+            if (hour < 12) {
+                timeGreeting = "Günaydın!";
+            } else if (hour < 18) {
+                timeGreeting = "İyi günler!";
+            } else {
+                timeGreeting = "İyi akşamlar!";
+            }
+            
+            const intelligentWelcome = `${timeGreeting} 🌟\n\nBen Webtelligence AI asistanınızım! Size şu konularda yardımcı olabilirim:\n\n✨ Acil site sorunları çözme\n💼 Proje danışmanlığı\n💰 Fiyat teklifi alma\n🎨 Tasarım örnekleri görme\n📞 Hızlı iletişim kurma\n\nHangi konuda yardıma ihtiyacınız var?`;
+            
+            this.addMessage(intelligentWelcome, 'assistant');
+        }, 1000);
+    }
+
+    sendMessage() {
+        const message = this.input.value.trim();
+        if (!message) return;
+
+        this.addMessage(message, 'user');
+        this.input.value = '';
+
+        // Analyze user intent and update context
+        this.analyzeUserIntent(message);
+
+        // Add smart delay based on response complexity
+        const responseComplexity = this.calculateResponseComplexity(message);
+        const delay = 800 + (responseComplexity * 400);
+
+        setTimeout(() => {
+            const response = this.generateResponse(message);
+            this.addMessage(response, 'assistant');
+            this.trackEvent('ai_message_sent', { 
+                message: message, 
+                intent: this.detectUserIntent(message),
+                responseLength: response.length 
+            });
+        }, delay);
+    }
+
+    analyzeUserIntent(message) {
+        const lowerMessage = message.toLowerCase();
+        
+        // Update user context based on message
+        if (lowerMessage.includes('acil') || lowerMessage.includes('urgent')) {
+            this.conversationState = 'urgent_support';
+        }
+        
+        if (lowerMessage.includes('bütçe') || lowerMessage.includes('para')) {
+            this.userContext.budget = 'mentioned';
+        }
+        
+        if (lowerMessage.includes('zaman') || lowerMessage.includes('ne zaman')) {
+            this.userContext.timeline = 'mentioned';
+        }
+    }
+
+    calculateResponseComplexity(message) {
+        // Return complexity score (0-3) based on message content
+        if (this.detectProblem(message.toLowerCase())) return 3;
+        if (message.length > 50) return 2;
+        if (message.includes('?')) return 1;
+        return 0;
+    }
+
+    detectUserIntent(message) {
+        const lowerMessage = message.toLowerCase();
+        if (this.detectProblem(lowerMessage)) return 'problem_solving';
+        if (this.detectIntent(lowerMessage, ['hizmet', 'service'])) return 'services';
+        if (this.detectIntent(lowerMessage, ['portfolyo', 'portfolio'])) return 'portfolio';
+        if (this.detectIntent(lowerMessage, ['fiyat', 'price'])) return 'pricing';
+        if (this.detectIntent(lowerMessage, ['iletişim', 'contact'])) return 'contact';
+        return 'general';
+    }
+
+    addMessage(text, sender) {
+        const messageDiv = document.createElement('div');
+        messageDiv.className = `message ${sender}-message`;
+        
+        if (sender === 'assistant') {
+            messageDiv.innerHTML = `
+                <div class="message-avatar">
+                    <div class="assistant-avatar-tiny">
+                        <div class="avatar-face-tiny">
+                            <div class="avatar-eyes-tiny">
+                                <div class="eye-tiny left-eye-tiny"></div>
+                                <div class="eye-tiny right-eye-tiny"></div>
+                            </div>
+                            <div class="avatar-mouth-tiny"></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="message-content">
+                    <p>${text.replace(/\n/g, '</p><p>')}</p>
+                </div>
+                <div class="message-time">
+                    <span>${new Date().toLocaleTimeString('tr-TR', {hour: '2-digit', minute: '2-digit'})}</span>
+                </div>
+            `;
+        } else {
+            messageDiv.innerHTML = `
+                <div class="message-content">
+                    <p>${text}</p>
+                </div>
+                <div class="message-time">
+                    <span>${new Date().toLocaleTimeString('tr-TR', {hour: '2-digit', minute: '2-digit'})}</span>
+                </div>
+            `;
+        }
+
+        this.messagesContainer.appendChild(messageDiv);
+        this.scrollToBottom();
+        
+        this.messageHistory.push({ text, sender, timestamp: Date.now() });
+    }
+
+    generateResponse(message) {
+        const lowerMessage = message.toLowerCase();
+        
+        // Problem solving detection
+        if (this.detectProblem(lowerMessage)) {
+            return this.solveProblem(lowerMessage);
+        }
+        
+        // Intent detection with advanced context
+        if (this.detectIntent(lowerMessage, ['hizmet', 'service', 'neler', 'ne yapıyorsun', 'paket', 'çözüm'])) {
+            return this.handleServices();
+        }
+        
+        if (this.detectIntent(lowerMessage, ['portfolyo', 'portfolio', 'çalışma', 'proje', 'örnek', 'göster'])) {
+            return this.handlePortfolio();
+        }
+        
+        if (this.detectIntent(lowerMessage, ['fiyat', 'ücret', 'maliyet', 'price', 'bütçe', 'kaç para'])) {
+            return this.handlePricing();
+        }
+        
+        if (this.detectIntent(lowerMessage, ['iletişim', 'contact', 'ulaş', 'email', 'telefon', 'randevu'])) {
+            return this.handleContact();
+        }
+        
+        if (this.detectIntent(lowerMessage, ['teknik', 'hız', 'seo', 'mobil', 'güvenlik', 'performans'])) {
+            return this.handleTechnical();
+        }
+        
+        if (this.detectIntent(lowerMessage, ['merhaba', 'selam', 'hello', 'hi', 'hey'])) {
+            return this.getRandomResponse(this.responses.greeting);
+        }
+        
+        // Contextual responses based on conversation state
+        if (this.conversationState === 'collecting_info') {
+            return this.handleInfoCollection(message);
+        }
+        
+        return this.generateSmartResponse(message);
+    }
+
+    detectIntent(message, keywords) {
+        return keywords.some(keyword => message.includes(keyword));
+    }
+
+    detectProblem(message) {
+        const problemKeywords = [
+            'çalışmıyor', 'broken', 'hata', 'error', 'sorun', 'problem',
+            'yavaş', 'slow', 'açılmıyor', 'loading', 'mobilde', 'mobile',
+            'görünmüyor', 'seo', 'google', 'güvenlik', 'security', 'hack'
+        ];
+        return problemKeywords.some(keyword => message.includes(keyword));
+    }
+
+    solveProblem(message) {
+        if (message.includes('çalışmıyor') || message.includes('açılmıyor')) {
+            setTimeout(() => this.redirectToPage('contact'), 3000);
+            return "🚨 Site çalışmıyor mu? Bu ciddi bir durum! Hemen kontrol edelim:\n\n1️⃣ Domain süresi dolmuş olabilir\n2️⃣ Hosting sorunu olabilir\n3️⃣ DNS ayarları bozulmuş olabilir\n\n💡 Acil destek için size ulaşacağım! İletişim sayfasına yönlendirecekken, email adresinizi paylaşabilir misiniz?";
+        }
+        
+        if (message.includes('yavaş') || message.includes('slow')) {
+            setTimeout(() => this.redirectToPage('services'), 4000);
+            return "⚡ Yavaş site can sıkıcı! Site hızını artırmak için özel optimizasyon hizmetimiz var:\n\n🔧 Kod optimizasyonu\n📱 Görsel sıkıştırma\n☁️ CDN entegrasyonu\n💾 Cache sistemi\n\n📈 %300'e kadar hızlanma mümkün! Hizmetler sayfasına yönlendiriyorum...";
+        }
+        
+        if (message.includes('mobilde') || message.includes('mobile')) {
+            setTimeout(() => this.redirectToPage('portfolio'), 3000);
+            return "📱 Mobil sorunları en yaygın problem! Responsive tasarım ile çözüyoruz:\n\n✅ Tüm cihazlarda mükemmel görünüm\n✅ Touch-friendly butonlar\n✅ Hızlı yükleme\n✅ Modern mobile UX\n\nPortfoyomuzdaki mobil örnekleri gösterecekken, hangi cihazda sorun yaşıyorsunuz?";
+        }
+        
+        if (message.includes('seo') || message.includes('google')) {
+            setTimeout(() => this.redirectToPage('services'), 3000);
+            return "🔍 SEO sorunu mu? Google'da görünmemek büyük kayıp! Teknik SEO ile çözüm:\n\n📊 Site analizi\n🔧 Teknik düzeltmeler\n📝 İçerik optimizasyonu\n📈 Ranking takibi\n\nSEO hizmetlerimizi göstereceğim. Site adresinizi paylaşabilir misiniz?";
+        }
+        
+        return "🔧 Sorunu anladım! Size özel bir çözüm hazırlayacağım. Detayları konuşmak için iletişime geçelim!";
+    }
+
+    handleServices() {
+        this.conversationState = 'providing_solution';
+        const response = this.responses.services.question + "\n\n" + 
+            this.responses.services.options.map((option, index) => `${index + 1}. ${option}`).join('\n');
+        
+        setTimeout(() => this.redirectToPage('services'), 5000);
+        return response + "\n\n💡 5 saniye sonra hizmetler sayfasına yönlendirecekken, hangi seçenek size uygun?";
+    }
+
+    handlePortfolio() {
+        const response = this.responses.portfolio.question + "\n\n" + 
+            this.responses.portfolio.options.map((option, index) => `${index + 1}. ${option}`).join('\n');
+        
+        setTimeout(() => this.redirectToPage('portfolio'), 4000);
+        return response + "\n\n🎨 4 saniye sonra portfolyo sayfasına yönlendiriyorum!";
+    }
+
+    handlePricing() {
+        const response = this.responses.pricing.question + "\n\n" + 
+            this.responses.pricing.options.map((option, index) => `${index + 1}. ${option}`).join('\n');
+        
+        setTimeout(() => this.redirectToPage('contact'), 6000);
+        return response + "\n\n💰 Size özel teklif için iletişim sayfasına yönlendireceğim!";
+    }
+
+    handleContact() {
+        const response = this.responses.contact.question + "\n\n" + 
+            this.responses.contact.options.map((option, index) => `${index + 1}. ${option}`).join('\n');
+        
+        setTimeout(() => this.redirectToPage('contact'), 3000);
+        return response + "\n\n📞 3 saniye sonra iletişim sayfasına yönlendiriyorum!";
+    }
+
+    handleTechnical() {
+        const response = this.responses.technical.question + "\n\n" + 
+            this.responses.technical.options.map((option, index) => `${index + 1}. ${option}`).join('\n');
+        
+        return response + "\n\n🔧 Hangi teknik konuda yardıma ihtiyacınız var?";
+    }
+
+    handleInfoCollection(message) {
+        // Collect user information for better service
+        if (!this.userContext.name && this.askForName()) {
+            this.userContext.name = message;
+            return `Merhaba ${message}! Sizinle tanıştığıma memnun oldum. Hangi tür bir web sitesi projeniz var?`;
+        }
+        
+        return "Bilgileri aldım! Size özel bir çözüm hazırlıyorum...";
+    }
+
+    generateSmartResponse(message) {
+        // Advanced AI-like responses
+        const smartResponses = [
+            `"${message}" ile ilgili size yardımcı olabilirim! Web tasarım projelerinizde bu konu önemli. Detayları konuşalım!`,
+            `İlginç bir konu! "${message}" hakkında profesyonel çözümlerimiz var. Size özel yaklaşım geliştirebilirim.`,
+            `Bu konuda deneyimlerimiz var! "${message}" için size en uygun çözümü bulalım. İletişime geçelim!`
+        ];
+        
+        return this.getRandomResponse(smartResponses);
+    }
+
+    redirectToPage(page) {
+        if (this.pageRoutes[page]) {
+            this.addMessage(`🔄 ${page.charAt(0).toUpperCase() + page.slice(1)} sayfasına yönlendiriyorum...`, 'assistant');
+            
+            setTimeout(() => {
+                // Smooth scroll to section
+                const targetSection = document.querySelector(this.pageRoutes[page]);
+                if (targetSection) {
+                    targetSection.scrollIntoView({ 
+                        behavior: 'smooth', 
+                        block: 'start' 
+                    });
+                    
+                    // Add highlight effect
+                    targetSection.style.animation = 'highlight 2s ease-in-out';
+                    setTimeout(() => {
+                        targetSection.style.animation = '';
+                    }, 2000);
+                }
+            }, 1000);
+        }
+    }
+
+    askForName() {
+        return Math.random() > 0.7; // 30% chance to ask for name
+    }
+
+    getRandomResponse(responses) {
+        if (Array.isArray(responses)) {
+            return responses[Math.floor(Math.random() * responses.length)];
+        }
+        return responses;
+    }
+
+    scrollToBottom() {
+        this.messagesContainer.scrollTop = this.messagesContainer.scrollHeight;
+    }
+
+    trackEvent(eventName, data = {}) {
+        // Analytics tracking
+        if (typeof gtag !== 'undefined') {
+            gtag('event', eventName, {
+                custom_parameter_1: data,
+                event_category: 'AI Assistant',
+                event_label: 'User Interaction'
+            });
+        }
+        console.log(`AI Assistant Event: ${eventName}`, data);
+    }
+}
+
+// Initialize Modern Search and AI Assistant when DOM is loaded
+document.addEventListener('DOMContentLoaded', () => {
+    window.modernSearch = new ModernSearch();
+    window.aiAssistant = new AIAssistant();
+    
+    // Initialize Lazy Loading
+    initLazyLoading();
+    
+    // Initialize Performance Monitoring
+    initPerformanceMonitoring();
+});
+
+// ==========================================
+// LAZY LOADING SYSTEM
+// ==========================================
+function initLazyLoading() {
+    // Lazy load images
+    const lazyImages = document.querySelectorAll('img[data-src], img[loading="lazy"]');
+    
+    if ('IntersectionObserver' in window) {
+        const imageObserver = new IntersectionObserver((entries, observer) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    const img = entry.target;
+                    
+                    // Load image
+                    if (img.dataset.src) {
+                        img.src = img.dataset.src;
+                        img.removeAttribute('data-src');
+                    }
+                    
+                    // Load srcset if exists
+                    if (img.dataset.srcset) {
+                        img.srcset = img.dataset.srcset;
+                        img.removeAttribute('data-srcset');
+                    }
+                    
+                    // Add loaded class for fade-in effect
+                    img.classList.add('lazy-loaded');
+                    
+                    observer.unobserve(img);
+                    console.log('�️ Lazy loaded:', img.src);
+                }
+            });
+        }, {
+            rootMargin: '50px' // Load 50px before entering viewport
+        });
+        
+        lazyImages.forEach(img => imageObserver.observe(img));
+    } else {
+        // Fallback for older browsers
+        lazyImages.forEach(img => {
+            if (img.dataset.src) {
+                img.src = img.dataset.src;
+                img.removeAttribute('data-src');
+            }
+        });
+    }
+    
+    // Lazy load background images
+    const lazyBackgrounds = document.querySelectorAll('[data-bg]');
+    
+    if ('IntersectionObserver' in window) {
+        const bgObserver = new IntersectionObserver((entries, observer) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    const element = entry.target;
+                    element.style.backgroundImage = `url(${element.dataset.bg})`;
+                    element.removeAttribute('data-bg');
+                    observer.unobserve(element);
+                }
+            });
+        });
+        
+        lazyBackgrounds.forEach(bg => bgObserver.observe(bg));
+    }
+    
+    // Lazy load iframes (videos, maps, etc.)
+    const lazyIframes = document.querySelectorAll('iframe[data-src]');
+    
+    if ('IntersectionObserver' in window) {
+        const iframeObserver = new IntersectionObserver((entries, observer) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    const iframe = entry.target;
+                    iframe.src = iframe.dataset.src;
+                    iframe.removeAttribute('data-src');
+                    observer.unobserve(iframe);
+                    console.log('📺 Lazy loaded iframe:', iframe.src);
+                }
+            });
+        }, {
+            rootMargin: '200px'
+        });
+        
+        lazyIframes.forEach(iframe => iframeObserver.observe(iframe));
+    }
+    
+    console.log('✅ Lazy Loading initialized');
+}
+
+// ==========================================
+// PERFORMANCE MONITORING
+// ==========================================
+function initPerformanceMonitoring() {
+    if ('PerformanceObserver' in window) {
+        // Monitor Largest Contentful Paint (LCP)
+        try {
+            const lcpObserver = new PerformanceObserver((list) => {
+                const entries = list.getEntries();
+                const lastEntry = entries[entries.length - 1];
+                console.log('📊 LCP:', lastEntry.renderTime || lastEntry.loadTime);
+            });
+            lcpObserver.observe({ entryTypes: ['largest-contentful-paint'] });
+        } catch (e) {
+            console.log('LCP monitoring not supported');
+        }
+        
+        // Monitor First Input Delay (FID)
+        try {
+            const fidObserver = new PerformanceObserver((list) => {
+                const entries = list.getEntries();
+                entries.forEach(entry => {
+                    console.log('⚡ FID:', entry.processingStart - entry.startTime);
+                });
+            });
+            fidObserver.observe({ entryTypes: ['first-input'] });
+        } catch (e) {
+            console.log('FID monitoring not supported');
+        }
+    }
+    
+    // Log page load performance
+    window.addEventListener('load', () => {
+        setTimeout(() => {
+            const perfData = performance.getEntriesByType('navigation')[0];
+            if (perfData) {
+                console.log('📈 Performance Metrics:');
+                console.log('  - DNS Lookup:', perfData.domainLookupEnd - perfData.domainLookupStart, 'ms');
+                console.log('  - TCP Connection:', perfData.connectEnd - perfData.connectStart, 'ms');
+                console.log('  - Server Response:', perfData.responseStart - perfData.requestStart, 'ms');
+                console.log('  - Page Load:', perfData.loadEventEnd - perfData.fetchStart, 'ms');
+                console.log('  - DOM Content Loaded:', perfData.domContentLoadedEventEnd - perfData.fetchStart, 'ms');
+            }
+        }, 0);
+    });
+    
+    console.log('✅ Performance Monitoring initialized');
+}
+
+console.log('�🚀 Mert Yüksel Portfolio Website Loaded Successfully!');
 console.log('📧 Contact: mertyuksll@gmail.com');
 console.log('💼 Professional Web Design Consultation Available!');
 console.log('🌐 Ready to create amazing web experiences!');
+console.log('🤖 AI Assistant Ready for User Interactions!');
+console.log('⚡ PWA & Performance Optimizations Active!');
