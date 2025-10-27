@@ -2106,23 +2106,37 @@ console.log('⚡ PWA & Performance Optimizations Active!');
         }
 
         if(loginForm){
-            loginForm.addEventListener('submit', (e)=>{
+            loginForm.addEventListener('submit', async (e)=>{
                 e.preventDefault();
                 let ok = true;
                 const idVal = loginId.value.trim();
                 if(!idVal){ setErr(loginId, loginIdErr, 'Bu alan zorunludur.'); ok = false; }
-                else if(!(idVal.includes('@') ? emailRe.test(idVal) : usernameRe.test(idVal))){
-                    setErr(loginId, loginIdErr, 'Geçerli bir e-posta veya kullanıcı adı girin.'); ok = false;
+                else if(!emailRe.test(idVal)){
+                    setErr(loginId, loginIdErr, 'Geçerli bir e-posta girin.'); ok = false;
                 } else { clrErr(loginId, loginIdErr); }
 
                 if(!loginPwd.value){ setErr(loginPwd, loginPwdErr, 'Şifre zorunludur.'); ok = false; }
                 else { clrErr(loginPwd, loginPwdErr); }
 
                 if(!ok) return;
-                console.log('Demo modal login payload', { identifier: idVal });
-                showNotification('✅ Giriş başarılı (demo mode).', 'success');
-                closeAuthModal('login');
-                loginForm.reset();
+                try {
+                    const res = await fetch('/api/public/login', {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({ email: idVal, password: loginPwd.value })
+                    });
+                    const data = await res.json();
+                    if(!res.ok) throw new Error(data.message || 'Giriş başarısız');
+                    localStorage.setItem('user_token', data.token);
+                    localStorage.setItem('user_info', JSON.stringify(data.user));
+                    showNotification('✅ Giriş başarılı.', 'success');
+                    closeAuthModal('login');
+                    loginForm.reset();
+                    // Basit UI güncellemesi
+                    try { updateAuthUI(true, data.user); } catch(_) {}
+                } catch(err){
+                    showNotification(err.message, 'error');
+                }
             });
         }
 
@@ -2138,7 +2152,7 @@ console.log('⚡ PWA & Performance Optimizations Active!');
         const suCErr = document.getElementById('su-confirm-err');
 
         if(suForm){
-            suForm.addEventListener('submit', (e)=>{
+            suForm.addEventListener('submit', async (e)=>{
                 e.preventDefault();
                 let ok = true;
                 if(!suUsername.value.trim()) { setErr(suUsername, suUErr, 'Kullanıcı adı zorunludur.'); ok=false; }
@@ -2154,12 +2168,52 @@ console.log('⚡ PWA & Performance Optimizations Active!');
                 else if(suCnf.value !== suPwd.value){ setErr(suCnf, suCErr, 'Şifreler eşleşmiyor.'); ok=false; } else { clrErr(suCnf, suCErr); }
 
                 if(!ok) return;
-                console.log('Demo modal signup payload', { username: suUsername.value.trim(), email: suEmail.value.trim() });
-                showNotification('🎉 Kaydınız alındı (demo mode).', 'success');
-                closeAuthModal('signup');
-                suForm.reset();
+                try {
+                    const res = await fetch('/api/public/register', {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({ email: suEmail.value.trim(), password: suPwd.value, username: suUsername.value.trim() })
+                    });
+                    const data = await res.json();
+                    if(!res.ok) throw new Error(data.message || 'Kayıt başarısız');
+                    localStorage.setItem('user_token', data.token);
+                    localStorage.setItem('user_info', JSON.stringify(data.user));
+                    showNotification('🎉 Kaydınız alındı.', 'success');
+                    closeAuthModal('signup');
+                    suForm.reset();
+                    try { updateAuthUI(true, data.user); } catch(_) {}
+                } catch(err){
+                    showNotification(err.message, 'error');
+                }
             });
         }
+        
+        // Basit auth UI senkronizasyonu
+        function updateAuthUI(isAuth, user){
+            const group = document.querySelector('.nav-auth-group');
+            if(!group) return;
+            if(isAuth){
+                group.innerHTML = `
+                    <button class="btn-auth btn-auth--login" id="btnAccount">${user?.name || 'Hesabım'}</button>
+                    <button class="btn-auth btn-auth--signup" id="btnLogoutUser">Çıkış Yap</button>
+                `;
+                const logoutBtn = document.getElementById('btnLogoutUser');
+                logoutBtn?.addEventListener('click', ()=>{
+                    localStorage.removeItem('user_token');
+                    localStorage.removeItem('user_info');
+                    showNotification('Çıkış yaptınız.', 'info');
+                    location.reload();
+                });
+            }
+        }
+        // Sayfa yüklenince token varsa UI'ı güncelle
+        try {
+            const t = localStorage.getItem('user_token');
+            if(t){
+                const info = JSON.parse(localStorage.getItem('user_info')||'{}');
+                updateAuthUI(true, info);
+            }
+        } catch(_) {}
         
         console.log('Auth modal initialization complete');
     }
