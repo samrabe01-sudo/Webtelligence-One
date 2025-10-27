@@ -16,6 +16,7 @@ class ConsultationQuestionnaire {
         this.btnNext = document.getElementById('btnNext');
         this.summaryDiv = document.getElementById('consultationSummary');
         this.summaryContent = document.getElementById('summaryContent');
+    this.stepIndicators = document.getElementById('stepIndicators');
         
         // Check if all elements exist
         if (!this.questionWrapper || !this.progressFill || !this.btnNext) {
@@ -35,6 +36,7 @@ class ConsultationQuestionnaire {
         console.log('Questions array:', this.questions);
         console.log('Questions length:', this.questions.length);
         this.renderQuestion();
+        this.renderStepIndicators();
         this.attachEventListeners();
     }
 
@@ -176,6 +178,8 @@ class ConsultationQuestionnaire {
         if (this.currentQuestionSpan) {
             this.currentQuestionSpan.textContent = `Soru ${this.currentQuestionIndex + 1}`;
         }
+        // Update step indicators
+        this.updateStepIndicators();
         
         // Generate new question HTML
         const newHTML = this.getQuestionHTML(question);
@@ -195,6 +199,48 @@ class ConsultationQuestionnaire {
             this.btnBack.style.display = this.currentQuestionIndex > 0 ? 'inline-flex' : 'none';
         }
         this.updateNextButton();
+    }
+
+    renderStepIndicators() {
+        if (!this.stepIndicators) return;
+        this.stepIndicators.innerHTML = '';
+        for (let i = 0; i < this.questions.length; i++) {
+            const dot = document.createElement('div');
+            dot.className = 'step-dot';
+            dot.dataset.index = i;
+            dot.title = `Soru ${i + 1}`;
+            dot.addEventListener('click', () => {
+                // Allow navigation backward freely; forward only up to answered questions
+                const maxIndex = this.getMaxAnsweredIndex();
+                if (i <= maxIndex) {
+                    this.currentQuestionIndex = i;
+                    this.renderQuestion();
+                }
+            });
+            this.stepIndicators.appendChild(dot);
+        }
+        this.updateStepIndicators();
+    }
+
+    getMaxAnsweredIndex() {
+        // Determine last index that has an answer
+        let max = -1;
+        this.questions.forEach((q, idx) => {
+            const ans = this.answers[q.id];
+            const has = ans && (Array.isArray(ans) ? ans.length > 0 : String(ans).trim() !== '');
+            if (has) max = idx;
+        });
+        return Math.max(max, this.currentQuestionIndex); // at least current
+    }
+
+    updateStepIndicators() {
+        if (!this.stepIndicators) return;
+        const dots = this.stepIndicators.querySelectorAll('.step-dot');
+        dots.forEach((dot, idx) => {
+            dot.classList.remove('active', 'completed');
+            if (idx < this.currentQuestionIndex) dot.classList.add('completed');
+            if (idx === this.currentQuestionIndex) dot.classList.add('active');
+        });
     }
 
     getQuestionHTML(question) {
@@ -344,6 +390,18 @@ class ConsultationQuestionnaire {
                 input.value = this.answers[question.id];
             }
         }
+
+        // Keyboard controls: Enter to next, ArrowLeft to back
+        const onKey = (e) => {
+            if (e.key === 'Enter' && !this.btnNext.disabled) {
+                e.preventDefault();
+                this.nextQuestion();
+            } else if (e.key === 'ArrowLeft' && this.currentQuestionIndex > 0) {
+                e.preventDefault();
+                this.previousQuestion();
+            }
+        };
+        document.addEventListener('keydown', onKey, { once: true });
     }
 
     updateNextButton() {
@@ -362,19 +420,35 @@ class ConsultationQuestionnaire {
     }
 
     nextQuestion() {
+        this.buttonRipple(this.btnNext);
         if (this.currentQuestionIndex < this.questions.length - 1) {
             this.currentQuestionIndex++;
             this.renderQuestion();
         } else {
-            this.showSummary();
+            // Small delay to show button feedback
+            setTimeout(() => this.showSummary(), 200);
         }
     }
 
     previousQuestion() {
+        this.buttonRipple(this.btnBack);
         if (this.currentQuestionIndex > 0) {
             this.currentQuestionIndex--;
             this.renderQuestion();
         }
+    }
+
+    buttonRipple(btn) {
+        if (!btn) return;
+        const rect = btn.getBoundingClientRect();
+        const ripple = document.createElement('span');
+        ripple.className = 'btn-ripple';
+        const size = Math.max(rect.width, rect.height);
+        ripple.style.width = ripple.style.height = size + 'px';
+        ripple.style.left = (event?.clientX ? event.clientX - rect.left - size/2 : rect.width/2 - size/2) + 'px';
+        ripple.style.top = (event?.clientY ? event.clientY - rect.top - size/2 : rect.height/2 - size/2) + 'px';
+        btn.appendChild(ripple);
+        setTimeout(() => ripple.remove(), 650);
     }
 
     showSummary() {

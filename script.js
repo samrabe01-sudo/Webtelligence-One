@@ -356,9 +356,9 @@ function showSkillNotification(skillName, level) {
 
 
 
-// Portfolio Filter
+// Packages Filter
 const filterButtons = document.querySelectorAll('.filter-btn');
-const portfolioItems = document.querySelectorAll('.portfolio-item');
+const packageItems = document.querySelectorAll('.package-item');
 
 filterButtons.forEach(button => {
     button.addEventListener('click', () => {
@@ -369,9 +369,9 @@ filterButtons.forEach(button => {
         
         const filterValue = button.getAttribute('data-filter');
         
-        portfolioItems.forEach(item => {
+        packageItems.forEach(item => {
             if (filterValue === 'all' || item.getAttribute('data-category') === filterValue) {
-                item.style.display = 'block';
+                item.style.display = 'flex';
                 setTimeout(() => {
                     item.style.opacity = '1';
                     item.style.transform = 'scale(1)';
@@ -916,11 +916,13 @@ class ModernSearch {
     constructor() {
         this.isOpen = false;
         this.searchData = {
-            portfolio: [
-                { title: "E-ticaret Sitesi", description: "Modern online mağaza tasarımı", section: "#portfolio", category: "E-ticaret" },
-                { title: "Kurumsal Web Sitesi", description: "Profesyonel şirket sitesi", section: "#portfolio", category: "Kurumsal" },
-                { title: "Blog Platformu", description: "İçerik yönetim sistemi", section: "#portfolio", category: "Blog" },
-                { title: "Portfolio Sitesi", description: "Kişisel tanıtım sitesi", section: "#portfolio", category: "Portfolio" }
+            packages: [
+                { title: "Temel Web Sitesi", description: "Küçük işletmeler için profesyonel site - ₺3.500", section: "#packages", category: "Temel Paket" },
+                { title: "E-Ticaret Paketi", description: "Ödeme entegrasyonu ve ürün yönetimi - ₺7.500", section: "#packages", category: "Standart Paket" },
+                { title: "Kurumsal Web Paketi", description: "API ve performans optimizasyonu - ₺15.000", section: "#packages", category: "Premium Paket" },
+                { title: "Portföy Web Sitesi", description: "Freelancer ve yaratıcılar için galeri - ₺4.000", section: "#packages", category: "Temel Paket" },
+                { title: "Sağlık & Klinik Paketi", description: "Randevu ve ödeme sistemi - ₺9.000", section: "#packages", category: "Standart Paket" },
+                { title: "Restoran & Yemek Sipariş", description: "Dijital menü ve sipariş platformu - ₺10.500", section: "#packages", category: "Özel Paket" }
             ],
             services: [
                 { title: "Web Tasarım", description: "Modern ve responsive web tasarımı", section: "#services", category: "Hizmet" },
@@ -1312,7 +1314,7 @@ class AIAssistant {
             }
         };
         this.pageRoutes = {
-            portfolio: "#portfolio",
+            packages: "#packages",
             services: "#services", 
             pricing: "#pricing",
             contact: "#contact",
@@ -1623,8 +1625,8 @@ class AIAssistant {
             return this.handleServices();
         }
         
-        if (this.detectIntent(lowerMessage, ['portfolyo', 'portfolio', 'çalışma', 'proje', 'örnek', 'göster'])) {
-            return this.handlePortfolio();
+        if (this.detectIntent(lowerMessage, ['paket', 'package', 'çalışma', 'proje', 'örnek', 'göster', 'seçenek'])) {
+            return this.handlePackages();
         }
         
         if (this.detectIntent(lowerMessage, ['fiyat', 'ücret', 'maliyet', 'price', 'bütçe', 'kaç para'])) {
@@ -1697,12 +1699,22 @@ class AIAssistant {
         return response + "\n\n💡 5 saniye sonra hizmetler sayfasına yönlendirecekken, hangi seçenek size uygun?";
     }
 
-    handlePortfolio() {
-        const response = this.responses.portfolio.question + "\n\n" + 
-            this.responses.portfolio.options.map((option, index) => `${index + 1}. ${option}`).join('\n');
+    handlePackages() {
+        const packages = [
+            "📦 Temel Web Sitesi - ₺2.500'den başlayan fiyatlarla",
+            "🛒 E-Ticaret Paketi - ₺5.000'den başlayan fiyatlarla",
+            "👑 Kurumsal Web Paketi - ₺10.000'den başlayan fiyatlarla",
+            "💼 Portföy Web Sitesi - ₺3.000'den başlayan fiyatlarla",
+            "🏥 Sağlık & Klinik Paketi - ₺6.500'den başlayan fiyatlarla",
+            "🍽️ Restoran & Yemek Sipariş - ₺7.500'den başlayan fiyatlarla"
+        ];
         
-        setTimeout(() => this.redirectToPage('portfolio'), 4000);
-        return response + "\n\n🎨 4 saniye sonra portfolyo sayfasına yönlendiriyorum!";
+        const response = "Sizin için hazırladığım web tasarım paketlerimiz:\n\n" + 
+            packages.join('\n') + 
+            "\n\n💡 Her paket özelleştirilebilir ve ihtiyacınıza göre düzenlenebilir!";
+        
+        setTimeout(() => this.redirectToPage('packages'), 4000);
+        return response + "\n\n🎨 4 saniye sonra paketler sayfasına yönlendiriyorum!";
     }
 
     handlePricing() {
