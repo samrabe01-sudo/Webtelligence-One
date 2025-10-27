@@ -1583,13 +1583,7 @@ class AIAssistant {
             messageDiv.innerHTML = `
                 <div class="message-avatar">
                     <div class="assistant-avatar-tiny">
-                        <div class="avatar-face-tiny">
-                            <div class="avatar-eyes-tiny">
-                                <div class="eye-tiny left-eye-tiny"></div>
-                                <div class="eye-tiny right-eye-tiny"></div>
-                            </div>
-                            <div class="avatar-mouth-tiny"></div>
-                        </div>
+                        <img src="images/Gemini_Generated_Image_1risk01risk01ris.png" alt="AI" class="assistant-avatar-img-tiny" decoding="async" />
                     </div>
                 </div>
                 <div class="message-content">
