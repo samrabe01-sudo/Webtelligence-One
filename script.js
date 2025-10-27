@@ -1973,128 +1973,194 @@ console.log('⚡ PWA & Performance Optimizations Active!');
 // AUTH MODALS (Login & Signup) - Interactive
 // ==========================================
 (function(){
-    const openLoginBtn = document.getElementById('openLogin');
-    const openSignupBtn = document.getElementById('openSignup');
-    const loginModal = document.getElementById('modal-login');
-    const signupModal = document.getElementById('modal-signup');
-
-    if(!openLoginBtn || !openSignupBtn || !loginModal || !signupModal){
-        return; // Modals not present on this page
+    'use strict';
+    
+    // Wait for DOM to be fully loaded
+    if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', initAuthModals);
+    } else {
+        initAuthModals();
     }
+    
+    function initAuthModals() {
+        const loginModal = document.getElementById('modal-login');
+        const signupModal = document.getElementById('modal-signup');
 
-    const usernameRe = /^[A-Za-z0-9_\.\-]{3,}$/;
-    const emailRe = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
-    const passwordRe = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).{8,}$/;
-
-    const open = (which) => {
-        const m = which === 'login' ? loginModal : signupModal;
-        m.classList.add('active');
-        m.setAttribute('aria-hidden','false');
-        // focus first input
-        const firstInput = m.querySelector('input');
-        setTimeout(()=> firstInput && firstInput.focus(), 50);
-    };
-    const close = (which) => {
-        const m = which === 'login' ? loginModal : signupModal;
-        m.classList.remove('active');
-        m.setAttribute('aria-hidden','true');
-    };
-
-    openLoginBtn.addEventListener('click', ()=> open('login'));
-    openSignupBtn.addEventListener('click', ()=> open('signup'));
-
-    // Overlay click closes
-    [loginModal, signupModal].forEach(m => {
-        m.addEventListener('click', (e)=>{ if(e.target === m) m.classList.remove('active'); });
-        const closeBtn = m.querySelector('.auth-close');
-        closeBtn && closeBtn.addEventListener('click', ()=> m.classList.remove('active'));
-    });
-
-    // Escape closes
-    document.addEventListener('keydown', (e)=>{
-        if(e.key === 'Escape'){
-            loginModal.classList.remove('active');
-            signupModal.classList.remove('active');
+        if(!loginModal || !signupModal){
+            console.log('Auth modals not found on this page');
+            return;
         }
-    });
 
-    // Toggle visibility buttons
-    document.querySelectorAll('.auth-toggle').forEach(btn => {
-        btn.addEventListener('click', ()=>{
-            const id = btn.getAttribute('data-toggle');
-            const input = document.getElementById(id);
-            const isPwd = input.type === 'password';
-            input.type = isPwd ? 'text' : 'password';
-            btn.textContent = isPwd ? 'Gizle' : 'Göster';
-            input.focus();
+        console.log('Auth modals found, initializing...');
+
+        const usernameRe = /^[A-Za-z0-9_\.\-]{3,}$/;
+        const emailRe = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
+        const passwordRe = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).{8,}$/;
+
+        const openAuthModal = (which) => {
+            const m = which === 'login' ? loginModal : signupModal;
+            m.classList.add('active');
+            m.setAttribute('aria-hidden','false');
+            document.body.style.overflow = 'hidden';
+            const firstInput = m.querySelector('input');
+            setTimeout(()=> firstInput && firstInput.focus(), 100);
+            console.log(`${which} modal opened`);
+        };
+        
+        const closeAuthModal = (which) => {
+            const m = which === 'login' ? loginModal : signupModal;
+            m.classList.remove('active');
+            m.setAttribute('aria-hidden','true');
+            document.body.style.overflow = '';
+            console.log(`${which} modal closed`);
+        };
+
+        // Attach click handlers to ALL login/signup buttons
+        const allLoginButtons = document.querySelectorAll('#openLogin, .btn-auth--login');
+        const allSignupButtons = document.querySelectorAll('#openSignup, .btn-auth--signup');
+        
+        console.log(`Found ${allLoginButtons.length} login buttons and ${allSignupButtons.length} signup buttons`);
+        
+        allLoginButtons.forEach((btn, index) => {
+            console.log(`Attaching listener to login button ${index + 1}`, btn);
+            btn.addEventListener('click', (e)=> {
+                e.preventDefault();
+                e.stopPropagation();
+                console.log('Login button clicked');
+                openAuthModal('login');
+            });
         });
-    });
+        
+        allSignupButtons.forEach((btn, index) => {
+            console.log(`Attaching listener to signup button ${index + 1}`, btn);
+            btn.addEventListener('click', (e)=> {
+                e.preventDefault();
+                e.stopPropagation();
+                console.log('Signup button clicked');
+                openAuthModal('signup');
+            });
+        });
 
-    // Switch links (login <-> signup)
-    document.querySelectorAll('[data-switch="login"]').forEach(a => a.addEventListener('click', (e)=>{
-        e.preventDefault(); close('signup'); open('login');
-    }));
-    document.querySelectorAll('[data-switch="signup"]').forEach(a => a.addEventListener('click', (e)=>{
-        e.preventDefault(); close('login'); open('signup');
-    }));
+        // Overlay click closes
+        [loginModal, signupModal].forEach(m => {
+            m.addEventListener('click', (e)=>{ 
+                if(e.target === m) {
+                    m.classList.remove('active');
+                    document.body.style.overflow = '';
+                }
+            });
+            const closeBtn = m.querySelector('.auth-close');
+            closeBtn && closeBtn.addEventListener('click', ()=> {
+                m.classList.remove('active');
+                document.body.style.overflow = '';
+            });
+        });
 
-    // Login validation
-    const loginForm = document.getElementById('modalLoginForm');
-    const loginId = document.getElementById('login-identifier');
-    const loginPwd = document.getElementById('login-password');
-    const loginIdErr = document.getElementById('login-identifier-err');
-    const loginPwdErr = document.getElementById('login-password-err');
+        // Escape closes
+        document.addEventListener('keydown', (e)=>{
+            if(e.key === 'Escape'){
+                if(loginModal.classList.contains('active') || signupModal.classList.contains('active')){
+                    loginModal.classList.remove('active');
+                    signupModal.classList.remove('active');
+                    document.body.style.overflow = '';
+                }
+            }
+        });
 
-    function setErr(input, el, msg){ input.classList.add('error'); el.textContent = msg; }
-    function clrErr(input, el){ input.classList.remove('error'); el.textContent = ''; }
+        // Toggle visibility buttons
+        document.querySelectorAll('.auth-toggle').forEach(btn => {
+            btn.addEventListener('click', ()=>{
+                const id = btn.getAttribute('data-toggle');
+                const input = document.getElementById(id);
+                if(input){
+                    const isPwd = input.type === 'password';
+                    input.type = isPwd ? 'text' : 'password';
+                    btn.textContent = isPwd ? 'Gizle' : 'Göster';
+                    input.focus();
+                }
+            });
+        });
 
-    loginForm.addEventListener('submit', (e)=>{
-        e.preventDefault();
-        let ok = true;
-        const idVal = loginId.value.trim();
-        if(!idVal){ setErr(loginId, loginIdErr, 'Bu alan zorunludur.'); ok = false; }
-        else if(!(idVal.includes('@') ? emailRe.test(idVal) : usernameRe.test(idVal))){
-            setErr(loginId, loginIdErr, 'Geçerli bir e-posta veya kullanıcı adı girin.'); ok = false;
-        } else { clrErr(loginId, loginIdErr); }
+        // Switch links (login <-> signup)
+        document.querySelectorAll('[data-switch="login"]').forEach(a => a.addEventListener('click', (e)=>{
+            e.preventDefault(); closeAuthModal('signup'); openAuthModal('login');
+        }));
+        document.querySelectorAll('[data-switch="signup"]').forEach(a => a.addEventListener('click', (e)=>{
+            e.preventDefault(); closeAuthModal('login'); openAuthModal('signup');
+        }));
 
-        if(!loginPwd.value){ setErr(loginPwd, loginPwdErr, 'Şifre zorunludur.'); ok = false; }
-        else { clrErr(loginPwd, loginPwdErr); }
+        // Login validation
+        const loginForm = document.getElementById('modalLoginForm');
+        const loginId = document.getElementById('login-identifier');
+        const loginPwd = document.getElementById('login-password');
+        const loginIdErr = document.getElementById('login-identifier-err');
+        const loginPwdErr = document.getElementById('login-password-err');
 
-        if(!ok) return;
-        console.log('Demo modal login payload', { identifier: idVal });
-        showNotification('Giriş başarılı (demo).', 'success');
-        close('login');
-    });
+        function setErr(input, el, msg){ 
+            if(input) input.classList.add('error'); 
+            if(el) el.textContent = msg; 
+        }
+        function clrErr(input, el){ 
+            if(input) input.classList.remove('error'); 
+            if(el) el.textContent = ''; 
+        }
 
-    // Signup validation
-    const suForm = document.getElementById('modalSignupForm');
-    const suUsername = document.getElementById('su-username');
-    const suEmail = document.getElementById('su-email');
-    const suPwd = document.getElementById('su-password');
-    const suCnf = document.getElementById('su-confirm');
-    const suUErr = document.getElementById('su-username-err');
-    const suEErr = document.getElementById('su-email-err');
-    const suPErr = document.getElementById('su-password-err');
-    const suCErr = document.getElementById('su-confirm-err');
+        if(loginForm){
+            loginForm.addEventListener('submit', (e)=>{
+                e.preventDefault();
+                let ok = true;
+                const idVal = loginId.value.trim();
+                if(!idVal){ setErr(loginId, loginIdErr, 'Bu alan zorunludur.'); ok = false; }
+                else if(!(idVal.includes('@') ? emailRe.test(idVal) : usernameRe.test(idVal))){
+                    setErr(loginId, loginIdErr, 'Geçerli bir e-posta veya kullanıcı adı girin.'); ok = false;
+                } else { clrErr(loginId, loginIdErr); }
 
-    suForm.addEventListener('submit', (e)=>{
-        e.preventDefault();
-        let ok = true;
-        if(!suUsername.value.trim()) { setErr(suUsername, suUErr, 'Kullanıcı adı zorunludur.'); ok=false; }
-        else if(!usernameRe.test(suUsername.value.trim())){ setErr(suUsername, suUErr, 'Min 3 karakter, harf/rakam.'); ok=false; } else { clrErr(suUsername, suUErr); }
+                if(!loginPwd.value){ setErr(loginPwd, loginPwdErr, 'Şifre zorunludur.'); ok = false; }
+                else { clrErr(loginPwd, loginPwdErr); }
 
-        if(!suEmail.value.trim()){ setErr(suEmail, suEErr, 'E-posta zorunludur.'); ok=false; }
-        else if(!emailRe.test(suEmail.value.trim())){ setErr(suEmail, suEErr, 'Geçerli e-posta girin.'); ok=false; } else { clrErr(suEmail, suEErr); }
+                if(!ok) return;
+                console.log('Demo modal login payload', { identifier: idVal });
+                showNotification('✅ Giriş başarılı (demo mode).', 'success');
+                closeAuthModal('login');
+                loginForm.reset();
+            });
+        }
 
-        if(!suPwd.value){ setErr(suPwd, suPErr, 'Şifre zorunludur.'); ok=false; }
-        else if(!passwordRe.test(suPwd.value)){ setErr(suPwd, suPErr, '8+ karakter, 1 büyük, 1 küçük, 1 rakam.'); ok=false; } else { clrErr(suPwd, suPErr); }
+        // Signup validation
+        const suForm = document.getElementById('modalSignupForm');
+        const suUsername = document.getElementById('su-username');
+        const suEmail = document.getElementById('su-email');
+        const suPwd = document.getElementById('su-password');
+        const suCnf = document.getElementById('su-confirm');
+        const suUErr = document.getElementById('su-username-err');
+        const suEErr = document.getElementById('su-email-err');
+        const suPErr = document.getElementById('su-password-err');
+        const suCErr = document.getElementById('su-confirm-err');
 
-        if(!suCnf.value){ setErr(suCnf, suCErr, 'Şifre tekrar zorunlu.'); ok=false; }
-        else if(suCnf.value !== suPwd.value){ setErr(suCnf, suCErr, 'Şifreler eşleşmiyor.'); ok=false; } else { clrErr(suCnf, suCErr); }
+        if(suForm){
+            suForm.addEventListener('submit', (e)=>{
+                e.preventDefault();
+                let ok = true;
+                if(!suUsername.value.trim()) { setErr(suUsername, suUErr, 'Kullanıcı adı zorunludur.'); ok=false; }
+                else if(!usernameRe.test(suUsername.value.trim())){ setErr(suUsername, suUErr, 'Min 3 karakter, harf/rakam.'); ok=false; } else { clrErr(suUsername, suUErr); }
 
-        if(!ok) return;
-        console.log('Demo modal signup payload', { username: suUsername.value.trim(), email: suEmail.value.trim() });
-        showNotification('Kaydınız alındı (demo).', 'success');
-        close('signup');
-    });
+                if(!suEmail.value.trim()){ setErr(suEmail, suEErr, 'E-posta zorunludur.'); ok=false; }
+                else if(!emailRe.test(suEmail.value.trim())){ setErr(suEmail, suEErr, 'Geçerli e-posta girin.'); ok=false; } else { clrErr(suEmail, suEErr); }
+
+                if(!suPwd.value){ setErr(suPwd, suPErr, 'Şifre zorunludur.'); ok=false; }
+                else if(!passwordRe.test(suPwd.value)){ setErr(suPwd, suPErr, '8+ karakter, 1 büyük, 1 küçük, 1 rakam.'); ok=false; } else { clrErr(suPwd, suPErr); }
+
+                if(!suCnf.value){ setErr(suCnf, suCErr, 'Şifre tekrar zorunlu.'); ok=false; }
+                else if(suCnf.value !== suPwd.value){ setErr(suCnf, suCErr, 'Şifreler eşleşmiyor.'); ok=false; } else { clrErr(suCnf, suCErr); }
+
+                if(!ok) return;
+                console.log('Demo modal signup payload', { username: suUsername.value.trim(), email: suEmail.value.trim() });
+                showNotification('🎉 Kaydınız alındı (demo mode).', 'success');
+                closeAuthModal('signup');
+                suForm.reset();
+            });
+        }
+        
+        console.log('Auth modal initialization complete');
+    }
 })();
