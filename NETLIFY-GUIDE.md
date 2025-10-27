@@ -96,3 +96,29 @@
 4. **Analytics:** Google Analytics ekleyin
 
 Bu kombinasyon profesyonel ve güçlü bir web sitesi sunar!
+
+---
+
+## 🔀 Netlify'de /api/* Proxy (Backend farklı hostta ise)
+
+Eğer backend'iniz farklı bir hostta (örn: `https://api.mexsuweb.com`) çalışıyorsa, Netlify ile frontend üzerinden `/api/*` isteklerini proxy'leyebilirsiniz.
+
+### Seçenek 1: `_redirects` dosyası
+
+Site köküne `_redirects` ekleyin:
+
+```
+/api/* https://api.mexsuweb.com/:splat 200
+```
+
+### Seçenek 2: `netlify.toml`
+
+```toml
+[[redirects]]
+  from = "/api/*"
+  to = "https://api.mexsuweb.com/:splat"
+  status = 200
+  force = true
+```
+
+> Not: Backend domain'i TLS/SSL ile çalışmalı. Gerekirse Netlify site ayarlarında Custom Domain ve SSL yapılandırmasını tamamlayın.

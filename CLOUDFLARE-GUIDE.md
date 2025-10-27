@@ -47,3 +47,51 @@
 - **Önce:** 3-4 saniye yüklenme
 - **Sonra:** 1-2 saniye yüklenme
 - Mobilde daha da hızlı
+
+---
+
+## 🔀 /api/* Proxy (Cloudflare Workers + Routes)
+
+Statik site (GitHub Pages/Netlify) + ayrı bir Node.js backend kullanıyorsanız, Cloudflare ile aynı domain altında API yayınlayabilirsiniz. Amaç: `https://www.mexsuweb.com/api/*` isteklerini backend'inize iletmek.
+
+### 1) Worker Script (proxy)
+
+Bu repo içinde örnek worker dosyası hazır: `cloudflare/worker-api-proxy.js`
+
+Özeti: `/api/*` isteklerini `env.TARGET_API_ORIGIN` değişkenine (örn: `https://api.mexsuweb.com`) proxy'ler.
+
+### 2) Wrangler ile deploy (opsiyonel)
+
+wrangler.toml örneği:
+
+```toml
+name = "mexsuweb-api-proxy"
+main = "cloudflare/worker-api-proxy.js"
+compatibility_date = "2024-11-01"
+
+[vars]
+TARGET_API_ORIGIN = "https://api.mexsuweb.com"
+
+routes = [
+	{ pattern = "www.mexsuweb.com/api/*", zone_name = "mexsuweb.com" }
+]
+```
+
+CLI:
+
+```bash
+wrangler login
+wrangler deploy
+```
+
+### 3) Cloudflare Dashboard üzerinden (no-code)
+1. Workers & Pages > Workers > Create Worker (Quick edit)
+2. `cloudflare/worker-api-proxy.js` içeriğini kopyalayın
+3. Settings > Variables > `TARGET_API_ORIGIN = https://api.mexsuweb.com`
+4. Triggers > Routes > Add Route: `www.mexsuweb.com/api/*` (Zone: mexsuweb.com)
+5. Kaydedin; anında aktif olur
+
+### 4) DNS
+Backend'iniz için (örn. Render) `api.mexsuweb.com` CNAME kaydı oluşturun; Render'ın verdiği hosta yönlendirin.
+
+> Avantaj: Frontend kodu `/api/...` kullanmaya devam eder; CORS/çapraz origin sorunları minimuma iner.
