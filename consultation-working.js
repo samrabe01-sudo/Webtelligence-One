@@ -512,7 +512,7 @@
             brief += `8. EK NOTLAR: ${contactInfo.notes || 'Yok'}\n\n`;
             
             brief += '==========================================\n';
-            brief += 'webtelligence.com - Mert Yüksel\n';
+            brief += 'mexsuweb.com - Mert Yüksel\n';
             
             return brief;
         }

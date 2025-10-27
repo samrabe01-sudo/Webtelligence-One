@@ -588,7 +588,7 @@ ${this.answers.additionalNotes || 'Yok'}
 ============================
 Bu brief Mert Yüksel tarafından hazırlanmıştır.
 İletişim: mertyuksll@gmail.com
-Web: webtelligence.com
+Web: mexsuweb.com
 `;
     }
 }

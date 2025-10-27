@@ -1,5 +1,5 @@
-# Webtelligence Robot Kuralları
-# Website: https://webtelligence.com
+# Mexsuweb Robot Kuralları
+# Website: https://mexsuweb.com
 # Güncelleme: 27 Ekim 2025
 
 # Tüm robotlar için genel kurallar
@@ -22,7 +22,7 @@ Disallow: /*.sh
 Disallow: /*.md
 
 # Sitemap konumu
-Sitemap: https://webtelligence.com/sitemap.xml
+Sitemap: https://mexsuweb.com/sitemap.xml
 
 # Google Bot için özel kurallar
 User-agent: Googlebot

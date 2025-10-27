@@ -188,7 +188,7 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 
     // Track External Links
-    const externalLinks = document.querySelectorAll('a[href^="http"]:not([href*="webtelligence.com"])');
+    const externalLinks = document.querySelectorAll('a[href^="http"]:not([href*="mexsuweb.com"])');
     externalLinks.forEach(link => {
         link.addEventListener('click', function() {
             Analytics.trackExternalLink(this.href, this.textContent);
