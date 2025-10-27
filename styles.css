@@ -360,6 +360,26 @@ img[data-src]:not(.lazy-loaded) {
     box-shadow: 0 4px 12px rgba(108, 92, 231, 0.2);
 }
 
+/* Auth CTAs in nav: color-tuned hovers */
+.nav-link.login-cta::before {
+    background: linear-gradient(135deg, #2ea0ff 0%, #007bff 100%);
+}
+.nav-link.signup-cta::before {
+    background: linear-gradient(135deg, #22c55e 0%, #16a34a 100%);
+}
+
+/* Small helper line under hero for auth links */
+.auth-cta-line{
+    margin-top: 8px;
+    color: #64748b;
+    font-size: 14px;
+    text-align: center;
+}
+.auth-cta-line a{ text-decoration: none; font-weight: 600; }
+.auth-cta-line a.login{ color: #007bff; }
+.auth-cta-line a.signup{ color: #16a34a; }
+.auth-cta-line a:hover{ text-decoration: underline; }
+
 /* Navbar Search Button */
 .nav-search-btn {
     width: 40px;
