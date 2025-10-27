@@ -5,6 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Admin Dashboard | Webtelligence</title>
   <link rel="stylesheet" href="./admin.css">
+  <script src="./admin-config.js"></script>
 </head>
 <body>
   <header>
@@ -37,11 +38,12 @@
     if(!token){ location.href = './index.html'; }
     document.getElementById('y').textContent = new Date().getFullYear();
 
+    const API_BASE = (typeof window !== 'undefined' && window.API_BASE) ? window.API_BASE : '';
     async function loadUsers(){
       const tbody = document.querySelector('#usersTable tbody');
       tbody.innerHTML = '<tr><td colspan="4" class="muted">Yükleniyor...</td></tr>';
       try{
-        const res = await fetch('/api/admin/users', {
+        const res = await fetch(API_BASE + '/api/admin/users', {
           headers: { Authorization: 'Bearer ' + token }
         });
         if(!res.ok){ throw new Error('Kullanıcılar alınamadı'); }

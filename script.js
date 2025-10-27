@@ -2105,6 +2105,8 @@ console.log('⚡ PWA & Performance Optimizations Active!');
             if(el) el.textContent = ''; 
         }
 
+        const API_BASE = (typeof window !== 'undefined' && window.API_BASE) ? window.API_BASE : '';
+
         if(loginForm){
             loginForm.addEventListener('submit', async (e)=>{
                 e.preventDefault();
@@ -2120,7 +2122,7 @@ console.log('⚡ PWA & Performance Optimizations Active!');
 
                 if(!ok) return;
                 try {
-                    const res = await fetch('/api/public/login', {
+                    const res = await fetch(API_BASE + '/api/public/login', {
                         method: 'POST',
                         headers: { 'Content-Type': 'application/json' },
                         body: JSON.stringify({ email: idVal, password: loginPwd.value })
@@ -2169,7 +2171,7 @@ console.log('⚡ PWA & Performance Optimizations Active!');
 
                 if(!ok) return;
                 try {
-                    const res = await fetch('/api/public/register', {
+                    const res = await fetch(API_BASE + '/api/public/register', {
                         method: 'POST',
                         headers: { 'Content-Type': 'application/json' },
                         body: JSON.stringify({ email: suEmail.value.trim(), password: suPwd.value, username: suUsername.value.trim() })

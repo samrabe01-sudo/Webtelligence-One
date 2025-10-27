@@ -5,6 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Kullanıcı Detayı | Webtelligence</title>
   <link rel="stylesheet" href="./admin.css">
+  <script src="./admin-config.js"></script>
 </head>
 <body>
   <header>
@@ -45,10 +46,11 @@
       document.getElementById('userInfo').innerHTML = '<span style="color:#fca5a5">Kullanıcı ID bulunamadı.</span>';
     }
 
+    const API_BASE = (typeof window !== 'undefined' && window.API_BASE) ? window.API_BASE : '';
     async function loadUser(){
       const infoEl = document.getElementById('userInfo');
       try{
-        const res = await fetch(`/api/admin/users/${id}`,{ headers:{ Authorization: 'Bearer ' + token }});
+        const res = await fetch(`${API_BASE}/api/admin/users/${id}`,{ headers:{ Authorization: 'Bearer ' + token }});
         if(!res.ok){ throw new Error('Kullanıcı bilgileri alınamadı'); }
         const u = await res.json();
         infoEl.innerHTML = `
@@ -67,7 +69,7 @@
       const tbody = document.querySelector('#activityTable tbody');
       tbody.innerHTML = '<tr><td colspan="3" class="muted">Yükleniyor...</td></tr>';
       try{
-        const res = await fetch(`/api/admin/activity/${id}`,{ headers:{ Authorization: 'Bearer ' + token }});
+        const res = await fetch(`${API_BASE}/api/admin/activity/${id}`,{ headers:{ Authorization: 'Bearer ' + token }});
         if(!res.ok){ throw new Error('Aktivite alınamadı'); }
         const rows = await res.json();
         if(!rows.length){
