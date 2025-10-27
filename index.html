@@ -188,10 +188,15 @@
                 <li><a href="#packages" class="nav-link">Paketler</a></li>
                 <li><a href="#services" class="nav-link">Hizmetler</a></li>
                 <li><a href="#contact" class="nav-link">İletişim</a></li>
-                <!-- Auth CTA Links -->
-                <li><a href="login.html" class="nav-link login-cta" aria-label="Giriş Yap sayfası">Giriş Yap</a></li>
-                <li><a href="signup.html" class="nav-link signup-cta" aria-label="Kaydol sayfası">Kaydol</a></li>
+                <!-- Auth links for mobile menu -->
+                <li class="nav-auth-inline"><a href="login.html" class="nav-link login-cta" aria-label="Giriş Yap sayfası">Giriş Yap</a></li>
+                <li class="nav-auth-inline"><a href="signup.html" class="nav-link signup-cta" aria-label="Kaydol sayfası">Kaydol</a></li>
             </ul>
+            <!-- Desktop Auth CTA Group -->
+            <div class="nav-auth-group">
+                <button id="openLogin" class="btn-auth btn-auth--login" aria-haspopup="dialog" aria-controls="modal-login">Giriş Yap</button>
+                <button id="openSignup" class="btn-auth btn-auth--signup" aria-haspopup="dialog" aria-controls="modal-signup">Kaydol</button>
+            </div>
             <div class="hamburger" id="hamburger">
                 <span></span>
                 <span></span>
@@ -1634,5 +1639,55 @@
             deferredPrompt = null;
         });
     </script>
+
+    <!-- Auth Modals -->
+    <div id="modal-login" class="auth-modal-overlay" aria-hidden="true">
+        <div class="auth-modal" role="dialog" aria-modal="true" aria-labelledby="modalLoginTitle">
+            <button class="auth-close" data-close="login" aria-label="Kapat">×</button>
+            <h2 id="modalLoginTitle">Giriş Yap</h2>
+            <form id="modalLoginForm" class="auth-form" novalidate>
+                <label class="auth-label" for="login-identifier">E-posta Adresi veya Kullanıcı Adı</label>
+                <input id="login-identifier" class="auth-input" type="text" required placeholder="ornek@domain.com veya kullanici_adi" />
+                <div class="auth-error" id="login-identifier-err"></div>
+                <label class="auth-label" for="login-password">Şifre</label>
+                <div class="auth-input-wrap">
+                    <input id="login-password" class="auth-input" type="password" required placeholder="Şifreniz" />
+                    <button type="button" class="auth-toggle" data-toggle="login-password">Göster</button>
+                </div>
+                <div class="auth-error" id="login-password-err"></div>
+                <button type="submit" class="btn-auth btn-auth--primary">Giriş Yap</button>
+                <p class="auth-alt">Hesabın yok mu? <a class="link-signup" href="#" data-switch="signup">Kaydol</a></p>
+            </form>
+        </div>
+    </div>
+
+    <div id="modal-signup" class="auth-modal-overlay" aria-hidden="true">
+        <div class="auth-modal" role="dialog" aria-modal="true" aria-labelledby="modalSignupTitle">
+            <button class="auth-close" data-close="signup" aria-label="Kapat">×</button>
+            <h2 id="modalSignupTitle">Kaydol</h2>
+            <form id="modalSignupForm" class="auth-form" novalidate>
+                <label class="auth-label" for="su-username">Kullanıcı Adı</label>
+                <input id="su-username" class="auth-input" type="text" required placeholder="kullanici_adiniz" />
+                <div class="auth-error" id="su-username-err"></div>
+                <label class="auth-label" for="su-email">E-posta</label>
+                <input id="su-email" class="auth-input" type="email" required placeholder="ornek@domain.com" />
+                <div class="auth-error" id="su-email-err"></div>
+                <label class="auth-label" for="su-password">Şifre</label>
+                <div class="auth-input-wrap">
+                    <input id="su-password" class="auth-input" type="password" required placeholder="En az 8 karakter" />
+                    <button type="button" class="auth-toggle" data-toggle="su-password">Göster</button>
+                </div>
+                <div class="auth-error" id="su-password-err"></div>
+                <label class="auth-label" for="su-confirm">Şifre Tekrarı</label>
+                <div class="auth-input-wrap">
+                    <input id="su-confirm" class="auth-input" type="password" required placeholder="Şifrenizi tekrar girin" />
+                    <button type="button" class="auth-toggle" data-toggle="su-confirm">Göster</button>
+                </div>
+                <div class="auth-error" id="su-confirm-err"></div>
+                <button type="submit" class="btn-auth btn-auth--success">Kaydol</button>
+                <p class="auth-alt">Zaten hesabın var mı? <a class="link-login" href="#" data-switch="login">Giriş Yap</a></p>
+            </form>
+        </div>
+    </div>
 </body>
 </html>

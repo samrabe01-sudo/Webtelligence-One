@@ -1968,3 +1968,133 @@ console.log('💼 Professional Web Design Consultation Available!');
 console.log('🌐 Ready to create amazing web experiences!');
 console.log('🤖 AI Assistant Ready for User Interactions!');
 console.log('⚡ PWA & Performance Optimizations Active!');
+
+// ==========================================
+// AUTH MODALS (Login & Signup) - Interactive
+// ==========================================
+(function(){
+    const openLoginBtn = document.getElementById('openLogin');
+    const openSignupBtn = document.getElementById('openSignup');
+    const loginModal = document.getElementById('modal-login');
+    const signupModal = document.getElementById('modal-signup');
+
+    if(!openLoginBtn || !openSignupBtn || !loginModal || !signupModal){
+        return; // Modals not present on this page
+    }
+
+    const usernameRe = /^[A-Za-z0-9_\.\-]{3,}$/;
+    const emailRe = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
+    const passwordRe = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).{8,}$/;
+
+    const open = (which) => {
+        const m = which === 'login' ? loginModal : signupModal;
+        m.classList.add('active');
+        m.setAttribute('aria-hidden','false');
+        // focus first input
+        const firstInput = m.querySelector('input');
+        setTimeout(()=> firstInput && firstInput.focus(), 50);
+    };
+    const close = (which) => {
+        const m = which === 'login' ? loginModal : signupModal;
+        m.classList.remove('active');
+        m.setAttribute('aria-hidden','true');
+    };
+
+    openLoginBtn.addEventListener('click', ()=> open('login'));
+    openSignupBtn.addEventListener('click', ()=> open('signup'));
+
+    // Overlay click closes
+    [loginModal, signupModal].forEach(m => {
+        m.addEventListener('click', (e)=>{ if(e.target === m) m.classList.remove('active'); });
+        const closeBtn = m.querySelector('.auth-close');
+        closeBtn && closeBtn.addEventListener('click', ()=> m.classList.remove('active'));
+    });
+
+    // Escape closes
+    document.addEventListener('keydown', (e)=>{
+        if(e.key === 'Escape'){
+            loginModal.classList.remove('active');
+            signupModal.classList.remove('active');
+        }
+    });
+
+    // Toggle visibility buttons
+    document.querySelectorAll('.auth-toggle').forEach(btn => {
+        btn.addEventListener('click', ()=>{
+            const id = btn.getAttribute('data-toggle');
+            const input = document.getElementById(id);
+            const isPwd = input.type === 'password';
+            input.type = isPwd ? 'text' : 'password';
+            btn.textContent = isPwd ? 'Gizle' : 'Göster';
+            input.focus();
+        });
+    });
+
+    // Switch links (login <-> signup)
+    document.querySelectorAll('[data-switch="login"]').forEach(a => a.addEventListener('click', (e)=>{
+        e.preventDefault(); close('signup'); open('login');
+    }));
+    document.querySelectorAll('[data-switch="signup"]').forEach(a => a.addEventListener('click', (e)=>{
+        e.preventDefault(); close('login'); open('signup');
+    }));
+
+    // Login validation
+    const loginForm = document.getElementById('modalLoginForm');
+    const loginId = document.getElementById('login-identifier');
+    const loginPwd = document.getElementById('login-password');
+    const loginIdErr = document.getElementById('login-identifier-err');
+    const loginPwdErr = document.getElementById('login-password-err');
+
+    function setErr(input, el, msg){ input.classList.add('error'); el.textContent = msg; }
+    function clrErr(input, el){ input.classList.remove('error'); el.textContent = ''; }
+
+    loginForm.addEventListener('submit', (e)=>{
+        e.preventDefault();
+        let ok = true;
+        const idVal = loginId.value.trim();
+        if(!idVal){ setErr(loginId, loginIdErr, 'Bu alan zorunludur.'); ok = false; }
+        else if(!(idVal.includes('@') ? emailRe.test(idVal) : usernameRe.test(idVal))){
+            setErr(loginId, loginIdErr, 'Geçerli bir e-posta veya kullanıcı adı girin.'); ok = false;
+        } else { clrErr(loginId, loginIdErr); }
+
+        if(!loginPwd.value){ setErr(loginPwd, loginPwdErr, 'Şifre zorunludur.'); ok = false; }
+        else { clrErr(loginPwd, loginPwdErr); }
+
+        if(!ok) return;
+        console.log('Demo modal login payload', { identifier: idVal });
+        showNotification('Giriş başarılı (demo).', 'success');
+        close('login');
+    });
+
+    // Signup validation
+    const suForm = document.getElementById('modalSignupForm');
+    const suUsername = document.getElementById('su-username');
+    const suEmail = document.getElementById('su-email');
+    const suPwd = document.getElementById('su-password');
+    const suCnf = document.getElementById('su-confirm');
+    const suUErr = document.getElementById('su-username-err');
+    const suEErr = document.getElementById('su-email-err');
+    const suPErr = document.getElementById('su-password-err');
+    const suCErr = document.getElementById('su-confirm-err');
+
+    suForm.addEventListener('submit', (e)=>{
+        e.preventDefault();
+        let ok = true;
+        if(!suUsername.value.trim()) { setErr(suUsername, suUErr, 'Kullanıcı adı zorunludur.'); ok=false; }
+        else if(!usernameRe.test(suUsername.value.trim())){ setErr(suUsername, suUErr, 'Min 3 karakter, harf/rakam.'); ok=false; } else { clrErr(suUsername, suUErr); }
+
+        if(!suEmail.value.trim()){ setErr(suEmail, suEErr, 'E-posta zorunludur.'); ok=false; }
+        else if(!emailRe.test(suEmail.value.trim())){ setErr(suEmail, suEErr, 'Geçerli e-posta girin.'); ok=false; } else { clrErr(suEmail, suEErr); }
+
+        if(!suPwd.value){ setErr(suPwd, suPErr, 'Şifre zorunludur.'); ok=false; }
+        else if(!passwordRe.test(suPwd.value)){ setErr(suPwd, suPErr, '8+ karakter, 1 büyük, 1 küçük, 1 rakam.'); ok=false; } else { clrErr(suPwd, suPErr); }
+
+        if(!suCnf.value){ setErr(suCnf, suCErr, 'Şifre tekrar zorunlu.'); ok=false; }
+        else if(suCnf.value !== suPwd.value){ setErr(suCnf, suCErr, 'Şifreler eşleşmiyor.'); ok=false; } else { clrErr(suCnf, suCErr); }
+
+        if(!ok) return;
+        console.log('Demo modal signup payload', { username: suUsername.value.trim(), email: suEmail.value.trim() });
+        showNotification('Kaydınız alındı (demo).', 'success');
+        close('signup');
+    });
+})();
