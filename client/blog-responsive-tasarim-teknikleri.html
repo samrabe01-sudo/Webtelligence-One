@@ -1,0 +1,780 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Responsive Web Tasarım: Mobile-First Yaklaşım Rehberi | Webtelligence</title>
+    <meta name="description" content="Modern responsive tasarım teknikleri, mobile-first stratejiler, CSS Grid, Flexbox ve breakpoint optimizasyonu için kapsamlı rehber.">
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="blog.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        .blog-post-hero {
+            background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+            padding: 120px 20px 80px;
+            text-align: center;
+            color: white;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .blog-post-hero::before {
+            content: '';
+            position: absolute;
+            width: 200%;
+            height: 200%;
+            background: repeating-linear-gradient(
+                45deg,
+                transparent,
+                transparent 10px,
+                rgba(255,255,255,0.1) 10px,
+                rgba(255,255,255,0.1) 20px
+            );
+            animation: slide 20s linear infinite;
+        }
+        
+        @keyframes slide {
+            0% { transform: translate(-50%, -50%); }
+            100% { transform: translate(0%, 0%); }
+        }
+        
+        .blog-post-hero h1 {
+            font-size: 3rem;
+            margin-bottom: 20px;
+            position: relative;
+            z-index: 1;
+            animation: fadeInUp 0.8s ease;
+        }
+        
+        .blog-post-meta {
+            display: flex;
+            gap: 30px;
+            justify-content: center;
+            align-items: center;
+            margin-top: 30px;
+            position: relative;
+            z-index: 1;
+        }
+        
+        .blog-post-content {
+            max-width: 900px;
+            margin: -60px auto 60px;
+            background: white;
+            border-radius: 20px;
+            padding: 60px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.1);
+            position: relative;
+        }
+        
+        .blog-post-content h2 {
+            color: #4facfe;
+            font-size: 2rem;
+            margin: 50px 0 20px;
+            padding-bottom: 15px;
+            border-bottom: 3px solid #00f2fe;
+        }
+        
+        .blog-post-content h3 {
+            color: #00f2fe;
+            font-size: 1.5rem;
+            margin: 35px 0 15px;
+        }
+        
+        .blog-post-content p {
+            line-height: 1.9;
+            margin-bottom: 20px;
+            color: #333;
+            font-size: 1.1rem;
+        }
+        
+        .device-mockup {
+            display: flex;
+            gap: 30px;
+            justify-content: center;
+            align-items: flex-end;
+            margin: 40px 0;
+            flex-wrap: wrap;
+        }
+        
+        .device {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            border-radius: 20px;
+            padding: 15px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.2);
+            transition: transform 0.3s ease;
+        }
+        
+        .device:hover {
+            transform: translateY(-10px);
+        }
+        
+        .device-screen {
+            background: white;
+            border-radius: 10px;
+            padding: 20px;
+            min-height: 200px;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+        
+        .device-desktop {
+            width: 400px;
+        }
+        
+        .device-tablet {
+            width: 250px;
+        }
+        
+        .device-mobile {
+            width: 150px;
+        }
+        
+        .device-label {
+            text-align: center;
+            color: white;
+            font-weight: bold;
+            margin-top: 10px;
+        }
+        
+        .breakpoint-card {
+            background: linear-gradient(135deg, #e0f7ff 0%, #b3e5fc 100%);
+            border-radius: 15px;
+            padding: 30px;
+            margin: 30px 0;
+            border-left: 5px solid #4facfe;
+            transition: all 0.3s ease;
+        }
+        
+        .breakpoint-card:hover {
+            transform: translateX(10px);
+            box-shadow: 0 10px 30px rgba(79, 172, 254, 0.2);
+        }
+        
+        .breakpoint-card h3 {
+            color: #4facfe;
+            margin-top: 0;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+        
+        .breakpoint-card h3 i {
+            font-size: 2rem;
+            color: #00f2fe;
+        }
+        
+        .code-example {
+            background: #1e1e1e;
+            color: #d4d4d4;
+            padding: 25px;
+            border-radius: 10px;
+            margin: 25px 0;
+            overflow-x: auto;
+            font-family: 'Courier New', monospace;
+            position: relative;
+            font-size: 0.95rem;
+            line-height: 1.6;
+        }
+        
+        .code-example::before {
+            content: 'CSS';
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background: #4facfe;
+            color: white;
+            padding: 3px 10px;
+            border-radius: 5px;
+            font-size: 0.75rem;
+            font-weight: bold;
+        }
+        
+        .code-comment { color: #6a9955; }
+        .code-property { color: #9cdcfe; }
+        .code-value { color: #ce9178; }
+        .code-selector { color: #d7ba7d; }
+        
+        .grid-demo {
+            background: linear-gradient(135deg, #ffeaa7, #fdcb6e);
+            padding: 30px;
+            border-radius: 15px;
+            margin: 30px 0;
+        }
+        
+        .grid-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+            gap: 15px;
+            margin-top: 20px;
+        }
+        
+        .grid-item {
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            text-align: center;
+            font-weight: bold;
+            color: #4facfe;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+        }
+        
+        .flexbox-demo {
+            background: linear-gradient(135deg, #a29bfe, #6c5ce7);
+            padding: 30px;
+            border-radius: 15px;
+            margin: 30px 0;
+            color: white;
+        }
+        
+        .flex-container {
+            display: flex;
+            gap: 15px;
+            flex-wrap: wrap;
+            justify-content: center;
+            margin-top: 20px;
+        }
+        
+        .flex-item {
+            background: rgba(255,255,255,0.2);
+            -webkit-backdrop-filter: blur(10px);
+            backdrop-filter: blur(10px);
+            padding: 20px 30px;
+            border-radius: 10px;
+            border: 2px solid rgba(255,255,255,0.3);
+        }
+        
+        .comparison-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 30px 0;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+        
+        .comparison-table th {
+            background: linear-gradient(135deg, #4facfe, #00f2fe);
+            color: white;
+            padding: 15px;
+            text-align: left;
+        }
+        
+        .comparison-table td {
+            padding: 15px;
+            border-bottom: 1px solid #eee;
+        }
+        
+        .comparison-table tr:hover {
+            background: #f5f5f5;
+        }
+        
+        .tip-box {
+            background: linear-gradient(135deg, #ffecd2, #fcb69f);
+            border-left: 5px solid #ff6b6b;
+            padding: 25px;
+            border-radius: 10px;
+            margin: 30px 0;
+        }
+        
+        .tip-box h4 {
+            color: #ff6b6b;
+            margin-top: 0;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .back-to-blog {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            background: linear-gradient(135deg, #4facfe, #00f2fe);
+            color: white;
+            padding: 12px 30px;
+            border-radius: 50px;
+            text-decoration: none;
+            margin-bottom: 30px;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        
+        .back-to-blog:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 30px rgba(79, 172, 254, 0.4);
+        }
+        
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .blog-post-hero h1 {
+                font-size: 2rem;
+            }
+            
+            .blog-post-content {
+                padding: 30px 20px;
+                margin: -40px 20px 40px;
+            }
+            
+            .device-mockup {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            .device-desktop, .device-tablet, .device-mobile {
+                width: 100%;
+                max-width: 300px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navbar -->
+    <nav class="navbar" id="navbar">
+        <div class="container">
+            <div class="logo">
+                <a href="index.html">Webtelligence</a>
+            </div>
+            <ul class="nav-menu" id="nav-menu">
+                <li><a href="index.html" class="nav-link">Ana Sayfa</a></li>
+                <li><a href="index.html#hakkimda" class="nav-link">Hakkımda</a></li>
+                <li><a href="blog.html" class="nav-link active">Blog</a></li>
+                <li><a href="index.html#danismanlik" class="nav-link">Danışmanlık</a></li>
+                <li><a href="index.html#portfolio" class="nav-link">Portfolio</a></li>
+                <li><a href="index.html#iletisim" class="nav-link">İletişim</a></li>
+            </ul>
+            <div class="hamburger" id="hamburger">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Blog Post Hero -->
+    <section class="blog-post-hero">
+        <h1>Responsive Web Tasarım: Mobile-First Yaklaşım</h1>
+        <div class="blog-post-meta">
+            <span><i class="fas fa-calendar"></i> 23 Ekim 2025</span>
+            <span><i class="fas fa-clock"></i> 14 dakika okuma</span>
+            <span><i class="fas fa-tag"></i> Responsive Design</span>
+        </div>
+    </section>
+
+    <!-- Blog Post Content -->
+    <main class="blog-post-content">
+        <a href="blog.html" class="back-to-blog">
+            <i class="fas fa-arrow-left"></i>
+            Blog Listesine Dön
+        </a>
+
+        <p class="lead">
+            2025'te web trafiğinin %75'i mobil cihazlardan geliyor. Responsive tasarım artık opsiyonel değil, zorunluluk! 
+            Bu rehberde, her ekran boyutunda mükemmel görünen web siteleri nasıl tasarlanır öğreneceksiniz.
+        </p>
+
+        <div class="device-mockup">
+            <div class="device device-mobile">
+                <div class="device-screen">
+                    <div class="device-screen-header"></div>
+                    <div class="device-screen-text device-screen-text-80"></div>
+                    <div class="device-screen-text device-screen-text-60"></div>
+                    <div class="device-screen-button"></div>
+                </div>
+                <div class="device-label"><i class="fas fa-mobile-alt"></i> Mobile</div>
+            </div>
+            <div class="device device-tablet">
+                <div class="device-screen">
+                    <div class="device-screen-header-lg"></div>
+                    <div class="device-screen-grid-2col">
+                        <div class="device-screen-grid-box"></div>
+                        <div class="device-screen-grid-box"></div>
+                    </div>
+                </div>
+                <div class="device-label"><i class="fas fa-tablet-alt"></i> Tablet</div>
+            </div>
+            <div class="device device-desktop">
+                <div class="device-screen">
+                    <div class="device-screen-header-xl"></div>
+                    <div class="device-screen-grid-2fr">
+                        <div>
+                            <div class="device-screen-content-60"></div>
+                            <div class="device-screen-content-60-no-margin"></div>
+                        </div>
+                        <div class="device-screen-sidebar"></div>
+                    </div>
+                </div>
+                <div class="device-label"><i class="fas fa-desktop"></i> Desktop</div>
+            </div>
+        </div>
+
+        <h2><i class="fas fa-mobile-alt"></i> Mobile-First Nedir ve Neden Önemlidir?</h2>
+
+        <p>
+            <strong>Mobile-First</strong>, web tasarımınıza mobil ekranlardan başlayıp, daha sonra tablet ve masaüstü için 
+            genişletme stratejisidir. Bu yaklaşımın birçok avantajı var:
+        </p>
+
+        <div class="tip-box">
+            <h4><i class="fas fa-rocket"></i> Mobile-First Avantajları</h4>
+            <ul class="list-spaced">
+                <li><strong>Performans:</strong> Mobil için optimize edilmiş kod, tüm cihazlarda hızlı çalışır</li>
+                <li><strong>Önceliklendirme:</strong> En önemli içeriği belirlemeye zorlar</li>
+                <li><strong>Progressive Enhancement:</strong> Temel deneyimden başlayıp, büyük ekranlarda zenginleştirir</li>
+                <li><strong>SEO:</strong> Google'ın mobile-first indexing stratejisine uyum</li>
+                <li><strong>Kullanıcı Odaklı:</strong> Çoğunluk mobil kullandığı için önce onları düşünün</li>
+            </ul>
+        </div>
+
+        <h2><i class="fas fa-ruler-horizontal"></i> Breakpoint Stratejisi</h2>
+
+        <p>
+            Breakpoint'ler, tasarımınızın farklı ekran boyutlarına adapte olduğu noktalardır. 
+            İşte 2025'in en yaygın kullanılan breakpoint'leri:
+        </p>
+
+        <div class="breakpoint-card">
+            <h3><i class="fas fa-mobile-alt"></i> Mobile (0-767px)</h3>
+            <p><strong>Cihazlar:</strong> iPhone, Android telefonlar, küçük cihazlar</p>
+            <p><strong>Strateji:</strong> Tek sütun layout, büyük touch target'lar (min 44px), hamburger menü</p>
+            <p><strong>Tipografi:</strong> 16-18px base font size, daha büyük line-height (1.6-1.8)</p>
+        </div>
+
+        <div class="breakpoint-card">
+            <h3><i class="fas fa-tablet-alt"></i> Tablet (768px-1023px)</h3>
+            <p><strong>Cihazlar:</strong> iPad, Android tabletler, küçük laptop'lar</p>
+            <p><strong>Strateji:</strong> 2 sütun layout, hybrid menü (bazı durumlarda tam, bazı durumlarda collapse)</p>
+            <p><strong>Tipografi:</strong> 16-17px base font size, orta line-height (1.7)</p>
+        </div>
+
+        <div class="breakpoint-card">
+            <h3><i class="fas fa-desktop"></i> Desktop (1024px+)</h3>
+            <p><strong>Cihazlar:</strong> Laptop'lar, masaüstü bilgisayarlar, büyük ekranlar</p>
+            <p><strong>Strateji:</strong> 3-4 sütun layout, tam navigasyon, hover efektleri</p>
+            <p><strong>Tipografi:</strong> 15-16px base font size, standart line-height (1.5-1.6)</p>
+        </div>
+
+        <div class="code-example">
+<span class="code-comment">/* Mobile-First CSS Örneği */</span>
+
+<span class="code-comment">/* Base styles - Mobile (0-767px) */</span>
+<span class="code-selector">.container</span> {
+    <span class="code-property">width</span>: <span class="code-value">100%</span>;
+    <span class="code-property">padding</span>: <span class="code-value">0 20px</span>;
+}
+
+<span class="code-selector">.grid</span> {
+    <span class="code-property">display</span>: <span class="code-value">grid</span>;
+    <span class="code-property">grid-template-columns</span>: <span class="code-value">1fr</span>; <span class="code-comment">/* Tek sütun */</span>
+    <span class="code-property">gap</span>: <span class="code-value">20px</span>;
+}
+
+<span class="code-comment">/* Tablet (768px ve üzeri) */</span>
+<span class="code-selector">@media (min-width: 768px)</span> {
+    <span class="code-selector">.container</span> {
+        <span class="code-property">max-width</span>: <span class="code-value">750px</span>;
+        <span class="code-property">margin</span>: <span class="code-value">0 auto</span>;
+    }
+    
+    <span class="code-selector">.grid</span> {
+        <span class="code-property">grid-template-columns</span>: <span class="code-value">repeat(2, 1fr)</span>; <span class="code-comment">/* 2 sütun */</span>
+    }
+}
+
+<span class="code-comment">/* Desktop (1024px ve üzeri) */</span>
+<span class="code-selector">@media (min-width: 1024px)</span> {
+    <span class="code-selector">.container</span> {
+        <span class="code-property">max-width</span>: <span class="code-value">1200px</span>;
+    }
+    
+    <span class="code-selector">.grid</span> {
+        <span class="code-property">grid-template-columns</span>: <span class="code-value">repeat(3, 1fr)</span>; <span class="code-comment">/* 3 sütun */</span>
+        <span class="code-property">gap</span>: <span class="code-value">30px</span>;
+    }
+}
+        </div>
+
+        <h2><i class="fas fa-th"></i> CSS Grid ile Responsive Layout</h2>
+
+        <p>
+            CSS Grid, responsive tasarım için en güçlü araçlardan biri. <code>auto-fit</code> ve <code>minmax()</code> 
+            kombinasyonu ile breakpoint yazmadan responsive layout oluşturabilirsiniz!
+        </p>
+
+        <div class="grid-demo">
+            <h3 class="demo-title"><i class="fas fa-th-large"></i> Auto-Responsive Grid Demo</h3>
+            <div class="grid-container">
+                <div class="grid-item">1</div>
+                <div class="grid-item">2</div>
+                <div class="grid-item">3</div>
+                <div class="grid-item">4</div>
+                <div class="grid-item">5</div>
+                <div class="grid-item">6</div>
+            </div>
+            <p class="demo-description">
+                <strong>Tarayıcınızı küçültüp büyütün</strong> - Grid otomatik olarak adapt oluyor!
+            </p>
+        </div>
+
+        <div class="code-example">
+<span class="code-comment">/* Sihirli Responsive Grid - Breakpoint'siz! */</span>
+<span class="code-selector">.grid-container</span> {
+    <span class="code-property">display</span>: <span class="code-value">grid</span>;
+    <span class="code-property">grid-template-columns</span>: <span class="code-value">repeat(auto-fit, minmax(250px, 1fr))</span>;
+    <span class="code-property">gap</span>: <span class="code-value">20px</span>;
+}
+
+<span class="code-comment">/* 
+   Açıklama:
+   - auto-fit: Mevcut alana göre otomatik kolon sayısı
+   - minmax(250px, 1fr): Min 250px, maks 1 fr (eşit genişlik)
+   - Sonuç: Ekran küçülünce kolonlar azalır, büyüyünce artar
+*/</span>
+        </div>
+
+        <h2><i class="fas fa-arrows-alt-h"></i> Flexbox ile Esnek Componentler</h2>
+
+        <p>
+            Flexbox, component seviyesinde responsive tasarım için mükemmel. Özellikle navigasyon, 
+            buton grupları ve card layout'lar için idealdir.
+        </p>
+
+        <div class="flexbox-demo">
+            <h3 class="demo-title"><i class="fas fa-grip-horizontal"></i> Flexbox Demo</h3>
+            <div class="flex-container">
+                <div class="flex-item">Flex Item 1</div>
+                <div class="flex-item">Flex Item 2</div>
+                <div class="flex-item">Flex Item 3</div>
+                <div class="flex-item">Flex Item 4</div>
+            </div>
+            <p class="demo-description">
+                Items otomatik olarak wrap oluyor ve eşit şekilde dağılıyor!
+            </p>
+        </div>
+
+        <div class="code-example">
+<span class="code-comment">/* Responsive Flexbox */</span>
+<span class="code-selector">.flex-container</span> {
+    <span class="code-property">display</span>: <span class="code-value">flex</span>;
+    <span class="code-property">flex-wrap</span>: <span class="code-value">wrap</span>; <span class="code-comment">/* Taşınca alt satıra geç */</span>
+    <span class="code-property">gap</span>: <span class="code-value">20px</span>;
+    <span class="code-property">justify-content</span>: <span class="code-value">space-between</span>;
+}
+
+<span class="code-selector">.flex-item</span> {
+    <span class="code-property">flex</span>: <span class="code-value">1 1 250px</span>; <span class="code-comment">/* grow shrink basis */</span>
+    <span class="code-property">min-width</span>: <span class="code-value">0</span>; <span class="code-comment">/* Overflow fix */</span>
+}
+        </div>
+
+        <h2><i class="fas fa-image"></i> Responsive Images</h2>
+
+        <p>
+            Görseller, sayfa boyutunun büyük kısmını oluşturur. Responsive image stratejisi hem performans 
+            hem de kullanıcı deneyimi için kritik!
+        </p>
+
+        <table class="comparison-table">
+            <thead>
+                <tr>
+                    <th>Teknik</th>
+                    <th>Kullanım Durumu</th>
+                    <th>Örnek</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><strong>max-width: 100%</strong></td>
+                    <td>Basit responsive görseller</td>
+                    <td><code>img { max-width: 100%; height: auto; }</code></td>
+                </tr>
+                <tr>
+                    <td><strong>srcset</strong></td>
+                    <td>Farklı çözünürlükler</td>
+                    <td><code>&lt;img srcset="small.jpg 480w, large.jpg 1200w"&gt;</code></td>
+                </tr>
+                <tr>
+                    <td><strong>picture element</strong></td>
+                    <td>Art direction (farklı crop)</td>
+                    <td><code>&lt;picture&gt;&lt;source media="(min-width: 768px)"&gt;&lt;/picture&gt;</code></td>
+                </tr>
+                <tr>
+                    <td><strong>object-fit</strong></td>
+                    <td>Aspect ratio kontrolü</td>
+                    <td><code>img { object-fit: cover; }</code></td>
+                </tr>
+            </tbody>
+        </table>
+
+        <div class="code-example">
+<span class="code-comment">/* Modern Responsive Image Pattern */</span>
+<span class="code-selector">img</span> {
+    <span class="code-property">max-width</span>: <span class="code-value">100%</span>;
+    <span class="code-property">height</span>: <span class="code-value">auto</span>;
+    <span class="code-property">display</span>: <span class="code-value">block</span>;
+}
+
+<span class="code-comment">/* Aspect ratio koruyan container */</span>
+<span class="code-selector">.image-container</span> {
+    <span class="code-property">aspect-ratio</span>: <span class="code-value">16 / 9</span>; <span class="code-comment">/* Modern browsers */</span>
+    <span class="code-property">overflow</span>: <span class="code-value">hidden</span>;
+}
+
+<span class="code-selector">.image-container img</span> {
+    <span class="code-property">width</span>: <span class="code-value">100%</span>;
+    <span class="code-property">height</span>: <span class="code-value">100%</span>;
+    <span class="code-property">object-fit</span>: <span class="code-value">cover</span>;
+}
+        </div>
+
+        <h2><i class="fas fa-font"></i> Responsive Typography</h2>
+
+        <p>
+            Yazı boyutları da ekran boyutuna göre değişmeli. Modern CSS'in <code>clamp()</code> fonksiyonu ile 
+            fluid typography oluşturabiliriz!
+        </p>
+
+        <div class="code-example">
+<span class="code-comment">/* Fluid Typography with clamp() */</span>
+<span class="code-selector">h1</span> {
+    <span class="code-property">font-size</span>: <span class="code-value">clamp(2rem, 5vw, 4rem)</span>;
+    <span class="code-comment">/* min: 2rem, preferred: 5vw, max: 4rem */</span>
+}
+
+<span class="code-selector">p</span> {
+    <span class="code-property">font-size</span>: <span class="code-value">clamp(1rem, 2vw, 1.2rem)</span>;
+    <span class="code-property">line-height</span>: <span class="code-value">1.6</span>;
+    <span class="code-property">max-width</span>: <span class="code-value">70ch</span>; <span class="code-comment">/* Optimal okuma genişliği */</span>
+}
+
+<span class="code-comment">/* Alternatif: CSS Variables ile scale */</span>
+<span class="code-selector">:root</span> {
+    <span class="code-property">--font-scale</span>: <span class="code-value">1</span>;
+}
+
+<span class="code-selector">@media (min-width: 768px)</span> {
+    <span class="code-selector">:root</span> { <span class="code-property">--font-scale</span>: <span class="code-value">1.1</span>; }
+}
+
+<span class="code-selector">@media (min-width: 1024px)</span> {
+    <span class="code-selector">:root</span> { <span class="code-property">--font-scale</span>: <span class="code-value">1.2</span>; }
+}
+
+<span class="code-selector">h1</span> {
+    <span class="code-property">font-size</span>: <span class="code-value">calc(2.5rem * var(--font-scale))</span>;
+}
+        </div>
+
+        <h2><i class="fas fa-tools"></i> Modern CSS Features</h2>
+
+        <div class="tip-box">
+            <h4><i class="fas fa-star"></i> 2025'te Kullanmanız Gereken CSS Özellikleri</h4>
+            <ul class="list-line-height-2">
+                <li><strong>Container Queries:</strong> Parent elementine göre responsive tasarım (component-level)</li>
+                <li><strong>CSS Grid Level 2:</strong> subgrid ile daha kompleks layout'lar</li>
+                <li><strong>aspect-ratio:</strong> Aspect ratio koruması için padding-hack'e gerek yok</li>
+                <li><strong>clamp(), min(), max():</strong> Fluid sizing için matematik fonksiyonları</li>
+                <li><strong>gap property:</strong> Flexbox ve Grid için boşluk (margin hack'lere son!)</li>
+                <li><strong>:is() ve :where():</strong> Daha temiz selectors</li>
+            </ul>
+        </div>
+
+        <div class="code-example">
+<span class="code-comment">/* Container Queries - Component-Level Responsive */</span>
+<span class="code-selector">.card-container</span> {
+    <span class="code-property">container-type</span>: <span class="code-value">inline-size</span>;
+}
+
+<span class="code-comment">/* Container 500px'den küçükse */</span>
+<span class="code-selector">@container (max-width: 500px)</span> {
+    <span class="code-selector">.card</span> {
+        <span class="code-property">flex-direction</span>: <span class="code-value">column</span>;
+    }
+}
+
+<span class="code-comment">/* Subgrid - Parent grid'i kullan */</span>
+<span class="code-selector">.child-grid</span> {
+    <span class="code-property">display</span>: <span class="code-value">grid</span>;
+    <span class="code-property">grid-template-columns</span>: <span class="code-value">subgrid</span>;
+}
+        </div>
+
+        <h2><i class="fas fa-check-double"></i> Responsive Design Checklist</h2>
+
+        <div class="checklist-box">
+            <h3 class="checklist-title"><i class="fas fa-list-check"></i> Her Projede Kontrol Edilmesi Gerekenler</h3>
+            <ul class="checklist-list">
+                <li class="checklist-item"><strong>✓ Viewport meta tag:</strong> <code>&lt;meta name="viewport" content="width=device-width, initial-scale=1"&gt;</code></li>
+                <li class="checklist-item"><strong>✓ Touch target size:</strong> Minimum 44x44px tıklanabilir alanlar</li>
+                <li class="checklist-item"><strong>✓ Font sizes:</strong> Mobilde minimum 16px (zoom önlemek için)</li>
+                <li class="checklist-item"><strong>✓ Image optimization:</strong> WebP format, lazy loading, srcset</li>
+                <li class="checklist-item"><strong>✓ Hamburger menu:</strong> 768px altında collapsed navigation</li>
+                <li class="checklist-item"><strong>✓ Form inputs:</strong> Uygun input type'lar (tel, email, vb.)</li>
+                <li class="checklist-item"><strong>✓ Performance:</strong> Mobile'de 3 saniye altında first contentful paint</li>
+                <li class="checklist-item"><strong>✓ Testing:</strong> Gerçek cihazlarda test (sadece Chrome DevTools'a güvenmeyin)</li>
+            </ul>
+        </div>
+
+        <h2><i class="fas fa-trophy"></i> Sonuç: Think Mobile, Design Mobile, Test Mobile</h2>
+
+        <p>
+            Responsive tasarım sadece CSS media query'leri yazmak değil - kullanıcı davranışlarını anlamak, 
+            performansı optimize etmek ve her cihazda mükemmel deneyim sunmaktır. Mobile-first yaklaşım, 
+            sizi en baştan doğru yola sokar.
+        </p>
+
+        <p>
+            Unutmayın: <strong>"The best responsive design is one that you don't notice"</strong> - 
+            Kullanıcı hangi cihazda olursa olsun, sitenin "doğal" ve "hatasız" çalıştığını hissetmelidir.
+        </p>
+
+        <div class="cta-box">
+            <h3>
+                <i class="fas fa-mobile-alt"></i> Projeniz Mobile-Ready mi?
+            </h3>
+            <p>
+                Sitenizin responsive performansını ücretsiz analiz edelim. 
+                Her cihazda mükemmel çalışan, hızlı ve kullanıcı dostu tasarımlar oluşturuyoruz.
+            </p>
+            <a href="index.html#danismanlik">
+                Ücretsiz Responsive Audit <i class="fas fa-arrow-right"></i>
+            </a>
+        </div>
+
+        <div class="share-section">
+            <h3><i class="fas fa-share-alt"></i> Bu Yazıyı Paylaş</h3>
+            <div class="share-buttons">
+                <a href="#" class="share-btn facebook" aria-label="Facebook'ta paylaş" title="Facebook">
+                    <i class="fab fa-facebook-f"></i>
+                </a>
+                <a href="#" class="share-btn twitter" aria-label="Twitter'da paylaş" title="Twitter">
+                    <i class="fab fa-twitter"></i>
+                </a>
+                <a href="#" class="share-btn linkedin" aria-label="LinkedIn'de paylaş" title="LinkedIn">
+                    <i class="fab fa-linkedin-in"></i>
+                </a>
+                <a href="#" class="share-btn whatsapp" aria-label="WhatsApp'ta paylaş" title="WhatsApp">
+                    <i class="fab fa-whatsapp"></i>
+                </a>
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="blog-post-footer">
+        <div class="container">
+            <p>&copy; 2025 Webtelligence. Tüm hakları saklıdır.</p>
+            <p>Her ekranda mükemmel web deneyimleri için yanınızdayız.</p>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+    <script src="blog.js"></script>
+</body>
+</html>

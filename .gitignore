@@ -1,0 +1,123 @@
+# ===================================
+# Webtelligence .gitignore
+# ===================================
+
+# Dependencies
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+package-lock.json
+yarn.lock
+
+# Environment variables
+.env
+.env.local
+.env.development
+.env.production
+.env.test
+
+# Database
+*.db
+*.sqlite
+*.sqlite3
+
+# Logs
+logs/
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+lerna-debug.log*
+
+# OS Files
+.DS_Store
+Thumbs.db
+desktop.ini
+*.swp
+*.swo
+*~
+
+# IDE
+.vscode/
+.idea/
+*.sublime-project
+*.sublime-workspace
+.vs/
+
+# Build outputs
+dist/
+build/
+out/
+.next/
+.nuxt/
+.cache/
+
+# Testing
+coverage/
+.nyc_output/
+*.test.js.snap
+
+# Temporary files
+tmp/
+temp/
+*.tmp
+*.temp
+
+# Miscellaneous
+*.bak
+*.old
+*.orig
+.eslintcache
+
+# Windows
+$RECYCLE.BIN/
+ehthumbs.db
+Desktop.ini
+
+# macOS
+.AppleDouble
+.LSOverride
+._*
+
+# Linux
+*~
+.directory
+
+# ===================================
+# Project Specific
+# ===================================
+
+# Old structure files (uncomment after migration)
+# /index.html
+# /blog.html
+# /styles.css
+# /style.css
+# /script.js
+# /blog.js
+# /blog.css
+# /consultation-*.js
+# /test-*.html
+# /test-*.js
+# /deploy.ps1
+# /deploy.sh
+# /domain-automation-script.ps1
+# /activate-github-pages.ps1
+# /start-server.ps1
+# /matrix-background.js
+# /analytics.js
+# /site-config.js
+
+# Documentation moved to docs/
+# /*-GUIDE.md
+# /*-SETUP.md
+# /COST-BREAKDOWN.md
+
+# Public admin panel (moved to separate deployment)
+public/admin/
+
+# Keep these
+!client/
+!server/
+!docs/
+!.github/
