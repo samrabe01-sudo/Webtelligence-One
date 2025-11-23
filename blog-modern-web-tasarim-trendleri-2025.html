@@ -1,0 +1,540 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>2025'in En İyi Modern Web Tasarım Trendleri | Webtelligence</title>
+    <meta name="description" content="2025 yılında web tasarım dünyasını şekillendirecek en önemli trendleri keşfedin: Glassmorphism, 3D elementler, AI destekli tasarımlar ve daha fazlası.">
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="blog.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        .blog-post-hero {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            padding: 120px 20px 80px;
+            text-align: center;
+            color: white;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .blog-post-hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('data:image/svg+xml,<svg width="100" height="100" xmlns="http://www.w3.org/2000/svg"><rect width="100" height="100" fill="none" stroke="rgba(255,255,255,0.1)" stroke-width="2"/></svg>');
+            background-size: 50px 50px;
+            opacity: 0.3;
+        }
+        
+        .blog-post-hero h1 {
+            font-size: 3rem;
+            margin-bottom: 20px;
+            position: relative;
+            z-index: 1;
+            animation: fadeInUp 0.8s ease;
+        }
+        
+        .blog-post-meta {
+            display: flex;
+            gap: 30px;
+            justify-content: center;
+            align-items: center;
+            margin-top: 30px;
+            position: relative;
+            z-index: 1;
+        }
+        
+        .blog-post-content {
+            max-width: 900px;
+            margin: -60px auto 60px;
+            background: white;
+            border-radius: 20px;
+            padding: 60px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.1);
+            position: relative;
+        }
+        
+        .blog-post-content h2 {
+            color: #667eea;
+            font-size: 2rem;
+            margin: 50px 0 20px;
+            padding-bottom: 15px;
+            border-bottom: 3px solid #667eea;
+        }
+        
+        .blog-post-content h3 {
+            color: #764ba2;
+            font-size: 1.5rem;
+            margin: 35px 0 15px;
+        }
+        
+        .blog-post-content p {
+            line-height: 1.9;
+            margin-bottom: 20px;
+            color: #333;
+            font-size: 1.1rem;
+        }
+        
+        .trend-card {
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            border-radius: 15px;
+            padding: 30px;
+            margin: 30px 0;
+            border-left: 5px solid #667eea;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        
+        .trend-card:hover {
+            transform: translateX(10px);
+            box-shadow: 0 10px 30px rgba(102, 126, 234, 0.2);
+        }
+        
+        .trend-card h3 {
+            color: #667eea;
+            margin-top: 0;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+        
+        .trend-card h3 i {
+            font-size: 2rem;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        
+        .code-example {
+            background: #1e1e1e;
+            color: #d4d4d4;
+            padding: 25px;
+            border-radius: 10px;
+            margin: 25px 0;
+            overflow-x: auto;
+            font-family: 'Courier New', monospace;
+            position: relative;
+        }
+        
+        .code-example::before {
+            content: 'CSS';
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background: #667eea;
+            color: white;
+            padding: 3px 10px;
+            border-radius: 5px;
+            font-size: 0.75rem;
+            font-weight: bold;
+        }
+        
+        .gradient-showcase {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin: 30px 0;
+        }
+        
+        .gradient-box {
+            height: 150px;
+            border-radius: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: bold;
+            font-size: 1.1rem;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            transition: transform 0.3s ease;
+        }
+        
+        .gradient-box:hover {
+            transform: translateY(-10px);
+        }
+        
+        .gradient-1 { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); }
+        .gradient-2 { background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%); }
+        .gradient-3 { background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%); }
+        .gradient-4 { background: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%); }
+        .gradient-5 { background: linear-gradient(135deg, #fa709a 0%, #fee140 100%); }
+        .gradient-6 { background: linear-gradient(135deg, #30cfd0 0%, #330867 100%); }
+        
+        .glass-effect {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            padding: 30px;
+            margin: 30px 0;
+            color: #333;
+            box-shadow: 0 8px 32px rgba(0,0,0,0.1);
+        }
+        
+        .tips-list {
+            background: linear-gradient(135deg, #ffecd2 0%, #fcb69f 100%);
+            border-radius: 15px;
+            padding: 30px;
+            margin: 30px 0;
+        }
+        
+        .tips-list ul {
+            list-style: none;
+            padding: 0;
+        }
+        
+        .tips-list li {
+            padding: 15px 15px 15px 50px;
+            margin: 15px 0;
+            background: white;
+            border-radius: 10px;
+            position: relative;
+            transition: transform 0.3s ease;
+        }
+        
+        .tips-list li:hover {
+            transform: translateX(10px);
+        }
+        
+        .tips-list li::before {
+            content: '✓';
+            position: absolute;
+            left: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+        }
+        
+        .animated-wave {
+            width: 100%;
+            height: 100px;
+            margin: 40px 0;
+            background: linear-gradient(90deg, #667eea, #764ba2, #667eea);
+            background-size: 200% 100%;
+            animation: wave 3s ease infinite;
+            border-radius: 15px;
+        }
+        
+        @keyframes wave {
+            0%, 100% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+        }
+        
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        .back-to-blog {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            padding: 12px 30px;
+            border-radius: 50px;
+            text-decoration: none;
+            margin-bottom: 30px;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        
+        .back-to-blog:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 30px rgba(102, 126, 234, 0.4);
+        }
+        
+        @media (max-width: 768px) {
+            .blog-post-hero h1 {
+                font-size: 2rem;
+            }
+            
+            .blog-post-content {
+                padding: 30px 20px;
+                margin: -40px 20px 40px;
+            }
+            
+            .gradient-showcase {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navbar -->
+    <nav class="navbar" id="navbar">
+        <div class="container">
+            <div class="logo">
+                <a href="index.html">Webtelligence</a>
+            </div>
+            <ul class="nav-menu" id="nav-menu">
+                <li><a href="index.html" class="nav-link">Ana Sayfa</a></li>
+                <li><a href="index.html#hakkimda" class="nav-link">Hakkımda</a></li>
+                <li><a href="blog.html" class="nav-link active">Blog</a></li>
+                <li><a href="index.html#danismanlik" class="nav-link">Danışmanlık</a></li>
+                <li><a href="index.html#portfolio" class="nav-link">Portfolio</a></li>
+                <li><a href="index.html#iletisim" class="nav-link">İletişim</a></li>
+            </ul>
+            <div class="hamburger" id="hamburger">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Blog Post Hero -->
+    <section class="blog-post-hero">
+        <h1>2025'in En İyi Modern Web Tasarım Trendleri</h1>
+        <div class="blog-post-meta">
+            <span><i class="fas fa-calendar"></i> 27 Ekim 2025</span>
+            <span><i class="fas fa-clock"></i> 12 dakika okuma</span>
+            <span><i class="fas fa-tag"></i> Web Tasarım</span>
+        </div>
+    </section>
+
+    <!-- Blog Post Content -->
+    <main class="blog-post-content">
+        <a href="blog.html" class="back-to-blog">
+            <i class="fas fa-arrow-left"></i>
+            Blog Listesine Dön
+        </a>
+
+        <p class="lead" style="font-size: 1.3rem; color: #667eea; font-weight: 500;">
+            Web tasarım dünyası sürekli evrim geçiriyor ve 2025 yılı, dijital deneyimlerde çığır açacak yeniliklerle dolu. Bu yazıda, markanızı öne çıkaracak en güncel tasarım trendlerini detaylı bir şekilde inceleyeceğiz.
+        </p>
+
+        <div class="animated-wave"></div>
+
+        <h2><i class="fas fa-rocket"></i> 1. Glassmorphism: Cam Efektinin Yükselişi</h2>
+        
+        <div class="trend-card">
+            <h3><i class="fas fa-gem"></i> Glassmorphism Nedir?</h3>
+            <p>
+                Glassmorphism, buzlu cam efekti yaratan, şeffaf ve bulanık arka plan kullanımını içeren bir tasarım trendi. 
+                Apple'ın iOS tasarımlarında popülerleşen bu trend, 2025'te daha da yaygınlaşacak.
+            </p>
+        </div>
+
+        <p>
+            Glassmorphism, kullanıcılara modern ve sofistike bir deneyim sunar. Özellikle karanlık mod tasarımlarda 
+            inanılmaz görsel derinlik ve estetik sağlar. Bu efekt, katmanlar arasında hiyerarşi oluşturarak 
+            kullanıcı arayüzünü daha organize ve anlaşılır hale getirir.
+        </p>
+
+        <div class="code-example">
+.glass-card {
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border-radius: 20px;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+}
+        </div>
+
+        <h3>Glassmorphism'in Avantajları:</h3>
+        <ul>
+            <li><strong>Modern Görünüm:</strong> Premium ve çağdaş bir estetik sunar</li>
+            <li><strong>Görsel Derinlik:</strong> Katmanlı bir tasarım hissi yaratır</li>
+            <li><strong>Okunabilirlik:</strong> İçeriği ön plana çıkarır</li>
+            <li><strong>Esneklik:</strong> Her renk paleti ile uyumlu</li>
+        </ul>
+
+        <h2><i class="fas fa-palette"></i> 2. Canlı ve Cesur Gradient'ler</h2>
+
+        <p>
+            2025'te gradient kullanımı daha cesur ve dinamik hale geliyor. Tek renkli tasarımların yerini 
+            çarpıcı renk geçişleri alıyor. İşte en popüler gradient kombinasyonları:
+        </p>
+
+        <div class="gradient-showcase">
+            <div class="gradient-box gradient-1">Purple Dream</div>
+            <div class="gradient-box gradient-2">Pink Passion</div>
+            <div class="gradient-box gradient-3">Ocean Blue</div>
+            <div class="gradient-box gradient-4">Fresh Mint</div>
+            <div class="gradient-box gradient-5">Sunset Glow</div>
+            <div class="gradient-box gradient-6">Deep Space</div>
+        </div>
+
+        <div class="trend-card">
+            <h3><i class="fas fa-paint-brush"></i> Gradient Kullanım İpuçları</h3>
+            <p>
+                Gradient'ler sadece arka planda değil, butonlarda, ikonlarda, yazılarda ve hatta animasyonlarda 
+                kullanılarak marka kimliğinize derinlik katabilir. Ancak dikkatli olun - çok fazla gradient 
+                tasarımı kalabalık hale getirebilir.
+            </p>
+        </div>
+
+        <h2><i class="fas fa-cube"></i> 3. 3D Elementler ve Depth Efektleri</h2>
+
+        <p>
+            WebGL ve CSS 3D transform'larının gelişmesiyle birlikte, 3D elementler artık web tasarımının ayrılmaz bir parçası. 
+            2025'te görmeyi bekleyebileceğiniz 3D trend unsurları:
+        </p>
+
+        <div class="tips-list">
+            <ul>
+                <li><strong>3D İkonlar ve İllüstrasyonlar:</strong> Düz ikonların yerini üç boyutlu, gölgeli ve ışıklandırılmış elementler alıyor</li>
+                <li><strong>Paralax Scrolling:</strong> Derinlik hissi yaratan çoklu katmanlı scroll efektleri</li>
+                <li><strong>Hover Efektleri:</strong> Fare hareketine göre dönebilen, büyüyebilen 3D kartlar</li>
+                <li><strong>3D Typography:</strong> Üç boyutlu yazı tipleri ve gölge efektleri</li>
+                <li><strong>İnteraktif 3D Modeller:</strong> Ürün gösterimleri için döndürülebilir 3D objeler</li>
+            </ul>
+        </div>
+
+        <p>
+            3D elementler kullanırken performansa dikkat etmek önemli. Mobil cihazlarda sorunsuz çalışmasını 
+            sağlamak için optimizasyon şart. Lazy loading ve progressive enhancement teknikleri kullanın.
+        </p>
+
+        <h2><i class="fas fa-brain"></i> 4. AI-Powered Tasarım ve Kişiselleştirme</h2>
+
+        <div class="trend-card">
+            <h3><i class="fas fa-robot"></i> Yapay Zeka Destekli Deneyimler</h3>
+            <p>
+                2025, yapay zeka ile kişiselleştirilmiş web deneyimlerinin altın çağı. AI, kullanıcı davranışlarını 
+                analiz ederek içeriği, renkleri ve düzeni her ziyaretçiye özel olarak uyarlayabilir.
+            </p>
+        </div>
+
+        <p>
+            AI destekli tasarım özellikleri:
+        </p>
+
+        <ul>
+            <li><strong>Dinamik Layout'lar:</strong> Kullanıcı tercihlerine göre değişen sayfa düzenleri</li>
+            <li><strong>Akıllı Chatbot'lar:</strong> İnsan gibi konuşan, tasarıma entegre asistanlar</li>
+            <li><strong>Otomatik Renk Uyumu:</strong> AI'ın önerdiği optimum renk paletleri</li>
+            <li><strong>Akıllı İçerik Önerileri:</strong> Kullanıcı ilgi alanlarına göre dinamik içerik</li>
+            <li><strong>Sesli Arayüz:</strong> Voice UI entegrasyonu ile elleri serbest kullanım</li>
+        </ul>
+
+        <h2><i class="fas fa-mobile-alt"></i> 5. Minimal ve Clean Tasarım Devam Ediyor</h2>
+
+        <p>
+            Tüm bu gösterişli trendlerin arasında minimalizm hala güçlü duruyor. 2025'te minimalizm daha da olgunlaşarak 
+            "intentional design" (bilinçli tasarım) konseptine dönüşüyor. Her element bir amaca hizmet ediyor.
+        </p>
+
+        <div class="glass-effect" style="background: linear-gradient(135deg, rgba(102, 126, 234, 0.1), rgba(118, 75, 162, 0.1)); backdrop-filter: blur(10px);">
+            <h3 style="color: #667eea; margin-top: 0;">
+                <i class="fas fa-lightbulb"></i> Minimal Tasarım Prensipleri
+            </h3>
+            <p><strong>Less is More:</strong> Gereksiz elementleri kaldırın, sadece esansiyel olanları bırakın.</p>
+            <p><strong>Whitespace Kullanımı:</strong> Boşluklar tasarımın nefes almasını sağlar.</p>
+            <p><strong>Typography Hierarchy:</strong> Başlıklar, alt başlıklar ve gövde metni net ayrılmalı.</p>
+            <p><strong>Functional Animations:</strong> Her animasyon bir amaç taşımalı, sadece gösteriş için olmamalı.</p>
+        </div>
+
+        <h2><i class="fas fa-tachometer-alt"></i> 6. Performance-First Approach</h2>
+
+        <p>
+            Görsel efektler harika olsa da, 2025'in en önemli trendi performans odaklı tasarım. 
+            Google'ın Core Web Vitals metrikleri, SEO ve kullanıcı deneyimi için kritik hale geldi.
+        </p>
+
+        <div class="trend-card">
+            <h3><i class="fas fa-rocket"></i> Performans İyileştirme Stratejileri</h3>
+            <ul>
+                <li>Lazy loading ile görselleri geciktirerek yükleme</li>
+                <li>WebP formatı kullanarak dosya boyutunu küçültme</li>
+                <li>CSS ve JavaScript dosyalarını minify etme</li>
+                <li>CDN kullanarak global hız artışı</li>
+                <li>Server-side rendering (SSR) ile ilk yükleme süresini azaltma</li>
+                <li>Progressive Web App (PWA) özellikleri ekleme</li>
+            </ul>
+        </div>
+
+        <h2><i class="fas fa-universal-access"></i> 7. Accessibility (Erişilebilirlik) Artık Opsiyonel Değil</h2>
+
+        <p>
+            2025'te erişilebilirlik, iyi bir web tasarımının vazgeçilmez parçası. WCAG standartlarına uyum, 
+            sadece etik bir sorumluluk değil, aynı zamanda daha geniş bir kitleye ulaşma stratejisi.
+        </p>
+
+        <div class="tips-list">
+            <ul>
+                <li><strong>Renk Kontrastı:</strong> Metin ve arka plan arasında yeterli kontrast sağlayın (WCAG AA: 4.5:1)</li>
+                <li><strong>Klavye Navigasyonu:</strong> Tüm işlevler klavye ile erişilebilir olmalı</li>
+                <li><strong>Alt Metinler:</strong> Görseller için açıklayıcı alt text'ler ekleyin</li>
+                <li><strong>ARIA Etiketleri:</strong> Ekran okuyucular için semantik HTML kullanın</li>
+                <li><strong>Focus Indicators:</strong> Hangi elementin seçili olduğu net görünmeli</li>
+            </ul>
+        </div>
+
+        <h2><i class="fas fa-chart-line"></i> Sonuç: Geleceği Tasarlamak</h2>
+
+        <p>
+            2025'in web tasarım trendleri, estetik, işlevsellik ve kullanıcı deneyiminin mükemmel dengesi üzerine kurulu. 
+            Glassmorphism'den AI destekli kişiselleştirmeye, 3D elementlerden minimalist yaklaşımlara kadar her trend, 
+            kullanıcıya daha iyi bir dijital deneyim sunma amacını taşıyor.
+        </p>
+
+        <p>
+            Ancak unutmayın: Trendleri takip etmek önemli ama markanızın özgünlüğünü kaybetmemek daha da önemli. 
+            Bu trendleri kendi marka kimliğinizle harmanlayarak, benzersiz ve etkileyici web deneyimleri yaratabilirsiniz.
+        </p>
+
+        <div class="animated-wave"></div>
+
+        <div style="background: linear-gradient(135deg, #667eea, #764ba2); color: white; padding: 40px; border-radius: 20px; text-align: center; margin: 50px 0;">
+            <h3 style="margin-top: 0; font-size: 1.8rem;">
+                <i class="fas fa-comments"></i> Web Tasarım Projeniz İçin Profesyonel Danışmanlık
+            </h3>
+            <p style="font-size: 1.1rem; margin: 20px 0;">
+                2025 trendlerini projenize nasıl uygulayacağınızı konuşalım. 
+                Modern, hızlı ve kullanıcı dostu web siteleri tasarlıyoruz.
+            </p>
+            <a href="index.html#danismanlik" style="display: inline-block; background: white; color: #667eea; padding: 15px 40px; border-radius: 50px; text-decoration: none; font-weight: bold; margin-top: 20px; transition: transform 0.3s ease;">
+                Ücretsiz Danışmanlık Alın <i class="fas fa-arrow-right"></i>
+            </a>
+        </div>
+
+        <div style="margin-top: 50px; padding-top: 30px; border-top: 2px solid #eee;">
+            <h3><i class="fas fa-share-alt"></i> Bu Yazıyı Paylaş</h3>
+            <div style="display: flex; gap: 15px; margin-top: 20px;">
+                <a href="#" style="background: #3b5998; color: white; width: 50px; height: 50px; border-radius: 50%; display: flex; align-items: center; justify-content: center; text-decoration: none; font-size: 1.3rem;">
+                    <i class="fab fa-facebook-f"></i>
+                </a>
+                <a href="#" style="background: #1da1f2; color: white; width: 50px; height: 50px; border-radius: 50%; display: flex; align-items: center; justify-content: center; text-decoration: none; font-size: 1.3rem;">
+                    <i class="fab fa-twitter"></i>
+                </a>
+                <a href="#" style="background: #0077b5; color: white; width: 50px; height: 50px; border-radius: 50%; display: flex; align-items: center; justify-content: center; text-decoration: none; font-size: 1.3rem;">
+                    <i class="fab fa-linkedin-in"></i>
+                </a>
+                <a href="#" style="background: #25d366; color: white; width: 50px; height: 50px; border-radius: 50%; display: flex; align-items: center; justify-content: center; text-decoration: none; font-size: 1.3rem;">
+                    <i class="fab fa-whatsapp"></i>
+                </a>
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer style="background: linear-gradient(135deg, #667eea, #764ba2); color: white; padding: 50px 20px; text-align: center; margin-top: 80px;">
+        <div class="container">
+            <p style="margin: 0; font-size: 1.1rem;">&copy; 2025 Webtelligence. Tüm hakları saklıdır.</p>
+            <p style="margin: 10px 0 0 0;">Modern web tasarım çözümleriniz için yanınızdayız.</p>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+    <script src="blog.js"></script>
+</body>
+</html>

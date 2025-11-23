@@ -1,0 +1,50 @@
+# Mexsuweb Robot Kuralları
+# Website: https://mexsuweb.com
+# Güncelleme: 27 Ekim 2025
+
+# Tüm robotlar için genel kurallar
+User-agent: *
+Allow: /
+Allow: /blog.html
+Allow: /blog-*.html
+Allow: /images/
+Allow: /assets/
+Allow: /*.css
+Allow: /*.js
+
+# Engellenecek dizinler
+Disallow: /test-*.html
+Disallow: /.vscode/
+Disallow: /node_modules/
+Disallow: /.git/
+Disallow: /*.ps1
+Disallow: /*.sh
+Disallow: /*.md
+
+# Sitemap konumu
+Sitemap: https://mexsuweb.com/sitemap.xml
+
+# Google Bot için özel kurallar
+User-agent: Googlebot
+Allow: /
+Crawl-delay: 0
+
+# Bing Bot için özel kurallar
+User-agent: Bingbot
+Allow: /
+Crawl-delay: 1
+
+# Yandex Bot için özel kurallar
+User-agent: Yandex
+Allow: /
+Crawl-delay: 2
+
+# Kötü botları engelle
+User-agent: AhrefsBot
+Disallow: /
+
+User-agent: MJ12bot
+Disallow: /
+
+User-agent: SemrushBot
+Disallow: /

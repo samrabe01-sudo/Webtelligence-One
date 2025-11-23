@@ -1,0 +1,73 @@
+<!doctype html>
+<html lang="tr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Admin Dashboard | Webtelligence</title>
+  <link rel="stylesheet" href="./admin.css">
+  <script src="./admin-config.js"></script>
+</head>
+<body>
+  <header>
+    <div class="brand">Admin Paneli</div>
+    <div class="right">
+      <button class="btn secondary" id="btnRefresh">Yenile</button>
+      <button class="btn danger" id="btnLogout">Çıkış</button>
+    </div>
+  </header>
+  <main class="container">
+    <div class="card">
+      <h2 style="margin-top:0">Kullanıcılar</h2>
+      <div class="muted">Sisteme kayıtlı tüm kullanıcılar</div>
+      <table class="table" id="usersTable">
+        <thead>
+          <tr>
+            <th>Email</th>
+            <th>Ad</th>
+            <th>Paketler</th>
+            <th>Aksiyon</th>
+          </tr>
+        </thead>
+        <tbody></tbody>
+      </table>
+    </div>
+  </main>
+  <footer>© <span id="y"></span> Webtelligence</footer>
+  <script>
+    const token = localStorage.getItem('admin_token');
+    if(!token){ location.href = './index.html'; }
+    document.getElementById('y').textContent = new Date().getFullYear();
+
+    const API_BASE = (typeof window !== 'undefined' && window.API_BASE) ? window.API_BASE : '';
+    async function loadUsers(){
+      const tbody = document.querySelector('#usersTable tbody');
+      tbody.innerHTML = '<tr><td colspan="4" class="muted">Yükleniyor...</td></tr>';
+      try{
+        const res = await fetch(API_BASE + '/api/admin/users', {
+          headers: { Authorization: 'Bearer ' + token }
+        });
+        if(!res.ok){ throw new Error('Kullanıcılar alınamadı'); }
+        const users = await res.json();
+        if(!users.length){
+          tbody.innerHTML = '<tr><td colspan="4" class="muted">Kayıt bulunamadı</td></tr>';
+          return;
+        }
+        tbody.innerHTML = users.map(u => `
+          <tr>
+            <td>${u.email}</td>
+            <td>${u.name}</td>
+            <td>${(u.purchasedPackages||[]).join(', ') || '-'}</td>
+            <td><a class="btn" href="./user-details.html?id=${u._id}">Detayları Gör</a></td>
+          </tr>
+        `).join('');
+      }catch(err){
+        tbody.innerHTML = `<tr><td colspan="4" style="color:#fca5a5">${err.message}</td></tr>`;
+      }
+    }
+
+    document.getElementById('btnRefresh').addEventListener('click', loadUsers);
+    document.getElementById('btnLogout').addEventListener('click', ()=>{ localStorage.removeItem('admin_token'); location.href='./index.html'; });
+    loadUsers();
+  </script>
+</body>
+</html>

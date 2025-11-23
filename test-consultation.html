@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test - Consultation Questionnaire</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        body {
+            padding: 50px 20px;
+            background: #f0f0f0;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1 style="text-align: center; margin-bottom: 50px;">Danışmanlık Testi</h1>
+        
+        <!-- Interactive Consultation Questionnaire -->
+        <div class="consultation-questionnaire" id="consultationQuestionnaire">
+            <div class="questionnaire-container">
+                <!-- Progress Bar -->
+                <div class="consultation-progress">
+                    <div class="progress-bar">
+                        <div class="progress-fill" id="progressFill"></div>
+                    </div>
+                    <div class="progress-info">
+                        <span id="currentQuestion">Soru 1</span>
+                        <span id="totalQuestions">/ 8</span>
+                    </div>
+                </div>
+
+                <!-- Question Container -->
+                <div class="question-wrapper" id="questionWrapper">
+                    <!-- Questions will be dynamically inserted here -->
+                </div>
+
+                <!-- Navigation Buttons -->
+                <div class="consultation-navigation">
+                    <button class="btn-back" id="btnBack" style="display: none;">
+                        <i class="fas fa-arrow-left"></i> Geri
+                    </button>
+                    <button class="btn-next" id="btnNext" disabled>
+                        İleri <i class="fas fa-arrow-right"></i>
+                    </button>
+                </div>
+
+                <!-- Results Summary -->
+                <div class="consultation-summary" id="consultationSummary" style="display: none;">
+                    <div class="summary-header">
+                        <i class="fas fa-check-circle"></i>
+                        <h3>🎉 Danışmanlık Analizi Tamamlandı!</h3>
+                        <p>İşte projeniz için kapsamlı değerlendirmem:</p>
+                    </div>
+                    <div class="summary-content" id="summaryContent">
+                        <!-- Summary will be dynamically generated -->
+                    </div>
+                    <div class="summary-actions">
+                        <button class="btn btn-primary" id="btnDownloadBrief">
+                            <i class="fas fa-download"></i> Brief'i İndir
+                        </button>
+                        <button class="btn btn-secondary" id="btnContactMe">
+                            <i class="fas fa-paper-plane"></i> İletişime Geç
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- <script src="test-simple.js"></script> -->
+    <script src="consultation-questionnaire.js"></script>
+</body>
+</html>

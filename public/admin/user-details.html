@@ -1,0 +1,97 @@
+<!doctype html>
+<html lang="tr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Kullanıcı Detayı | Webtelligence</title>
+  <link rel="stylesheet" href="./admin.css">
+  <script src="./admin-config.js"></script>
+</head>
+<body>
+  <header>
+    <div class="brand">Admin Paneli</div>
+    <div class="right">
+      <a class="btn" href="./dashboard.html">Geri</a>
+      <button class="btn danger" id="btnLogout">Çıkış</button>
+    </div>
+  </header>
+  <main class="container">
+    <div class="card">
+      <h2 style="margin-top:0">Kullanıcı Bilgileri</h2>
+      <div id="userInfo" class="muted">Yükleniyor...</div>
+    </div>
+    <div class="card" style="margin-top:18px;">
+      <h3 style="margin-top:0">Aktivite Kayıtları</h3>
+      <table class="table" id="activityTable">
+        <thead>
+          <tr>
+            <th>Tarih</th>
+            <th>Aksiyon</th>
+            <th>Detay</th>
+          </tr>
+        </thead>
+        <tbody></tbody>
+      </table>
+    </div>
+  </main>
+  <footer>© <span id="y"></span> Webtelligence</footer>
+  <script>
+    const token = localStorage.getItem('admin_token');
+    if(!token){ location.href = './index.html'; }
+    document.getElementById('y').textContent = new Date().getFullYear();
+
+    const params = new URLSearchParams(location.search);
+    const id = params.get('id');
+    if(!id){
+      document.getElementById('userInfo').innerHTML = '<span style="color:#fca5a5">Kullanıcı ID bulunamadı.</span>';
+    }
+
+    const API_BASE = (typeof window !== 'undefined' && window.API_BASE) ? window.API_BASE : '';
+    async function loadUser(){
+      const infoEl = document.getElementById('userInfo');
+      try{
+        const res = await fetch(`${API_BASE}/api/admin/users/${id}`,{ headers:{ Authorization: 'Bearer ' + token }});
+        if(!res.ok){ throw new Error('Kullanıcı bilgileri alınamadı'); }
+        const u = await res.json();
+        infoEl.innerHTML = `
+          <div class="row">
+            <div class="col"><strong>Email:</strong> ${u.email}</div>
+            <div class="col"><strong>Ad:</strong> ${u.name}</div>
+          </div>
+          <div class="row"><div class="col"><strong>Paketler:</strong> ${(u.purchasedPackages||[]).join(', ') || '-'}</div></div>
+        `;
+      }catch(err){
+        infoEl.innerHTML = `<span style=\"color:#fca5a5\">${err.message}</span>`;
+      }
+    }
+
+    async function loadActivity(){
+      const tbody = document.querySelector('#activityTable tbody');
+      tbody.innerHTML = '<tr><td colspan="3" class="muted">Yükleniyor...</td></tr>';
+      try{
+        const res = await fetch(`${API_BASE}/api/admin/activity/${id}`,{ headers:{ Authorization: 'Bearer ' + token }});
+        if(!res.ok){ throw new Error('Aktivite alınamadı'); }
+        const rows = await res.json();
+        if(!rows.length){
+          tbody.innerHTML = '<tr><td colspan="3" class="muted">Kayıt yok</td></tr>';
+          return;
+        }
+        tbody.innerHTML = rows.map(a => `
+          <tr>
+            <td>${new Date(a.timestamp).toLocaleString('tr-TR')}</td>
+            <td>${a.action}</td>
+            <td>${a.details || '-'}</td>
+          </tr>
+        `).join('');
+      }catch(err){
+        tbody.innerHTML = `<tr><td colspan=\"3\" style=\"color:#fca5a5\">${err.message}</td></tr>`;
+      }
+    }
+
+    document.getElementById('btnLogout').addEventListener('click', ()=>{ localStorage.removeItem('admin_token'); location.href='./index.html'; });
+
+    loadUser();
+    loadActivity();
+  </script>
+</body>
+</html>

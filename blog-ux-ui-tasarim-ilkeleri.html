@@ -1,0 +1,693 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>UX/UI Tasarım İlkeleri: Kullanıcı Odaklı Web Siteleri Nasıl Tasarlanır? | Webtelligence</title>
+    <meta name="description" content="Mükemmel kullanıcı deneyimi ve arayüz tasarımı için bilmeniz gereken temel ilkeler, pratik örnekler ve uzman ipuçları.">
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="blog.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        .blog-post-hero {
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            padding: 120px 20px 80px;
+            text-align: center;
+            color: white;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .blog-post-hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('data:image/svg+xml,<svg width="60" height="60" xmlns="http://www.w3.org/2000/svg"><circle cx="30" cy="30" r="2" fill="rgba(255,255,255,0.3)"/></svg>');
+            background-size: 60px 60px;
+            animation: floatPattern 20s linear infinite;
+        }
+        
+        @keyframes floatPattern {
+            0% { transform: translateY(0); }
+            100% { transform: translateY(-60px); }
+        }
+        
+        .blog-post-hero h1 {
+            font-size: 3rem;
+            margin-bottom: 20px;
+            position: relative;
+            z-index: 1;
+            animation: fadeInUp 0.8s ease;
+        }
+        
+        .blog-post-meta {
+            display: flex;
+            gap: 30px;
+            justify-content: center;
+            align-items: center;
+            margin-top: 30px;
+            position: relative;
+            z-index: 1;
+        }
+        
+        .blog-post-content {
+            max-width: 900px;
+            margin: -60px auto 60px;
+            background: white;
+            border-radius: 20px;
+            padding: 60px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.1);
+            position: relative;
+        }
+        
+        .blog-post-content h2 {
+            color: #f5576c;
+            font-size: 2rem;
+            margin: 50px 0 20px;
+            padding-bottom: 15px;
+            border-bottom: 3px solid #f093fb;
+        }
+        
+        .blog-post-content h3 {
+            color: #f5576c;
+            font-size: 1.5rem;
+            margin: 35px 0 15px;
+        }
+        
+        .blog-post-content p {
+            line-height: 1.9;
+            margin-bottom: 20px;
+            color: #333;
+            font-size: 1.1rem;
+        }
+        
+        .principle-card {
+            background: linear-gradient(135deg, #fff5f7 0%, #ffe0e9 100%);
+            border-radius: 15px;
+            padding: 35px;
+            margin: 30px 0;
+            border-left: 6px solid #f5576c;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .principle-card::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(245,87,108,0.1) 0%, transparent 70%);
+            transition: transform 0.5s ease;
+        }
+        
+        .principle-card:hover::before {
+            transform: translate(-25%, -25%);
+        }
+        
+        .principle-card:hover {
+            transform: translateX(10px);
+            box-shadow: 0 15px 40px rgba(245, 87, 108, 0.2);
+        }
+        
+        .principle-card h3 {
+            color: #f5576c;
+            margin-top: 0;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            position: relative;
+        }
+        
+        .principle-card h3 i {
+            font-size: 2.5rem;
+            background: linear-gradient(135deg, #f093fb, #f5576c);
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        
+        .do-dont-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            margin: 30px 0;
+        }
+        
+        .do-card, .dont-card {
+            padding: 30px;
+            border-radius: 15px;
+            position: relative;
+        }
+        
+        .do-card {
+            background: linear-gradient(135deg, #d4fc79 0%, #96e6a1 100%);
+            border: 3px solid #4caf50;
+        }
+        
+        .dont-card {
+            background: linear-gradient(135deg, #ffd89b 0%, #ff6b6b 100%);
+            border: 3px solid #f44336;
+        }
+        
+        .do-card h4, .dont-card h4 {
+            margin-top: 0;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 1.3rem;
+        }
+        
+        .do-card h4 { color: #2e7d32; }
+        .dont-card h4 { color: #c62828; }
+        
+        .ux-process {
+            background: linear-gradient(to right, #f093fb, #f5576c);
+            padding: 40px;
+            border-radius: 20px;
+            color: white;
+            margin: 40px 0;
+        }
+        
+        .ux-process h3 {
+            color: white;
+            text-align: center;
+            margin-top: 0;
+            font-size: 2rem;
+        }
+        
+        .process-steps {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin-top: 30px;
+        }
+        
+        .process-step {
+            background: rgba(255, 255, 255, 0.2);
+            backdrop-filter: blur(10px);
+            padding: 25px;
+            border-radius: 15px;
+            text-align: center;
+            transition: transform 0.3s ease;
+        }
+        
+        .process-step:hover {
+            transform: translateY(-10px);
+            background: rgba(255, 255, 255, 0.3);
+        }
+        
+        .process-step .step-number {
+            background: white;
+            color: #f5576c;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            font-weight: bold;
+            margin: 0 auto 15px;
+        }
+        
+        .wireframe-example {
+            background: #f5f5f5;
+            border: 3px dashed #f5576c;
+            border-radius: 15px;
+            padding: 40px;
+            margin: 30px 0;
+            text-align: center;
+        }
+        
+        .user-persona {
+            background: linear-gradient(135deg, #ffecd2 0%, #fcb69f 100%);
+            border-radius: 15px;
+            padding: 30px;
+            margin: 30px 0;
+            display: flex;
+            gap: 30px;
+            align-items: center;
+        }
+        
+        .persona-avatar {
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #f093fb, #f5576c);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 4rem;
+            color: white;
+            flex-shrink: 0;
+        }
+        
+        .persona-info h4 {
+            margin-top: 0;
+            color: #f5576c;
+            font-size: 1.5rem;
+        }
+        
+        .heatmap-viz {
+            background: linear-gradient(to bottom, #ff6b6b 0%, #feca57 50%, #48dbfb 100%);
+            height: 200px;
+            border-radius: 15px;
+            margin: 30px 0;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .heatmap-viz::after {
+            content: 'Hot Zone';
+            position: absolute;
+            top: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: rgba(255, 255, 255, 0.9);
+            padding: 10px 20px;
+            border-radius: 20px;
+            font-weight: bold;
+            color: #ff6b6b;
+        }
+        
+        .back-to-blog {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            background: linear-gradient(135deg, #f093fb, #f5576c);
+            color: white;
+            padding: 12px 30px;
+            border-radius: 50px;
+            text-decoration: none;
+            margin-bottom: 30px;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        
+        .back-to-blog:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 30px rgba(245, 87, 108, 0.4);
+        }
+        
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .blog-post-hero h1 {
+                font-size: 2rem;
+            }
+            
+            .blog-post-content {
+                padding: 30px 20px;
+                margin: -40px 20px 40px;
+            }
+            
+            .do-dont-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .user-persona {
+                flex-direction: column;
+                text-align: center;
+            }
+            
+            .process-steps {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navbar -->
+    <nav class="navbar" id="navbar">
+        <div class="container">
+            <div class="logo">
+                <a href="index.html">Webtelligence</a>
+            </div>
+            <ul class="nav-menu" id="nav-menu">
+                <li><a href="index.html" class="nav-link">Ana Sayfa</a></li>
+                <li><a href="index.html#hakkimda" class="nav-link">Hakkımda</a></li>
+                <li><a href="blog.html" class="nav-link active">Blog</a></li>
+                <li><a href="index.html#danismanlik" class="nav-link">Danışmanlık</a></li>
+                <li><a href="index.html#portfolio" class="nav-link">Portfolio</a></li>
+                <li><a href="index.html#iletisim" class="nav-link">İletişim</a></li>
+            </ul>
+            <div class="hamburger" id="hamburger">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Blog Post Hero -->
+    <section class="blog-post-hero">
+        <h1>UX/UI Tasarım İlkeleri: Kullanıcı Odaklı Web Siteleri</h1>
+        <div class="blog-post-meta">
+            <span><i class="fas fa-calendar"></i> 25 Ekim 2025</span>
+            <span><i class="fas fa-clock"></i> 15 dakika okuma</span>
+            <span><i class="fas fa-tag"></i> UX/UI Design</span>
+        </div>
+    </section>
+
+    <!-- Blog Post Content -->
+    <main class="blog-post-content">
+        <a href="blog.html" class="back-to-blog">
+            <i class="fas fa-arrow-left"></i>
+            Blog Listesine Dön
+        </a>
+
+        <p class="lead" style="font-size: 1.3rem; color: #f5576c; font-weight: 500;">
+            Başarılı bir web sitesinin sırrı sadece görsel çekicilikte değil, kullanıcı deneyiminde yatar. 
+            Bu rehberde, dünya standartlarında UX/UI tasarımı için bilmeniz gereken her şeyi öğreneceksiniz.
+        </p>
+
+        <h2><i class="fas fa-users"></i> UX ve UI Arasındaki Fark Nedir?</h2>
+
+        <div class="do-dont-grid">
+            <div class="do-card">
+                <h4><i class="fas fa-heart"></i> UX (User Experience)</h4>
+                <p><strong>Kullanıcı Deneyimi</strong> - Kullanıcının bir ürün veya hizmetle etkileşimi sırasında yaşadığı genel deneyim.</p>
+                <ul>
+                    <li>Kullanılabilirlik</li>
+                    <li>Erişilebilirlik</li>
+                    <li>Kullanıcı akışları</li>
+                    <li>Bilgi mimarisi</li>
+                    <li>Kullanıcı araştırması</li>
+                </ul>
+            </div>
+            <div class="dont-card">
+                <h4><i class="fas fa-palette"></i> UI (User Interface)</h4>
+                <p><strong>Kullanıcı Arayüzü</strong> - Kullanıcının gördüğü ve etkileşimde bulunduğu görsel ve interaktif elementler.</p>
+                <ul>
+                    <li>Görsel tasarım</li>
+                    <li>Tipografi</li>
+                    <li>Renk paleti</li>
+                    <li>Buton ve form tasarımı</li>
+                    <li>Animasyonlar</li>
+                </ul>
+            </div>
+        </div>
+
+        <p>
+            <strong>Önemli Not:</strong> UX ve UI birbirini tamamlar. Harika bir UI kötü UX'i kurtaramaz, 
+            aynı şekilde mükemmel UX da zayıf UI ile zarar görür. Her ikisi de eşit derecede önemlidir!
+        </p>
+
+        <h2><i class="fas fa-compass"></i> 10 Temel UX Tasarım İlkesi</h2>
+
+        <div class="principle-card">
+            <h3><i class="fas fa-eye"></i> 1. Hicks Kanunu: Seçenekleri Basit Tutun</h3>
+            <p>
+                Kullanıcılara ne kadar çok seçenek sunarsanız, karar vermeleri o kadar uzun sürer. 
+                <strong>Bilişsel yükü azaltın</strong> - her sayfada maksimum 5-7 ana eylem sunun.
+            </p>
+            <p><strong>Örnek:</strong> Netflix'in ana menüsü sadece 5 kategori sunar: Ana Sayfa, TV Dizileri, Filmler, Yeni ve Popüler, Listem.</p>
+        </div>
+
+        <div class="principle-card">
+            <h3><i class="fas fa-stopwatch"></i> 2. Fitts Kanunu: Hedef Büyüklüğü ve Mesafe</h3>
+            <p>
+                Bir hedefe ulaşmak için gereken süre, hedefin uzaklığı ve büyüklüğü ile ilgilidir. 
+                <strong>Önemli butonları büyük yapın</strong> ve sık kullanılan elementleri kolay erişilebilir konumlara yerleştirin.
+            </p>
+            <p><strong>İpucu:</strong> Mobilde tıklanabilir elementler minimum 44x44px olmalıdır (Apple HIG standardı).</p>
+        </div>
+
+        <div class="principle-card">
+            <h3><i class="fas fa-layer-group"></i> 3. Miller's Law: 7±2 Kuralı</h3>
+            <p>
+                İnsan beyni kısa süreli hafızasında ortalama 7 (±2) öğeyi tutabilir. 
+                <strong>Bilgiyi küçük parçalara bölün</strong> - menülerde, formlarda ve listelerde bu kuralı uygulayın.
+            </p>
+            <p><strong>Uygulama:</strong> Telefon numaralarını gruplandırarak yazıyoruz: 0555 123 45 67</p>
+        </div>
+
+        <div class="principle-card">
+            <h3><i class="fas fa-recycle"></i> 4. Jakob's Law: Tutarlılık ve Tanıdıklık</h3>
+            <p>
+                Kullanıcılar zamanlarının çoğunu <strong>diğer sitelerde</strong> geçiriyor. 
+                Sıfırdan yeni bir UX icat etmeyin - sektör standartlarına uyun.
+            </p>
+            <p><strong>Örnek:</strong> Logo sol üstte, alışveriş sepeti sağ üstte, arama çubuğu header'da - bu standartları değiştirmeyin.</p>
+        </div>
+
+        <div class="principle-card">
+            <h3><i class="fas fa-magic"></i> 5. Tesler's Law: Karmaşıklık Yönetimi</h3>
+            <p>
+                Her sistemde belli bir karmaşıklık vardır ve bu karmaşıklığı ya ürün ya da kullanıcı yönetir. 
+                <strong>Karmaşıklığı ürününüze yükleyin</strong>, kullanıcıya değil.
+            </p>
+            <p><strong>Örnek:</strong> Google'ın minimalist arama sayfası - arka planda karmaşık algoritmalar çalışırken kullanıcı sadece bir arama kutusu görür.</p>
+        </div>
+
+        <h2><i class="fas fa-project-diagram"></i> UX Tasarım Süreci</h2>
+
+        <div class="ux-process">
+            <h3><i class="fas fa-route"></i> 5 Aşamalı UX Süreci</h3>
+            <div class="process-steps">
+                <div class="process-step">
+                    <div class="step-number">1</div>
+                    <h4>Araştırma</h4>
+                    <p>Kullanıcı görüşmeleri, anketler, rakip analizi</p>
+                </div>
+                <div class="process-step">
+                    <div class="step-number">2</div>
+                    <h4>Analiz</h4>
+                    <p>User personas, journey maps, pain points</p>
+                </div>
+                <div class="process-step">
+                    <div class="step-number">3</div>
+                    <h4>Tasarım</h4>
+                    <p>Wireframes, prototipler, mockup'lar</p>
+                </div>
+                <div class="process-step">
+                    <div class="step-number">4</div>
+                    <h4>Test</h4>
+                    <p>Usability testing, A/B testleri, heatmaps</p>
+                </div>
+                <div class="process-step">
+                    <div class="step-number">5</div>
+                    <h4>İterasyon</h4>
+                    <p>Geri bildirimlere göre iyileştirme</p>
+                </div>
+            </div>
+        </div>
+
+        <h2><i class="fas fa-user-circle"></i> User Persona Oluşturma</h2>
+
+        <p>
+            User persona, hedef kitlenizin temsili karakterleridir. İyi bir persona oluşturmak, 
+            tasarım kararlarınızı kullanıcı odaklı hale getirir.
+        </p>
+
+        <div class="user-persona">
+            <div class="persona-avatar">
+                <i class="fas fa-user-tie"></i>
+            </div>
+            <div class="persona-info">
+                <h4>Ahmet - E-Ticaret Yöneticisi</h4>
+                <p><strong>Yaş:</strong> 32 | <strong>Lokasyon:</strong> İstanbul | <strong>Deneyim:</strong> 5 yıl</p>
+                <p><strong>Hedefler:</strong> Web sitesi dönüşüm oranını artırmak, kullanıcı deneyimini iyileştirmek</p>
+                <p><strong>Pain Points:</strong> Karmaşık analitik araçlar, yavaş yükleme süreleri, mobil uyumsuzluk</p>
+                <p><strong>Motivasyonlar:</strong> Başarı metrikleri, görsel raporlar, hızlı sonuçlar</p>
+            </div>
+        </div>
+
+        <h2><i class="fas fa-fire"></i> Heatmap ve Kullanıcı Davranış Analizi</h2>
+
+        <div class="heatmap-viz"></div>
+
+        <p>
+            Heatmap analizi, kullanıcıların sitenizde nerelere tıkladığını, nereye baktığını ve 
+            nasıl scroll yaptığını görselleştirir. Bu veri, tasarım kararlarınızı destekler.
+        </p>
+
+        <div class="principle-card">
+            <h3><i class="fas fa-chart-line"></i> Heatmap Insights</h3>
+            <ul>
+                <li><strong>Kırmızı Bölgeler (Hot Zones):</strong> En çok etkileşim alan alanlar - CTA butonlarınızı buraya yerleştirin</li>
+                <li><strong>Sarı Bölgeler (Warm Zones):</strong> Orta düzey ilgi - destekleyici içerikler için ideal</li>
+                <li><strong>Mavi Bölgeler (Cold Zones):</strong> Az ilgi gören alanlar - bu bölgeleri yeniden tasarlayın veya kaldırın</li>
+                <li><strong>Scroll Depth:</strong> Kullanıcıların %70'i sayfanın ilk fold'unu geçmez - önemli bilgileri yukarıda tutun</li>
+            </ul>
+        </div>
+
+        <h2><i class="fas fa-check-double"></i> UI Tasarım Best Practices</h2>
+
+        <h3>✨ Renk ve Kontrast</h3>
+        <div class="do-dont-grid">
+            <div class="do-card">
+                <h4><i class="fas fa-check-circle"></i> YAPILMASI GEREKENLER</h4>
+                <ul>
+                    <li>WCAG AA standardına uygun kontrast oranı (4.5:1)</li>
+                    <li>Tutarlı renk paleti (3-5 ana renk)</li>
+                    <li>Renk körü kullanıcılar için alternatif göstergeler</li>
+                    <li>Call-to-action için dikkat çekici renkler</li>
+                </ul>
+            </div>
+            <div class="dont-card">
+                <h4><i class="fas fa-times-circle"></i> YAPILMAMASI GEREKENLER</h4>
+                <ul>
+                    <li>Sadece renge dayalı bilgi iletimi</li>
+                    <li>Çok fazla farklı renk kullanımı</li>
+                    <li>Düşük kontrastlı metin</li>
+                    <li>Trend olduğu için neon renkler kullanmak</li>
+                </ul>
+            </div>
+        </div>
+
+        <h3>📝 Tipografi</h3>
+        <div class="principle-card">
+            <h3><i class="fas fa-font"></i> Tipografi Kuralları</h3>
+            <ul>
+                <li><strong>Font Sayısı:</strong> Maksimum 2-3 font ailesi kullanın</li>
+                <li><strong>Satır Uzunluğu:</strong> 50-75 karakter arası (İngilizce için 45-75, Türkçe için biraz daha uzun kabul edilir)</li>
+                <li><strong>Satır Yüksekliği:</strong> 1.5-1.8 arası line-height kullanın</li>
+                <li><strong>Font Boyutları:</strong> Gövde metni minimum 16px, mobilde 18px olmalı</li>
+                <li><strong>Hiyerarşi:</strong> H1 > H2 > H3 > P şeklinde net bir hiyerarşi oluşturun</li>
+            </ul>
+        </div>
+
+        <h3>🔘 Buton ve CTA Tasarımı</h3>
+        <div style="background: linear-gradient(135deg, #e0f7fa 0%, #b2ebf2 100%); padding: 30px; border-radius: 15px; margin: 30px 0;">
+            <h4 style="color: #00796b; margin-top: 0;"><i class="fas fa-mouse-pointer"></i> Mükemmel CTA Butonu Özellikleri</h4>
+            <ul>
+                <li><strong>Boyut:</strong> Masaüstünde min 48px, mobilde min 44px yükseklik</li>
+                <li><strong>Padding:</strong> 15-20px dikey, 30-40px yatay padding</li>
+                <li><strong>Border Radius:</strong> 4-8px arasında (tamamen düz veya çok yuvarlak değil)</li>
+                <li><strong>Metin:</strong> Eylem odaklı ("İndir", "Başla", "Kayıt Ol") ve kısa</li>
+                <li><strong>Renk:</strong> Sayfa paletinden ayrışan, dikkat çeken bir renk</li>
+                <li><strong>Hover Efekti:</strong> Renk değişimi, gölge artışı veya hafif büyüme</li>
+                <li><strong>Mikro-animasyon:</strong> Tıklamada ripple veya bounce efekti</li>
+            </ul>
+            <div style="display: flex; gap: 15px; margin-top: 20px; flex-wrap: wrap;">
+                <button style="background: linear-gradient(135deg, #f093fb, #f5576c); color: white; border: none; padding: 15px 35px; border-radius: 50px; cursor: pointer; font-size: 1.1rem; font-weight: bold; box-shadow: 0 4px 15px rgba(245,87,108,0.3); transition: all 0.3s ease;">
+                    <i class="fas fa-rocket"></i> Hemen Başla
+                </button>
+                <button style="background: white; color: #f5576c; border: 2px solid #f5576c; padding: 15px 35px; border-radius: 50px; cursor: pointer; font-size: 1.1rem; font-weight: bold; transition: all 0.3s ease;">
+                    <i class="fas fa-info-circle"></i> Daha Fazla Bilgi
+                </button>
+            </div>
+        </div>
+
+        <h2><i class="fas fa-mobile-alt"></i> Mobile-First UX/UI</h2>
+
+        <p>
+            2025'te web trafiğinin %70'inden fazlası mobil cihazlardan geliyor. 
+            <strong>Mobile-first</strong> yaklaşım artık opsiyonel değil, zorunluluk!
+        </p>
+
+        <div class="principle-card">
+            <h3><i class="fas fa-hand-pointer"></i> Mobil UX Prensipleri</h3>
+            <ul>
+                <li><strong>Thumb Zone:</strong> Önemli elementleri ekranın alt kısmına yerleştirin (başparmak erişim bölgesi)</li>
+                <li><strong>Gesture Navigation:</strong> Swipe, pinch-to-zoom gibi doğal hareketleri destekleyin</li>
+                <li><strong>Loading Speed:</strong> Mobilde 3 saniyenin üzerindeki yükleme %53 bounce rate'e yol açar</li>
+                <li><strong>Touch Targets:</strong> Tıklanabilir alanlar arasında minimum 8px boşluk bırakın</li>
+                <li><strong>Simplified Navigation:</strong> Hamburger menü veya bottom navigation kullanın</li>
+                <li><strong>Form Optimization:</strong> Otomatik doldurma, klavye tiplerine göre input type seçimi</li>
+            </ul>
+        </div>
+
+        <h2><i class="fas fa-vial"></i> A/B Testing ve Optimizasyon</h2>
+
+        <p>
+            En iyi UX tasarımcılar bile her zaman doğru tahmin edemez. 
+            <strong>A/B testing</strong> ile varsayımlarınızı test edin, veriye dayalı kararlar alın.
+        </p>
+
+        <div style="background: linear-gradient(135deg, #667eea, #764ba2); color: white; padding: 40px; border-radius: 20px; margin: 40px 0;">
+            <h3 style="color: white; margin-top: 0;"><i class="fas fa-flask"></i> A/B Test Örnekleri</h3>
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 20px; margin-top: 20px;">
+                <div style="background: rgba(255,255,255,0.2); padding: 20px; border-radius: 10px;">
+                    <h4 style="color: white;">Buton Rengi</h4>
+                    <p>Yeşil vs Turuncu CTA butonu - %18 dönüşüm artışı</p>
+                </div>
+                <div style="background: rgba(255,255,255,0.2); padding: 20px; border-radius: 10px;">
+                    <h4 style="color: white;">Başlık Metni</h4>
+                    <p>"Kayıt Ol" vs "Ücretsiz Dene" - %27 tıklama artışı</p>
+                </div>
+                <div style="background: rgba(255,255,255,0.2); padding: 20px; border-radius: 10px;">
+                    <h4 style="color: white;">Form Uzunluğu</h4>
+                    <p>8 alan vs 4 alan - %34 tamamlama oranı artışı</p>
+                </div>
+            </div>
+        </div>
+
+        <h2><i class="fas fa-trophy"></i> Sonuç: Kullanıcı Her Zaman Haklıdır</h2>
+
+        <p>
+            Mükemmel UX/UI tasarımının sırrı, kullanıcıyı merkeze almaktır. Estetik önemlidir ama 
+            <strong>kullanılabilirlik her zaman öncelikli</strong> olmalıdır. Steve Krug'un ünlü sözü: 
+            <em>"Don't make me think"</em> (Beni düşündürme) - bu UX tasarımının özüdür.
+        </p>
+
+        <div class="principle-card">
+            <h3><i class="fas fa-lightbulb"></i> Hatırlamanız Gereken 5 Altın Kural</h3>
+            <ol style="font-size: 1.1rem; line-height: 2;">
+                <li><strong>Tutarlılık:</strong> Tüm sayfalarda aynı tasarım dilini kullanın</li>
+                <li><strong>Geri Bildirim:</strong> Her kullanıcı eylemine anında yanıt verin (loading, success, error states)</li>
+                <li><strong>Hata Önleme:</strong> Kullanıcının hata yapmasını engelleyin, eğer yaparsa düzeltmesini kolaylaştırın</li>
+                <li><strong>Esneklik:</strong> Hem acemi hem de ileri seviye kullanıcılar için çözümler sunun</li>
+                <li><strong>Minimalizm:</strong> Gereksiz her şeyi kaldırın - less is more</li>
+            </ol>
+        </div>
+
+        <div style="background: linear-gradient(135deg, #f093fb, #f5576c); color: white; padding: 40px; border-radius: 20px; text-align: center; margin: 50px 0;">
+            <h3 style="margin-top: 0; font-size: 1.8rem;">
+                <i class="fas fa-handshake"></i> Projeniz İçin UX/UI Danışmanlığı
+            </h3>
+            <p style="font-size: 1.1rem; margin: 20px 0;">
+                Kullanıcılarınızın bayılacağı, dönüşüm odaklı arayüzler tasarlayalım. 
+                UX araştırmasından son tasarıma kadar yanınızdayız.
+            </p>
+            <a href="index.html#danismanlik" style="display: inline-block; background: white; color: #f5576c; padding: 15px 40px; border-radius: 50px; text-decoration: none; font-weight: bold; margin-top: 20px; transition: transform 0.3s ease;">
+                Ücretsiz UX Audit Alın <i class="fas fa-arrow-right"></i>
+            </a>
+        </div>
+
+        <div style="margin-top: 50px; padding-top: 30px; border-top: 2px solid #eee;">
+            <h3><i class="fas fa-share-alt"></i> Bu Yazıyı Paylaş</h3>
+            <div style="display: flex; gap: 15px; margin-top: 20px;">
+                <a href="#" style="background: #3b5998; color: white; width: 50px; height: 50px; border-radius: 50%; display: flex; align-items: center; justify-content: center; text-decoration: none; font-size: 1.3rem;">
+                    <i class="fab fa-facebook-f"></i>
+                </a>
+                <a href="#" style="background: #1da1f2; color: white; width: 50px; height: 50px; border-radius: 50%; display: flex; align-items: center; justify-content: center; text-decoration: none; font-size: 1.3rem;">
+                    <i class="fab fa-twitter"></i>
+                </a>
+                <a href="#" style="background: #0077b5; color: white; width: 50px; height: 50px; border-radius: 50%; display: flex; align-items: center; justify-content: center; text-decoration: none; font-size: 1.3rem;">
+                    <i class="fab fa-linkedin-in"></i>
+                </a>
+                <a href="#" style="background: #25d366; color: white; width: 50px; height: 50px; border-radius: 50%; display: flex; align-items: center; justify-content: center; text-decoration: none; font-size: 1.3rem;">
+                    <i class="fab fa-whatsapp"></i>
+                </a>
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer style="background: linear-gradient(135deg, #f093fb, #f5576c); color: white; padding: 50px 20px; text-align: center; margin-top: 80px;">
+        <div class="container">
+            <p style="margin: 0; font-size: 1.1rem;">&copy; 2025 Webtelligence. Tüm hakları saklıdır.</p>
+            <p style="margin: 10px 0 0 0;">Kullanıcı odaklı tasarım çözümleri için yanınızdayız.</p>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+    <script src="blog.js"></script>
+</body>
+</html>
