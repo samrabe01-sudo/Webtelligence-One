@@ -1,0 +1,19 @@
+# Netlify configuration for static client deployment
+# Connect this repository in Netlify UI; on push to main Netlify will publish /client
+
+[build]
+  publish = "client"
+  command = "echo Static site - no build step"
+
+# Optional: redirect API calls locally (adjust as needed)
+[[redirects]]
+  from = "/api/*"
+  to = "https://webtelligence-one-backend.onrender.com/:splat"
+  status = 200
+
+# Headers example (uncomment as needed)
+#[[headers]]
+#  for = "/*"
+#  [headers.values]
+#    X-Frame-Options = "DENY"
+#    X-Content-Type-Options = "nosniff"
