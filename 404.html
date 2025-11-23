@@ -1,0 +1,33 @@
+<!doctype html>
+<html lang="tr">
+<head>
+  <meta charset="utf-8" />
+  <title>404 - Sayfa Bulunamadı | Webtelligence</title>
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <style>
+    body{font-family:system-ui,-apple-system,Segoe UI,Roboto,Ubuntu,sans-serif;display:flex;align-items:center;justify-content:center;min-height:100vh;margin:0;background:#0d0f17;color:#fff;}a{color:#61dafb;text-decoration:none}main{max-width:560px;padding:40px 36px;border:1px solid #222;border-radius:16px;background:#141824;box-shadow:0 8px 32px rgba(0,0,0,.5)}h1{font-size:2.2rem;margin:0 0 .75rem}p{line-height:1.55;margin:.75rem 0}.hint{opacity:.7;font-size:.85rem;margin-top:1.25rem}code{background:#1f2533;padding:2px 6px;border-radius:4px;font-size:.8rem}nav{margin-top:1.25rem;display:flex;flex-wrap:wrap;gap:.75rem}nav a{background:#1f2533;padding:.55rem .9rem;border-radius:8px;font-size:.85rem;transition:.25s}nav a:hover{background:#263042}
+  </style>
+  <meta name="robots" content="noindex" />
+</head>
+<body>
+  <main>
+    <h1>404</h1>
+    <p>Aradığınız sayfa bulunamadı veya yeni klasör yapısına taşındı.</p>
+    <p>Site artık <code>/client/</code> altında barınıyor. Ana sayfaya yönlendirmek için aşağıdaki bağlantıyı kullanabilirsiniz.</p>
+    <nav>
+      <a href="/client/index.html">Ana Sayfa</a>
+      <a href="/client/blog.html">Blog</a>
+      <a href="/client/profile.html">Profil</a>
+    </nav>
+    <p class="hint">Bu özel 404 sayfası GitHub Pages tarafından otomatik sunulur. Kalıcı bağlantı hataları için depoda kırık linkleri güncelleyin.</p>
+    <script>
+      // Eğer doğrudan kök altındaki eski bir dosya ismi istenirse genel ana sayfaya yönlendir.
+      const legacyFiles = ['styles.css','script.js','login.html','signup.html'];
+      const requested = location.pathname.split('/').pop();
+      if(legacyFiles.includes(requested)){
+        location.replace('/client/index.html');
+      }
+    </script>
+  </main>
+</body>
+</html>
