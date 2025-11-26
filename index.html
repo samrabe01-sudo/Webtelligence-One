@@ -4,8 +4,8 @@
   <meta charset="utf-8" />
   <title>Yönlendiriliyor... | Webtelligence</title>
   <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <meta http-equiv="refresh" content="0; url=./client/index.html" />
-  <link rel="canonical" href="https://mexsuweb.com/client/index.html" />
+  <!-- Yönlendirme kaldırıldı: kök alan adında kal -->
+  <link rel="canonical" href="https://mexsuweb.com/" />
   <style>
     body{font-family:system-ui,-apple-system,Segoe UI,Roboto,Ubuntu,sans-serif;display:flex;align-items:center;justify-content:center;min-height:100vh;margin:0;background:#0d0f17;color:#fff;}a{color:#61dafb;text-decoration:none}main{max-width:520px;padding:32px;border:1px solid #222;border-radius:12px;background:#141824;box-shadow:0 8px 32px rgba(0,0,0,.4)}h1{font-size:1.4rem;margin:0 0 1rem}p{line-height:1.5;margin:.5rem 0}.spinner{width:42px;height:42px;border:4px solid #1f2533;border-top-color:#61dafb;border-radius:50%;animation:spin 1s linear infinite;margin:0 auto 1.25rem}@keyframes spin{to{transform:rotate(360deg)}}
   </style>
@@ -14,14 +14,10 @@
 <body>
   <main role="status" aria-live="polite">
     <div class="spinner" aria-hidden="true"></div>
-    <h1>Yönlendiriliyor...</h1>
-    <p>Yeni frontend yapısı <code>/client/</code> klasörüne taşındı.</p>
-    <p>Otomatik yönlendirme başarısız olursa <a href="./client/index.html">buraya tıklayın</a>.</p>
-    <p><small>GitHub Pages ana dizinde bir <code>index.html</code> dosyası bekler. Bu dosya sadece yönlendirme amaçlıdır.</small></p>
+    <h1>Webtelligence</h1>
+    <p>Bu kök dizin sayfası, ana domaine hizmet verir. İçerik otomatik olarak frontend tarafından sunulur.</p>
+    <p><a href="/" aria-label="Ana sayfa">Ana sayfaya dön</a></p>
   </main>
-  <script>
-    // JS fallback (bazı tarayıcılarda meta refresh disable olabilir)
-    setTimeout(function(){ if(location.pathname.endsWith('/index.html') || location.pathname === '/' ){ location.replace('./client/index.html'); } }, 150);
-  </script>
+  <!-- Yönlendirme scripti kaldırıldı; URL kök dizinde kalır -->
 </body>
 </html>

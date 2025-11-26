@@ -13,21 +13,14 @@
   <main>
     <h1>404</h1>
     <p>Aradığınız sayfa bulunamadı veya yeni klasör yapısına taşındı.</p>
-    <p>Site artık <code>/client/</code> altında barınıyor. Ana sayfaya yönlendirmek için aşağıdaki bağlantıyı kullanabilirsiniz.</p>
+    <p>Ana sayfaya dönmek için aşağıdaki bağlantıyı kullanabilirsiniz.</p>
     <nav>
-      <a href="/client/index.html">Ana Sayfa</a>
-      <a href="/client/blog.html">Blog</a>
-      <a href="/client/profile.html">Profil</a>
+      <a href="/">Ana Sayfa</a>
+      <a href="/blog.html">Blog</a>
+      <a href="/profile.html">Profil</a>
     </nav>
     <p class="hint">Bu özel 404 sayfası GitHub Pages tarafından otomatik sunulur. Kalıcı bağlantı hataları için depoda kırık linkleri güncelleyin.</p>
-    <script>
-      // Eğer doğrudan kök altındaki eski bir dosya ismi istenirse genel ana sayfaya yönlendir.
-      const legacyFiles = ['styles.css','script.js','login.html','signup.html'];
-      const requested = location.pathname.split('/').pop();
-      if(legacyFiles.includes(requested)){
-        location.replace('/client/index.html');
-      }
-    </script>
+    <!-- Yönlendirme scripti kaldırıldı; URL kök dizinde kalır -->
   </main>
 </body>
 </html>
