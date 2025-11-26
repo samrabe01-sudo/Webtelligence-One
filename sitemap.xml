@@ -37,7 +37,14 @@
 
     <url>
         <loc>https://mexsuweb.com/blog-responsive-tasarim-teknikleri.html</loc>
-        <lastmod>2025-10-23</lastmod>
+        <lastmod>2025-10-27</lastmod>
+        <changefreq>monthly</changefreq>
+        <priority>0.8</priority>
+    </url>
+
+    <url>
+        <loc>https://mexsuweb.com/blog-renk-psikolojisi-web-tasarim.html</loc>
+        <lastmod>2025-10-27</lastmod>
         <changefreq>monthly</changefreq>
         <priority>0.8</priority>
     </url>

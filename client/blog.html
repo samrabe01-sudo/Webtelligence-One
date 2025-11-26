@@ -3,8 +3,105 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Blog - Mert Yüksel | Web Tasarım Makaleleri</title>
-    <meta name="description" content="Web tasarım, frontend development ve UI/UX hakkında güncel makaleler ve ipuçları.">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    
+    <!-- Primary Meta Tags -->
+    <title>Blog - Mert Yüksel | Web Tasarım & Development Makaleleri</title>
+    <meta name="title" content="Blog - Mert Yüksel | Web Tasarım & Development Makaleleri">
+    <meta name="description" content="Web tasarım, frontend development, UI/UX, SEO ve modern web teknolojileri hakkında uzman görüşleri, ipuçları ve güncel trendler. Profesyonel rehberler ve detaylı makaleler.">
+    <meta name="keywords" content="web tasarım blog, frontend development, UI/UX makaleleri, web development türkiye, responsive tasarım, modern web trendleri, SEO ipuçları, javascript rehberleri, css teknikleri, react development">
+    <meta name="author" content="Mert Yüksel">
+    <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1">
+    <link rel="canonical" href="https://mexsuweb.com/blog.html">
+    
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://mexsuweb.com/blog.html">
+    <meta property="og:site_name" content="Mert Yüksel - Webtelligence">
+    <meta property="og:title" content="Blog - Web Tasarım & Development Makaleleri">
+    <meta property="og:description" content="Web tasarım, frontend development, UI/UX hakkında uzman görüşleri ve güncel makaleler. Modern web teknolojileri ve tasarım trendleri.">
+    <meta property="og:image" content="https://mexsuweb.com/images/blog-og-image.jpg">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
+    <meta property="og:locale" content="tr_TR">
+    
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:url" content="https://mexsuweb.com/blog.html">
+    <meta name="twitter:title" content="Blog - Web Tasarım & Development Makaleleri">
+    <meta name="twitter:description" content="Web tasarım, frontend development ve UI/UX hakkında uzman görüşleri ve güncel makaleler.">
+    <meta name="twitter:image" content="https://mexsuweb.com/images/blog-twitter-image.jpg">
+    <meta name="twitter:creator" content="@mertyuksel">
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/svg+xml" href="images/favicon.svg">
+    <link rel="apple-touch-icon" sizes="180x180" href="images/head_logo.png">
+    
+    <!-- Preconnect for Performance -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="preconnect" href="https://cdnjs.cloudflare.com">
+    
+    <!-- DNS Prefetch -->
+    <link rel="dns-prefetch" href="https://fonts.googleapis.com">
+    <link rel="dns-prefetch" href="https://cdnjs.cloudflare.com">
+    
+    <!-- Schema.org JSON-LD -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "Blog",
+      "@id": "https://mexsuweb.com/blog.html#blog",
+      "mainEntityOfPage": {
+        "@type": "WebPage",
+        "@id": "https://mexsuweb.com/blog.html"
+      },
+      "name": "Mert Yüksel Web Tasarım Blog",
+      "description": "Web tasarım, frontend development, UI/UX ve modern web teknolojileri hakkında uzman makaleleri",
+      "url": "https://mexsuweb.com/blog.html",
+      "publisher": {
+        "@type": "Person",
+        "name": "Mert Yüksel",
+        "url": "https://mexsuweb.com",
+        "logo": {
+          "@type": "ImageObject",
+          "url": "https://mexsuweb.com/images/head_logo.png",
+          "width": 180,
+          "height": 180
+        }
+      },
+      "inLanguage": "tr-TR",
+      "author": {
+        "@type": "Person",
+        "name": "Mert Yüksel",
+        "url": "https://mexsuweb.com",
+        "jobTitle": "Web Developer & UI/UX Designer",
+        "alumniOf": "Frontend Development"
+      }
+    }
+    </script>
+    
+    <!-- Breadcrumb Schema -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        {
+          "@type": "ListItem",
+          "position": 1,
+          "name": "Ana Sayfa",
+          "item": "https://mexsuweb.com"
+        },
+        {
+          "@type": "ListItem",
+          "position": 2,
+          "name": "Blog",
+          "item": "https://mexsuweb.com/blog.html"
+        }
+      ]
+    }
+    </script>
     
     <!-- Font Awesome Icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
@@ -18,21 +115,21 @@
     <!-- Navigation -->
     <nav class="navbar" id="navbar">
         <div class="nav-container">
-            <div class="nav-logo">
-                <h3>Mert<span>Yüksel</span></h3>
+            <div class="nav-left">
+                <a href="index.html" class="nav-link nav-return-home" aria-label="Mexsu Web ana sayfasına dön">
+                    <i class="fas fa-arrow-left" style="margin-right:6px;"></i> mexsu web'e dön
+                </a>
             </div>
-            <ul class="nav-menu" id="nav-menu">
-                <li><a href="index.html" class="nav-link">Ana Sayfa</a></li>
-                <li><a href="index.html#about" class="nav-link">Hakkımda</a></li>
-                <li><a href="blog.html" class="nav-link active">Blog</a></li>
-                <li><a href="index.html#portfolio" class="nav-link">Portföy</a></li>
-                <li><a href="index.html#services" class="nav-link">Hizmetler</a></li>
-                <li><a href="index.html#contact" class="nav-link">İletişim</a></li>
-            </ul>
-            <div class="hamburger" id="hamburger">
-                <span></span>
-                <span></span>
-                <span></span>
+            <div class="nav-right">
+                <div class="nav-auth-group" aria-label="Kimlik işlemleri">
+                    <a href="login.html" class="btn-auth btn-auth--login" aria-label="Giriş Yap">Giriş Yap</a>
+                    <a href="signup.html" class="btn-auth btn-auth--signup" aria-label="Kaydol">Kaydol</a>
+                </div>
+                <div class="hamburger" id="hamburger" aria-label="Mobil menü aç/kapat" role="button">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </div>
             </div>
         </div>
     </nav>
@@ -62,6 +159,9 @@
                 <button class="category-btn active" data-category="all">
                     <i class="fas fa-th"></i> Tümü
                 </button>
+                <button class="category-btn" data-category="business">
+                    <i class="fas fa-briefcase"></i> İşletme Gelişimi
+                </button>
                 <button class="category-btn" data-category="web-design">
                     <i class="fas fa-palette"></i> Web Tasarım
                 </button>
@@ -87,7 +187,35 @@
             <div class="blog-layout">
                 <!-- Blog Posts Grid -->
                 <div class="blog-posts-grid">
-                    <!-- Blog Post 1 -->
+                    <!-- Blog Post 1 - YENİ EKLENEN -->
+                    <article class="blog-card" data-category="business">
+                        <div class="blog-card-image">
+                            <div class="blog-placeholder-image" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);">
+                                <i class="fas fa-rocket"></i>
+                            </div>
+                            <span class="blog-category-badge" style="background: linear-gradient(135deg, #667eea, #764ba2);">İşletme Gelişimi</span>
+                            <span class="badge-new">🔥 YENİ</span>
+                        </div>
+                        <div class="blog-card-content">
+                            <div class="blog-meta">
+                                <span><i class="far fa-calendar"></i> 25 Kasım 2025</span>
+                                <span><i class="far fa-clock"></i> 14 dk okuma</span>
+                            </div>
+                            <h3>💼 Web Sitesi Olmayan İşletmeler İçin 2025 Dijital Dönüşüm Rehberi</h3>
+                            <p>İşletmeniz hala web sitesi olmadan mı çalışıyor? 2025'te dijital varlık artık opsiyonel değil, zorunlu! Rakiplerinizin önüne geçmek için adım adım rehber.</p>
+                            <div class="blog-tags">
+                                <span class="tag">Dijital Dönüşüm</span>
+                                <span class="tag">İşletme</span>
+                                <span class="tag">ROI</span>
+                                <span class="tag">KOBİ</span>
+                            </div>
+                            <a href="blog-dijital-donusum-rehberi-2025.html" class="blog-read-more">
+                                Devamını Oku <i class="fas fa-arrow-right"></i>
+                            </a>
+                        </div>
+                    </article>
+
+                    <!-- Blog Post 2 -->
                     <article class="blog-card" data-category="web-design">
                         <div class="blog-card-image">
                             <div class="blog-placeholder-image gradient-1">
@@ -212,6 +340,60 @@
                                 <span class="tag">JavaScript</span>
                             </div>
                             <a href="blog-web-animasyonlari-mikro-etkilesimler.html" class="blog-read-more">
+                                Devamını Oku <i class="fas fa-arrow-right"></i>
+                            </a>
+                        </div>
+                    </article>
+
+                    <!-- Blog Post 7 - YENİ -->
+                    <article class="blog-card" data-category="tips">
+                        <div class="blog-card-image">
+                            <div class="blog-placeholder-image" style="background: linear-gradient(135deg, #11998e 0%, #38ef7d 100%);">
+                                <i class="fas fa-search"></i>
+                            </div>
+                            <span class="blog-category-badge" style="background: linear-gradient(135deg, #11998e, #38ef7d);">SEO & Marketing</span>
+                            <span class="badge-new">🔥 YENİ</span>
+                        </div>
+                        <div class="blog-card-content">
+                            <div class="blog-meta">
+                                <span><i class="far fa-calendar"></i> 26 Kasım 2025</span>
+                                <span><i class="far fa-clock"></i> 18 dk okuma</span>
+                            </div>
+                            <h3>🚀 2025 SEO Optimizasyonu Rehberi: Google'da İlk Sayfaya Çıkma</h3>
+                            <p>Core Web Vitals, E-A-T, semantic SEO ve AI-powered search optimization ile web sitenizi Google'ın ilk sayfasına çıkarın. Adım adım teknik SEO rehberi.</p>
+                            <div class="blog-tags">
+                                <span class="tag">SEO</span>
+                                <span class="tag">Google</span>
+                                <span class="tag">Marketing</span>
+                                <span class="tag">Traffic</span>
+                            </div>
+                            <a href="blog-seo-optimizasyonu-2025.html" class="blog-read-more">
+                                Devamını Oku <i class="fas fa-arrow-right"></i>
+                            </a>
+                        </div>
+                    </article>
+
+                    <!-- Blog Post 8 (E-Ticaret) -->
+                    <article class="blog-card blog-card--commerce" data-category="development" aria-labelledby="ecommerce-card-title">
+                        <div class="badge-new">🔥 YENİ</div>
+                        <div class="blog-card-header">
+                            <h2 id="ecommerce-card-title" class="blog-card-title">🛒 E-Ticaret Web Sitesi Nasıl Yapılır?</h2>
+                        </div>
+                        <div class="blog-card-content">
+                            <p class="blog-card-excerpt">Platform seçimi (WooCommerce, Shopify, İdeasoft), ödeme sistemleri, kargo entegrasyonu, yasal gereklilikler ve SEO stratejileri ile 2025'te başarılı online mağaza kurma rehberi.</p>
+                            <div class="blog-card-footer">
+                                <div class="blog-card-meta">
+                                    <span><i class="fas fa-calendar"></i> 26 Kasım 2025</span>
+                                    <span><i class="fas fa-clock"></i> 20 dk okuma</span>
+                                </div>
+                                <div class="blog-card-tags">
+                                    <span class="badge badge-commerce">E-Ticaret</span>
+                                    <span class="badge badge-info">WooCommerce</span>
+                                    <span class="badge badge-warning">Shopify</span>
+                                    <span class="badge badge-success">İyzico</span>
+                                </div>
+                            </div>
+                            <a href="blog-e-ticaret-web-sitesi-yapimi.html" class="blog-read-more" aria-label="E-Ticaret web sitesi nasıl yapılır blog yazısını oku">
                                 Devamını Oku <i class="fas fa-arrow-right"></i>
                             </a>
                         </div>

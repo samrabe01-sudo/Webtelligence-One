@@ -4,8 +4,8 @@
 // Development
 const API_BASE_DEV = 'http://localhost:4000';
 
-// Production (Render/Heroku backend URL'inizi buraya yazın)
-const API_BASE_PROD = 'https://your-backend-api.onrender.com';
+// Production (Render backend URL)
+const API_BASE_PROD = 'https://webtelligence-one-backend.onrender.com';
 
 // Automatically detect environment
 const API_BASE = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1'

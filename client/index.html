@@ -2,7 +2,9 @@
 <html lang="tr">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <meta name="format-detection" content="telephone=no">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <title>Mert Yüksel - Profesyonel Web Tasarımcısı & Full-Stack Developer | Webtelligence</title>
     <meta name="description" content="Mert Yüksel - Modern web tasarım ve geliştirme hizmetleri. React, Node.js, UI/UX tasarım uzmanı. 10+ başarılı proje, SEO optimize ve responsive web siteleri.">
     <meta name="keywords" content="web tasarım, web geliştirme, frontend, responsive design, UI/UX, React, Node.js, full-stack developer, Türkiye">
@@ -25,18 +27,20 @@
     <meta property="twitter:description" content="Modern web tasarım ve geliştirme hizmetleri. React, Node.js, UI/UX tasarım uzmanı.">
     <meta property="twitter:image" content="https://mexsuweb.com/images/twitter-image.jpg">
     
-    <!-- Favicon -->
-    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
-    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
-    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+    <!-- Favicon (yuvarlak tasarım) -->
+    <link rel="icon" type="image/svg+xml" href="images/favicon.svg">
+    <link rel="apple-touch-icon" sizes="180x180" href="images/head_logo.png">
     
     <!-- PWA Manifest -->
     <link rel="manifest" href="/manifest.json">
-    <meta name="theme-color" content="#667eea">
+    <meta name="theme-color" content="#6c5ce7" media="(prefers-color-scheme: light)">
+    <meta name="theme-color" content="#2d3436" media="(prefers-color-scheme: dark)">
     <meta name="apple-mobile-web-app-capable" content="yes">
-    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-status-bar-style" content="default">
     <meta name="apple-mobile-web-app-title" content="Webtelligence">
     <meta name="mobile-web-app-capable" content="yes">
+    <link rel="apple-touch-icon" href="/images/head_logo.png">
+    <link rel="apple-touch-startup-image" href="/images/head_logo.png">
     
     <!-- Google Analytics 4 (GA4) -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-XXXXXXXXXX"></script>
@@ -167,40 +171,21 @@
 <body>
     <!-- Loading Screen -->
     <div class="loading-screen" id="loadingScreen">
-        <div class="loading-code-bg" id="loadingCodeBg"></div>
         <div class="loading-content">
-            <div class="loading-logo-container">
-                <div class="code-brackets">
-                    <span class="bracket-left">&lt;</span>
-                    <span class="bracket-slash">/</span>
-                    <span class="bracket-right">&gt;</span>
+            <div class="loading-logo">
+                <div class="logo-circle">
+                    <svg class="logo-svg" viewBox="0 0 100 100">
+                        <circle class="logo-ring" cx="50" cy="50" r="45"/>
+                        <path class="logo-checkmark" d="M30 50 L45 65 L70 35" stroke-dasharray="100" stroke-dashoffset="100"/>
+                    </svg>
                 </div>
+                <h2 class="loading-brand">MEXSU</h2>
             </div>
-            <div class="loading-terminal">
-                <div class="terminal-header">
-                    <div class="terminal-dots">
-                        <span class="dot dot-red"></span>
-                        <span class="dot dot-yellow"></span>
-                        <span class="dot dot-green"></span>
-                    </div>
-                    <div class="terminal-title">terminal</div>
+            <div class="loading-progress">
+                <div class="progress-bar">
+                    <div class="progress-fill" id="progressFill"></div>
                 </div>
-                <div class="terminal-body">
-                    <div class="terminal-line" id="terminalLine1"><span class="prompt">$</span> <span class="command">npm run dev</span></div>
-                    <div class="terminal-line" id="terminalLine2"><span class="output">Building application...</span></div>
-                    <div class="terminal-line" id="terminalLine3">
-                        <span class="output">Progress: </span>
-                        <span class="loading-percentage" id="loadingPercentage">0%</span>
-                    </div>
-                    <div class="terminal-cursor">_</div>
-                </div>
-            </div>
-            <div class="loading-tech-stack">
-                <span class="tech-item">React</span>
-                <span class="tech-separator">•</span>
-                <span class="tech-item">Node.js</span>
-                <span class="tech-separator">•</span>
-                <span class="tech-item">TypeScript</span>
+                <p class="loading-text" id="loadingText">Yükleniyor...</p>
             </div>
         </div>
     </div>
@@ -363,19 +348,15 @@
                 </div>
                 <p>Modern, kullanıcı dostu ve etkileyici web siteleri oluşturarak dijital dünyada fark yaratıyorum. Yaratıcılık ve teknoloji bir araya geldiğinde ortaya çıkan muhteşem sonuçları keşfedin.</p>
                 
-                <!-- Special Consultation CTA -->
-                <div class="consultation-cta-hero">
-                    <a href="#consultation" class="btn-consultation-hero">
-                        <div class="consultation-text">
-                            <span class="main-text">Ücretsiz Web Tasarım Danışmanlığı</span>
-                            <span class="sub-text">Projenizi detaylı planlayalım</span>
-                        </div>
-                        <div class="consultation-arrow">
-                            <i class="fas fa-arrow-right"></i>
-                        </div>
+                <!-- Instagram Social Link -->
+                <div class="hero-instagram">
+                    <a href="https://instagram.com/mexsuweb" target="_blank" rel="noopener noreferrer" class="instagram-link" aria-label="Instagram'da takip edin">
+                        <i class="fab fa-instagram"></i>
+                        <span>@mexsuweb</span>
                     </a>
                 </div>
-
+                
+                <!-- Primary Action Buttons -->
                 <div class="hero-buttons">
                     <a href="#packages" class="btn btn-primary">
                         <i class="fas fa-briefcase"></i>
@@ -383,134 +364,46 @@
                     </a>
                     <a href="#contact" class="btn btn-secondary">
                         <i class="fas fa-paper-plane"></i>
-                        Hemen İletişime Geç
+                        İletişime Geç
+                    </a>
+                </div>
+
+                <!-- Special Consultation CTA -->
+                <div class="consultation-cta-hero">
+                    <a href="#consultation" class="btn-consultation-hero">
+                        <div class="consultation-text">
+                            <span class="main-text">🎯 Ücretsiz Web Tasarım Danışmanlığı</span>
+                            <span class="sub-text">Projenizi detaylı planlayalım</span>
+                        </div>
+                        <div class="consultation-arrow">
+                            <i class="fas fa-arrow-right"></i>
+                        </div>
                     </a>
                 </div>
                 
-                <!-- Auth CTA in Hero -->
+                <!-- Auth CTA -->
                 <div class="hero-auth-cta">
-                    <p class="hero-auth-text">🔐 Projelerinizi yönetmek için hesap oluşturun</p>
+                    <p class="hero-auth-text">🔐 Hesap oluşturun ve projelerinizi yönetin</p>
                     <div class="hero-auth-buttons">
                         <button class="btn-auth btn-auth--login btn-auth--hero">
                             <i class="fas fa-sign-in-alt"></i> Giriş Yap
                         </button>
                         <button class="btn-auth btn-auth--signup btn-auth--hero">
-                            <i class="fas fa-user-plus"></i> Hemen Kaydol
+                            <i class="fas fa-user-plus"></i> Kaydol
                         </button>
                     </div>
                 </div>
             </div>
             <div class="hero-image">
                 <div class="hero-cyber-world">
-                    <!-- Particle Background Canvas -->
-                    <canvas id="heroParticles" class="hero-particles-canvas"></canvas>
-                    
-                    <!-- 3D Geometric Grid -->
-                    <div class="cyber-grid">
-                        <div class="grid-line grid-horizontal"></div>
-                        <div class="grid-line grid-horizontal grid-h-25"></div>
-                        <div class="grid-line grid-horizontal grid-h-50"></div>
-                        <div class="grid-line grid-horizontal grid-h-75"></div>
-                        <div class="grid-line grid-vertical"></div>
-                        <div class="grid-line grid-vertical grid-v-33"></div>
-                        <div class="grid-line grid-vertical grid-v-66"></div>
+                    <!-- Hero Video (animasyon katmanları kaldırıldı) -->
+                    <div class="hero-media" aria-label="Tanıtım Videosu">
+                        <video id="heroVideo" class="hero-video" autoplay muted loop playsinline preload="metadata" poster="../images/profile/ai_asistan.png">
+                            <source src="../images/profile/Robot_Göğsünde_Kırmızı_Yazı_Dönüşümü.mp4" type="video/mp4" />
+                            Tarayıcınız video etiketini desteklemiyor.
+                        </video>
                     </div>
-                    
-                    <!-- Main Avatar Container -->
-                    <div class="cyber-avatar-container">
-                        <!-- Holographic Ring -->
-                        <div class="holo-ring holo-ring-1"></div>
-                        <div class="holo-ring holo-ring-2"></div>
-                        <div class="holo-ring holo-ring-3"></div>
-                        
-                        <!-- Avatar Core -->
-                        <div class="avatar-core">
-                            <div class="avatar-glow-effect"></div>
-                            <picture>
-                                <source type="image/webp" srcset="images/erkek_ai.webp" />
-                                <img src="images/erkek_ai.png" alt="AI Developer Avatar" class="cyber-avatar-img" loading="eager" decoding="async" width="320" height="320" />
-                            </picture>
-                            <div class="avatar-scan-line"></div>
-                        </div>
-                        
-                        <!-- Orbiting Code Blocks -->
-                        <div class="code-orbit orbit-1">
-                            <div class="code-block block-html">
-                                <div class="block-icon"><i class="fab fa-html5"></i></div>
-                                <div class="block-label">HTML5</div>
-                                <div class="block-glow"></div>
-                            </div>
-                        </div>
-                        
-                        <div class="code-orbit orbit-2">
-                            <div class="code-block block-css">
-                                <div class="block-icon"><i class="fab fa-css3-alt"></i></div>
-                                <div class="block-label">CSS3</div>
-                                <div class="block-glow"></div>
-                            </div>
-                        </div>
-                        
-                        <div class="code-orbit orbit-3">
-                            <div class="code-block block-js">
-                                <div class="block-icon"><i class="fab fa-js-square"></i></div>
-                                <div class="block-label">JavaScript</div>
-                                <div class="block-glow"></div>
-                            </div>
-                        </div>
-                        
-                        <div class="code-orbit orbit-4">
-                            <div class="code-block block-react">
-                                <div class="block-icon"><i class="fab fa-react"></i></div>
-                                <div class="block-label">React</div>
-                                <div class="block-glow"></div>
-                            </div>
-                        </div>
-                        
-                        <div class="code-orbit orbit-5">
-                            <div class="code-block block-node">
-                                <div class="block-icon"><i class="fab fa-node-js"></i></div>
-                                <div class="block-label">Node.js</div>
-                                <div class="block-glow"></div>
-                            </div>
-                        </div>
-                        
-                        <div class="code-orbit orbit-6">
-                            <div class="code-block block-git">
-                                <div class="block-icon"><i class="fab fa-git-alt"></i></div>
-                                <div class="block-label">Git</div>
-                                <div class="block-glow"></div>
-                            </div>
-                        </div>
-                        
-                        <div class="code-orbit orbit-7">
-                            <div class="code-block block-figma">
-                                <div class="block-icon"><i class="fab fa-figma"></i></div>
-                                <div class="block-label">Figma</div>
-                                <div class="block-glow"></div>
-                            </div>
-                        </div>
-                        
-                        <div class="code-orbit orbit-8">
-                            <div class="code-block block-ts">
-                                <div class="block-icon">TS</div>
-                                <div class="block-label">TypeScript</div>
-                                <div class="block-glow"></div>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <!-- Floating Data Nodes -->
-                    <div class="data-nodes">
-                        <div class="data-node node-1">
-                            <div class="node-core"></div>
-                            <div class="node-pulse"></div>
-                        </div>
-                        <div class="data-node node-2">
-                            <div class="node-core"></div>
-                            <div class="node-pulse"></div>
-                        </div>
-                        <div class="data-node node-3">
-                            <div class="node-core"></div>
+                    <!-- Tüm hareketli dekoratif katmanlar kaldırıldı -->
                             <div class="node-pulse"></div>
                         </div>
                         <div class="data-node node-4">
@@ -551,7 +444,10 @@
                             <div class="profile-ring"></div>
                         </div>
                         <div class="profile-avatar">
-                            <img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///ywAAAAAAQABAAACAUwAOw==" data-src="images/ai_avatar.png" alt="Mert Yüksel" class="profile-img lazy-img" width="180" height="180" loading="lazy" decoding="async">
+                            <video id="aboutHeroVideo" class="profile-video" autoplay muted loop playsinline preload="metadata" poster="../images/profile/ai_asistan.png">
+                                <source src="../images/profile/Robot_Göğsünde_Kırmızı_Yazı_Dönüşümü.mp4" type="video/mp4" />
+                                Tarayıcınız video etiketini desteklemiyor.
+                            </video>
                             <div class="profile-status">
                                 <span class="status-dot"></span>
                                 <span>Aktif</span>
@@ -623,7 +519,7 @@
                             <i class="fas fa-code"></i>
                         </div>
                         <div class="stat-content">
-                            <h3 class="counter" data-target="50">0</h3>
+                            <h3 class="counter" data-target="12">0</h3>
                             <span class="stat-plus">+</span>
                             <p>Tamamlanan Proje</p>
                         </div>
@@ -633,7 +529,7 @@
                             <i class="fas fa-smile"></i>
                         </div>
                         <div class="stat-content">
-                            <h3 class="counter" data-target="30">0</h3>
+                            <h3 class="counter" data-target="12">0</h3>
                             <span class="stat-plus">+</span>
                             <p>Mutlu Müşteri</p>
                         </div>
@@ -706,7 +602,10 @@
             <div class="consultation-intro">
                 <div class="consultant-card">
                     <div class="consultant-avatar">
-                        <img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///ywAAAAAAQABAAACAUwAOw==" data-src="images/Gemini_Generated_Image_1risk01risk01ris.png" alt="AI Danışman" class="consultant-img lazy-img" width="240" height="240" loading="lazy" decoding="async">
+                        <video id="consultantVideo" class="consultant-video" autoplay muted loop playsinline preload="metadata" poster="../images/profile/ai_asistan.png">
+                            <source src="../images/profile/Robot_Göğsünde_Kırmızı_Yazı_Dönüşümü.mp4" type="video/mp4" />
+                            Tarayıcınız video etiketini desteklemiyor.
+                        </video>
                     </div>
                     <div class="consultant-info">
                         <h3>Üst Düzey Web Tasarım ve Strateji Danışmanınız</h3>
@@ -760,60 +659,103 @@
                 </div>
             </div>
 
-            <!-- Interactive Consultation Questionnaire -->
+            <!-- Interactive Consultation Questionnaire - Ultra Professional Design -->
             <div class="consultation-questionnaire" id="consultationQuestionnaire">
-                <div class="questionnaire-container">
-                    <!-- Progress Bar -->
-                    <div class="consultation-progress">
-                        <div class="progress-bar">
-                            <div class="progress-fill" id="progressFill"></div>
+                <div class="questionnaire-container-pro">
+                    <!-- Advanced Progress System -->
+                    <div class="consultation-progress-pro">
+                        <div class="progress-header">
+                            <div class="progress-label">
+                                <span class="progress-current" id="currentStep">1</span>
+                                <span class="progress-separator">/</span>
+                                <span class="progress-total" id="totalSteps">10</span>
+                            </div>
+                            <div class="progress-percentage" id="progressPercentage">10%</div>
                         </div>
-                        <div class="progress-info">
-                            <span id="currentQuestion">Soru 1</span>
-                            <span id="totalQuestions">/ 8</span>
+                        <div class="progress-track">
+                            <div class="progress-fill-pro" id="progressFillPro"></div>
+                            <div class="progress-glow"></div>
                         </div>
-                        <!-- Step indicators (dots) -->
-                        <div class="step-indicators" id="stepIndicators" aria-label="Soru adımları göstergesi"></div>
+                        <div class="step-dots" id="stepDots"></div>
                     </div>
 
-                    <!-- Question Container -->
-                    <div class="question-wrapper" id="questionWrapper">
-                        <!-- Initial question loaded by JavaScript -->
-                        <div class="question-card question-hidden">
-                            <div class="question-header">
-                                <span class="question-icon">⏳</span>
-                                <h3 class="question-title">Sorular yükleniyor...</h3>
-                                <p class="question-subtitle">Lütfen bekleyin</p>
+                    <!-- Question Container with Modern Card Design -->
+                    <div class="question-stage" id="questionStage">
+                        <div class="question-card-pro active">
+                            <div class="question-category">
+                                <i class="fas fa-rocket"></i>
+                                <span>Proje Hedefleri</span>
+                            </div>
+                            <h3 class="question-title-pro">Projenizin ana amacı nedir?</h3>
+                            <p class="question-desc-pro">Web sitenizle ulaşmak istediğiniz birincil hedefi seçin</p>
+                            
+                            <div class="answer-grid">
+                                <div class="answer-card" data-value="kurumsal">
+                                    <div class="answer-icon">
+                                        <i class="fas fa-building"></i>
+                                    </div>
+                                    <h4>Kurumsal Tanıtım</h4>
+                                    <p>Şirket kimliği ve hizmetleri tanıtmak</p>
+                                </div>
+                                <div class="answer-card" data-value="e-ticaret">
+                                    <div class="answer-icon">
+                                        <i class="fas fa-shopping-cart"></i>
+                                    </div>
+                                    <h4>E-Ticaret</h4>
+                                    <p>Online ürün satışı yapmak</p>
+                                </div>
+                                <div class="answer-card" data-value="blog">
+                                    <div class="answer-icon">
+                                        <i class="fas fa-pen-fancy"></i>
+                                    </div>
+                                    <h4>İçerik & Blog</h4>
+                                    <p>Makale ve içerik paylaşmak</p>
+                                </div>
+                                <div class="answer-card" data-value="portfoy">
+                                    <div class="answer-icon">
+                                        <i class="fas fa-palette"></i>
+                                    </div>
+                                    <h4>Portföy</h4>
+                                    <p>Çalışmaları sergilemek</p>
+                                </div>
                             </div>
                         </div>
                     </div>
 
-                    <!-- Navigation Buttons -->
-                    <div class="consultation-navigation">
-                        <button class="btn-back hidden" id="btnBack" aria-label="Önceki soru">
-                            <i class="fas fa-arrow-left"></i> Geri
+                    <!-- Premium Navigation -->
+                    <div class="consultation-nav-pro">
+                        <button class="btn-nav-pro btn-back-pro hidden" id="btnBackPro">
+                            <i class="fas fa-arrow-left"></i>
+                            <span>Geri</span>
                         </button>
-                        <button class="btn-next" id="btnNext" disabled aria-label="Sonraki soru">
-                            İleri <i class="fas fa-arrow-right"></i>
+                        <button class="btn-nav-pro btn-next-pro" id="btnNextPro" disabled>
+                            <span>Devam Et</span>
+                            <i class="fas fa-arrow-right"></i>
                         </button>
                     </div>
 
-                    <!-- Results Summary -->
-                    <div class="consultation-summary hidden" id="consultationSummary">
-                        <div class="summary-header">
-                            <i class="fas fa-check-circle"></i>
-                            <h3>🎉 Danışmanlık Analizi Tamamlandı!</h3>
-                            <p>İşte projeniz için kapsamlı değerlendirmem:</p>
+                    <!-- Results Summary - Premium Design -->
+                    <div class="consultation-results hidden" id="consultationResults">
+                        <div class="results-hero">
+                            <div class="results-icon-success">
+                                <i class="fas fa-check-circle"></i>
+                            </div>
+                            <h3>Danışmanlık Analizi Tamamlandı</h3>
+                            <p>Projeniz için detaylı bir değerlendirme hazırladım</p>
                         </div>
-                        <div class="summary-content" id="summaryContent">
-                            <!-- Summary will be dynamically generated -->
+                        
+                        <div class="results-summary" id="resultsSummary">
+                            <!-- Dynamic content -->
                         </div>
-                        <div class="summary-actions">
-                            <button class="btn btn-primary" id="btnDownloadBrief">
-                                <i class="fas fa-download"></i> Brief'i İndir
+                        
+                        <div class="results-actions">
+                            <button class="btn-result-primary" id="btnDownloadBriefPro">
+                                <i class="fas fa-file-download"></i>
+                                <span>Proje Brief'ini İndir</span>
                             </button>
-                            <button class="btn btn-secondary" id="btnContactMe">
-                                <i class="fas fa-paper-plane"></i> Benimle İletişime Geç
+                            <button class="btn-result-secondary" id="btnContactPro">
+                                <i class="fas fa-paper-plane"></i>
+                                <span>Teklif Al</span>
                             </button>
                         </div>
                     </div>
@@ -845,81 +787,6 @@
             
             <!-- Skills Grid -->
             <div class="skills-container">
-                <!-- Main Skills Cards -->
-                <div class="skills-grid">
-                    <div class="skill-card" data-skill="frontend">
-                        <div class="skill-icon">
-                            <i class="fas fa-code"></i>
-                        </div>
-                        <h3>Frontend Development</h3>
-                        <p>Modern JavaScript framework'leri ve kütüphaneler ile interaktif web uygulamaları geliştiriyorum</p>
-                        <div class="skill-technologies">
-                            <span class="tech-badge html">HTML5</span>
-                            <span class="tech-badge css">CSS3</span>
-                            <span class="tech-badge js">JavaScript</span>
-                            <span class="tech-badge react">React.js</span>
-                        </div>
-                        <div class="skill-level-indicator">
-                            <div class="level-bar" data-level="92"></div>
-                            <span class="level-text">92%</span>
-                        </div>
-                    </div>
-
-                    <div class="skill-card" data-skill="design">
-                        <div class="skill-icon">
-                            <i class="fas fa-palette"></i>
-                        </div>
-                        <h3>UI/UX Design</h3>
-                        <p>Kullanıcı deneyimini ön planda tutan, estetik ve işlevsel arayüz tasarımları yapıyorum</p>
-                        <div class="skill-technologies">
-                            <span class="tech-badge figma">Figma</span>
-                            <span class="tech-badge photoshop">Photoshop</span>
-                            <span class="tech-badge bootstrap">Bootstrap</span>
-                            <span class="tech-badge responsive">Responsive</span>
-                        </div>
-                        <div class="skill-level-indicator">
-                            <div class="level-bar" data-level="88"></div>
-                            <span class="level-text">88%</span>
-                        </div>
-                    </div>
-
-                    <div class="skill-card" data-skill="tools">
-                        <div class="skill-icon">
-                            <i class="fas fa-tools"></i>
-                        </div>
-                        <h3>Development Tools</h3>
-                        <p>Modern geliştirme araçları ve iş akışları ile verimli çalışma ortamı oluşturuyorum</p>
-                        <div class="skill-technologies">
-                            <span class="tech-badge git">Git & GitHub</span>
-                            <span class="tech-badge vscode">VS Code</span>
-                            <span class="tech-badge npm">NPM</span>
-                            <span class="tech-badge webpack">Webpack</span>
-                        </div>
-                        <div class="skill-level-indicator">
-                            <div class="level-bar" data-level="85"></div>
-                            <span class="level-text">85%</span>
-                        </div>
-                    </div>
-
-                    <div class="skill-card" data-skill="optimization">
-                        <div class="skill-icon">
-                            <i class="fas fa-rocket"></i>
-                        </div>
-                        <h3>Performance & SEO</h3>
-                        <p>Hızlı, erişilebilir ve arama motoru dostu web siteleri için optimizasyon yapıyorum</p>
-                        <div class="skill-technologies">
-                            <span class="tech-badge seo">SEO</span>
-                            <span class="tech-badge performance">Performance</span>
-                            <span class="tech-badge accessibility">Accessibility</span>
-                            <span class="tech-badge lighthouse">Lighthouse</span>
-                        </div>
-                        <div class="skill-level-indicator">
-                            <div class="level-bar" data-level="79"></div>
-                            <span class="level-text">79%</span>
-                        </div>
-                    </div>
-                </div>
-
                 <!-- Technical Skills Showcase -->
                 <div class="tech-showcase">
                     <h3 class="showcase-title">Teknik Yetenekler</h3>
@@ -1096,7 +963,7 @@
                         <p class="package-description">Küçük işletmeler ve kişisel projeler için profesyonel başlangıç paketi</p>
                     </div>
                     <div class="package-price">
-                        <span class="price-amount">₺3.500</span>
+                        <span class="price-amount">₺7.000</span>
                         <span class="price-period">başlangıç</span>
                     </div>
                     <div class="package-features">
@@ -1148,7 +1015,7 @@
                         <p class="package-description">Online satış yapmak isteyen işletmeler için tam donanımlı çözüm</p>
                     </div>
                     <div class="package-price">
-                        <span class="price-amount">₺7.500</span>
+                        <span class="price-amount">₺25.000</span>
                         <span class="price-period">başlangıç</span>
                     </div>
                     <div class="package-features">
@@ -1251,7 +1118,7 @@
                         <p class="package-description">Freelancer ve yaratıcı profesyoneller için etkileyici portföy sitesi</p>
                     </div>
                     <div class="package-price">
-                        <span class="price-amount">₺4.000</span>
+                        <span class="price-amount">₺8.000</span>
                         <span class="price-period">başlangıç</span>
                     </div>
                     <div class="package-features">
@@ -1298,7 +1165,7 @@
                         <p class="package-description">Sağlık kuruluşları için profesyonel randevu ve hasta yönetim platformu</p>
                     </div>
                     <div class="package-price">
-                        <span class="price-amount">₺9.000</span>
+                        <span class="price-amount">₺15.000</span>
                         <span class="price-period">başlangıç</span>
                     </div>
                     <div class="package-features">
@@ -1400,21 +1267,6 @@
     <!-- Services Section -->
     <section id="services" class="services section-padding">
         <div class="container">
-            <!-- Dekoratif AI Rozetleri (lazy load) -->
-            <div class="ai-badges" aria-hidden="true">
-                <div class="ai-badge" style="top:6%;left:8%;" data-badge>
-                    <img class="ai-badge-img" data-src="images/ai_avatar.webp" alt="" width="64" height="64" decoding="async" loading="lazy" />
-                </div>
-                <div class="ai-badge" style="top:18%;right:10%;" data-badge>
-                    <img class="ai-badge-img" data-src="images/ai_avatar.webp" alt="" width="56" height="56" decoding="async" loading="lazy" />
-                </div>
-                <div class="ai-badge" style="bottom:22%;left:12%;" data-badge>
-                    <img class="ai-badge-img" data-src="images/ai_avatar.webp" alt="" width="60" height="60" decoding="async" loading="lazy" />
-                </div>
-                <div class="ai-badge" style="bottom:10%;right:14%;" data-badge>
-                    <img class="ai-badge-img" data-src="images/ai_avatar.webp" alt="" width="50" height="50" decoding="async" loading="lazy" />
-                </div>
-            </div>
             <div class="section-header">
                 <h2>Hizmetlerim</h2>
                 <p>Sunduğum profesyonel hizmetler</p>
@@ -1535,11 +1387,10 @@
                     <div class="social-links">
                         <h4>Sosyal Medya</h4>
                         <div class="social-icons">
-                            <a href="#" class="social-icon" aria-label="LinkedIn" title="LinkedIn'de bağlantı kurun"><i class="fab fa-linkedin"></i></a>
-                            <a href="#" class="social-icon" aria-label="GitHub" title="GitHub projelerimi görüntüleyin"><i class="fab fa-github"></i></a>
-                            <a href="#" class="social-icon" aria-label="Behance" title="Behance portföyümü inceleyin"><i class="fab fa-behance"></i></a>
-                            <a href="#" class="social-icon" aria-label="Instagram" title="Instagram'da takip edin"><i class="fab fa-instagram"></i></a>
-                            <a href="#" class="social-icon" aria-label="Twitter" title="Twitter'da takip edin"><i class="fab fa-twitter"></i></a>
+                            <a href="https://instagram.com/mexsuweb" target="_blank" rel="noopener noreferrer" class="social-icon social-icon--instagram" aria-label="Instagram" title="Instagram'da takip edin">
+                                <i class="fab fa-instagram"></i>
+                                <span class="instagram-handle">@mexsuweb</span>
+                            </a>
                         </div>
                     </div>
                 </div>
@@ -1579,10 +1430,10 @@
                     <p class="brand-note">by <a href="https://mexsuweb.com" target="_blank" rel="noopener">mexsu</a></p>
                     <p>Yaratıcılık ve teknolojinin buluştuğu noktada, dijital dünyada fark yaratan web siteleri oluşturuyorum.</p>
                     <div class="footer-social">
-                        <a href="#" aria-label="LinkedIn" title="LinkedIn profili"><i class="fab fa-linkedin"></i></a>
-                        <a href="#" aria-label="GitHub" title="GitHub projeleri"><i class="fab fa-github"></i></a>
-                        <a href="#" aria-label="Behance" title="Behance portföyü"><i class="fab fa-behance"></i></a>
-                        <a href="#" aria-label="Instagram" title="Instagram hesabı"><i class="fab fa-instagram"></i></a>
+                        <a href="https://instagram.com/mexsuweb" target="_blank" rel="noopener noreferrer" class="footer-instagram" aria-label="Instagram" title="Instagram hesabı">
+                            <i class="fab fa-instagram"></i>
+                            <span>@mexsuweb</span>
+                        </a>
                     </div>
                 </div>
                 <div class="footer-section">
@@ -1620,55 +1471,52 @@
         </div>
     </footer>
 
-    <!-- Scroll to Top Button -->
-    <button class="scroll-to-top" id="scrollToTop" aria-label="Yukarı çık" title="Sayfanın başına dön">
-        <i class="fas fa-arrow-up"></i>
+    <!-- Scroll to Top Button - New Creative Design -->
+    <button class="scroll-to-top-new" id="scrollToTop" aria-label="Yukarı çık" title="Sayfanın başına dön">
+        <div class="scroll-circle">
+            <svg class="scroll-progress" width="58" height="58">
+                <circle class="scroll-progress-bg" cx="29" cy="29" r="26"></circle>
+                <circle class="scroll-progress-fill" cx="29" cy="29" r="26"></circle>
+            </svg>
+            <div class="scroll-icon">
+                <i class="fas fa-arrow-up"></i>
+            </div>
+        </div>
+        <span class="scroll-tooltip">Başa Dön</span>
     </button>
 
-    <!-- AI Assistant Chat Widget -->
-    <div class="ai-assistant" id="ai-assistant">
-        <div class="assistant-toggle" id="assistantToggle" aria-haspopup="dialog" aria-controls="chatWindow" aria-label="Webtelligence AI sohbetini aç">
-            <div class="assistant-avatar">
+    <!-- AI Assistant Chat Widget (Re-added) -->
+    <div class="ai-assistant" id="ai-assistant" aria-live="polite">
+        <div class="assistant-toggle" id="assistantToggle" aria-haspopup="dialog" aria-controls="chatWindow" aria-label="Webtelligence AI sohbetini aç" tabindex="0">
+            <div class="assistant-avatar" role="img" aria-label="AI Asistan Avatarı">
                 <picture>
-                    <source type="image/webp" srcset="images/ai_avatar.webp" />
-                    <img src="images/ai_avatar.png" alt="AI Asistan" class="assistant-avatar-img" loading="lazy" decoding="async" width="72" height="72" />
+                    <img src="../images/profile/ai_asistan.png" alt="AI Asistan" class="assistant-avatar-img" loading="lazy" decoding="async" width="72" height="72" />
                 </picture>
                 <div class="pulse-ring"></div>
                 <div class="pulse-ring pulse-ring-2"></div>
             </div>
-            <div class="assistant-status">
+            <div class="assistant-status" aria-hidden="false">
                 <div class="status-header">
-                    <div class="status-icon">
+                    <div class="status-icon" aria-hidden="true">
                         <i class="fas fa-robot"></i>
                     </div>
                     <div class="status-info">
                         <span class="status-title">Webtelligence AI</span>
                         <span class="status-subtitle">Çevrimiçi ve Hazır</span>
                     </div>
-                    <div class="status-indicator">
+                    <div class="status-indicator" aria-hidden="true">
                         <div class="pulse-dot"></div>
                     </div>
                 </div>
                 <div class="status-content">
-                    <div class="status-features">
-                        <div class="feature-item">
-                            <i class="fas fa-lightning-bolt"></i>
-                            <span>Anında Yanıt</span>
-                        </div>
-                        <div class="feature-item">
-                            <i class="fas fa-tools"></i>
-                            <span>Problem Çözme</span>
-                        </div>
-                        <div class="feature-item">
-                            <i class="fas fa-chart-line"></i>
-                            <span>Proje Danışmanlığı</span>
-                        </div>
+                    <div class="status-features" aria-hidden="true">
+                        <div class="feature-item"><i class="fas fa-lightning-bolt"></i><span>Anında Yanıt</span></div>
+                        <div class="feature-item"><i class="fas fa-tools"></i><span>Problem Çözme</span></div>
+                        <div class="feature-item"><i class="fas fa-chart-line"></i><span>Proje Danışmanlığı</span></div>
                     </div>
-                    <div class="status-cta">
+                    <div class="status-cta" role="button" tabindex="0">
                         <span class="cta-text">Konuşmaya başlamak için tıklayın!</span>
-                        <div class="cta-arrow">
-                            <i class="fas fa-arrow-right"></i>
-                        </div>
+                        <div class="cta-arrow"><i class="fas fa-arrow-right"></i></div>
                     </div>
                 </div>
             </div>
@@ -1678,32 +1526,24 @@
             <h2 id="chatTitle" class="sr-only">Webtelligence AI Sohbet Penceresi</h2>
             <div class="chat-header">
                 <div class="assistant-info">
-                    <div class="assistant-avatar-small">
+                    <div class="assistant-avatar-small" role="img" aria-label="AI Asistan Küçük Avatarı">
                         <picture>
-                            <source type="image/webp" srcset="images/ai_avatar.webp" />
-                            <img src="images/ai_avatar.png" alt="AI Asistan" class="assistant-avatar-img-small" loading="lazy" decoding="async" width="42" height="42" />
+                            <img src="../images/profile/ai_asistan.png" alt="AI Asistan" class="assistant-avatar-img-small" loading="lazy" decoding="async" width="42" height="42" />
                         </picture>
                     </div>
                     <div class="assistant-details">
                         <h4>Webtelligence AI</h4>
-                        <span class="status-indicator">
-                            <div class="status-dot"></div>
-                            Çevrimiçi
-                        </span>
+                        <span class="status-indicator"><div class="status-dot"></div>Çevrimiçi</span>
                     </div>
                 </div>
-                <button class="chat-close" id="chatClose" aria-label="Sohbeti kapat" title="Kapat">
-                    <i class="fas fa-times"></i>
-                </button>
+                <button class="chat-close" id="chatClose" aria-label="Sohbeti kapat" title="Kapat"><i class="fas fa-times"></i></button>
             </div>
-
             <div class="chat-messages" id="chatMessages" role="log" aria-live="polite" aria-label="Sohbet mesajları">
                 <div class="message assistant-message">
                     <div class="message-avatar">
-                        <div class="assistant-avatar-tiny">
+                        <div class="assistant-avatar-tiny" role="img" aria-label="AI Asistan Küçük Avatarı">
                             <picture>
-                                <source type="image/webp" srcset="images/ai_avatar.webp" />
-                                <img src="images/ai_avatar.png" alt="AI" class="assistant-avatar-img-tiny" loading="lazy" decoding="async" width="32" height="32" />
+                                <img src="../images/profile/ai_asistan.png" alt="AI Asistan" class="assistant-avatar-img-tiny" loading="lazy" decoding="async" width="32" height="32" />
                             </picture>
                         </div>
                     </div>
@@ -1719,44 +1559,25 @@
                         </ul>
                         <p>Nasıl yardımcı olabilirim?</p>
                     </div>
-                    <div class="message-time">
-                        <span id="welcomeTime"></span>
-                    </div>
+                    <div class="message-time"><span id="welcomeTime"></span></div>
                 </div>
             </div>
-
             <div class="quick-actions">
-                <button class="quick-action" data-message="Web sitesi fiyatları nedir?">
-                    <i class="fas fa-dollar-sign"></i>
-                    Fiyatlar
-                </button>
-                <button class="quick-action" data-message="Proje süresi ne kadar?">
-                    <i class="fas fa-clock"></i>
-                    Süre
-                </button>
-                <button class="quick-action" data-message="Portföyünüzü görebilir miyim?">
-                    <i class="fas fa-briefcase"></i>
-                    Portföy
-                </button>
-                <button class="quick-action" data-message="İletişime geçmek istiyorum">
-                    <i class="fas fa-phone"></i>
-                    İletişim
-                </button>
+                <button class="quick-action" data-message="Web sitesi fiyatları nedir?"><i class="fas fa-dollar-sign"></i>Fiyatlar</button>
+                <button class="quick-action" data-message="Proje süresi ne kadar?"><i class="fas fa-clock"></i>Süre</button>
+                <button class="quick-action" data-message="Portföyünüzü görebilir miyim?"><i class="fas fa-briefcase"></i>Portföy</button>
+                <button class="quick-action" data-message="İletişime geçmek istiyorum"><i class="fas fa-phone"></i>İletişim</button>
             </div>
-
             <div class="chat-input-container">
                 <div class="chat-input-wrapper">
-                    <input type="text" class="chat-input" id="chatInput" placeholder="Mesajınızı yazın..." maxlength="500">
-                    <button class="send-button" id="sendButton" aria-label="Mesaj gönder" title="Gönder">
-                        <i class="fas fa-paper-plane"></i>
-                    </button>
+                    <input type="text" class="chat-input" id="chatInput" placeholder="Mesajınızı yazın..." maxlength="500" />
+                    <button class="send-button" id="sendButton" aria-label="Mesaj gönder" title="Gönder"><i class="fas fa-paper-plane"></i></button>
                 </div>
-                <div class="input-counter">
-                    <span id="charCounter">0</span>/500
-                </div>
+                <div class="input-counter"><span id="charCounter">0</span>/500</div>
             </div>
         </div>
     </div>
+
 
     <!-- Custom JavaScript -->
     <script src="js/config.js"></script>
