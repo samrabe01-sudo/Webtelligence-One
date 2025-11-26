@@ -26,10 +26,19 @@ jobs:
         uses: actions/checkout@v4
       - name: Setup Pages
         uses: actions/configure-pages@v4
+      - name: Prepare artifact from client directory
+        run: |
+          mkdir -p dist
+          cp -r client/* dist/
+          # CNAME kökte ise Pages için artefakta dahil et
+          if [ -f CNAME ]; then cp CNAME dist/CNAME; fi
+          # Robots ve sitemap kökteyse kopyala
+          if [ -f robots.txt ]; then cp robots.txt dist/robots.txt; fi
+          if [ -f sitemap.xml ]; then cp sitemap.xml dist/sitemap.xml; fi
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
-          path: '.'
+          path: 'dist'
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v4
