@@ -1,10 +1,33 @@
-// DOM Elements
-const navbar = document.getElementById('navbar');
-const hamburger = document.getElementById('hamburger');
-const navMenu = document.getElementById('nav-menu');
-const scrollToTopBtn = document.getElementById('scrollToTop');
-const contactForm = document.getElementById('contactForm');
-const typingText = document.getElementById('typing-text');
+console.log('🚀 Main.js loading...');
+
+// Performance Utilities
+const debounce = (func, wait) => {
+    let timeout;
+    return function executedFunction(...args) {
+        const later = () => {
+            clearTimeout(timeout);
+            func(...args);
+        };
+        clearTimeout(timeout);
+        timeout = setTimeout(later, wait);
+    };
+};
+
+const throttle = (func, limit) => {
+    let inThrottle;
+    return function(...args) {
+        if (!inThrottle) {
+            func.apply(this, args);
+            inThrottle = true;
+            setTimeout(() => inThrottle = false, limit);
+        }
+    };
+};
+
+// DOM Elements - will be initialized after DOM loads
+let scrollToTopBtn;
+let contactForm;
+let typingText;
 
 // Typing Animation
 const typingTexts = [
@@ -19,6 +42,11 @@ let charIndex = 0;
 let isDeleting = false;
 
 function typeWriter() {
+    if (!typingText) {
+        typingText = document.getElementById('typing-text');
+        if (!typingText) return;
+    }
+    
     const currentText = typingTexts[textIndex];
     
     if (isDeleting) {
@@ -56,68 +84,80 @@ const loadingMessages = [
 ];
 
 function animateLoading() {
-    if (loadingProgress < 100) {
-        loadingProgress += Math.random() * 3 + 1;
-        if (loadingProgress > 100) loadingProgress = 100;
-        
-        if (progressFill) {
-            progressFill.style.width = loadingProgress + '%';
-        }
-        
-        // Update loading message based on progress
-        if (loadingText) {
-            if (loadingProgress < 25) {
-                loadingText.textContent = loadingMessages[0];
-            } else if (loadingProgress < 60) {
-                loadingText.textContent = loadingMessages[1];
-            } else if (loadingProgress < 90) {
-                loadingText.textContent = loadingMessages[2];
-            } else {
-                loadingText.textContent = loadingMessages[3];
-            }
-        }
-        
-        requestAnimationFrame(animateLoading);
-    } else {
+    // Progress bar animasyonu DEVRE DIŞI - Anında kapat
+    hideLoadingScreen();
+}
+
+// Loading Screen Management - Immediate Hide
+function hideLoadingScreen() {
+    const loadingScreen = document.getElementById('loadingScreen');
+    if (loadingScreen) {
+        loadingScreen.classList.add('hidden');
         setTimeout(() => {
-            const loadingScreen = document.getElementById('loadingScreen');
-            if (loadingScreen) {
-                loadingScreen.classList.add('hidden');
-                setTimeout(() => {
-                    loadingScreen.style.display = 'none';
-                }, 600);
-            }
-        }, 300);
+            loadingScreen.style.display = 'none';
+            loadingScreen.remove(); // Tamamen DOM'dan kaldır
+        }, 600);
     }
 }
 
-// Loading başlat
-if (progressFill) {
-    setTimeout(() => animateLoading(), 200);
+// ANİNDA kapat - Sayfa yüklenir yüklenmez
+const loadingScreen = document.getElementById('loadingScreen');
+if (loadingScreen) {
+    // Script çalıştığı anda kapat (1 saniye bekle)
+    setTimeout(() => {
+        hideLoadingScreen();
+    }, 1000);
 }
 
-// Hero Video - Normal loop
+// DOMContentLoaded'da da kapat (yedek)
+document.addEventListener('DOMContentLoaded', () => {
+    setTimeout(() => {
+        hideLoadingScreen();
+    }, 500);
+});
+
+// window.load'da da kapat (ekstra güvence)
+window.addEventListener('load', () => {
+    hideLoadingScreen();
+});
+
+// Lazy Load Videos with Intersection Observer
+const lazyLoadVideo = (video) => {
+    const videoObserver = new IntersectionObserver((entries, observer) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                const videoElement = entry.target;
+                if (videoElement.readyState === 0) {
+                    videoElement.load();
+                }
+                videoElement.play().catch(err => console.log('Video autoplay blocked:', err));
+                observer.unobserve(videoElement);
+            }
+        });
+    }, {
+        rootMargin: '50px',
+        threshold: 0.25
+    });
+    
+    videoObserver.observe(video);
+};
+
+// Hero Video - Lazy loaded
 const heroVideo = document.getElementById('heroVideo');
 if (heroVideo) {
-    heroVideo.addEventListener('loadedmetadata', function() {
-        this.play().catch(err => console.log('Video autoplay engellendi:', err));
-    });
+    lazyLoadVideo(heroVideo);
 }
 
-// Consultant Video - Normal loop
+// Consultant Video - Lazy loaded
 const consultantVideo = document.getElementById('consultantVideo');
 if (consultantVideo) {
-    consultantVideo.addEventListener('loadedmetadata', function() {
-        this.play().catch(err => console.log('Consultant video autoplay engellendi:', err));
-    });
+    lazyLoadVideo(consultantVideo);
 }
 
-// About Section Video - Normal loop
+// About Section Video - Lazy loaded
 const aboutHeroVideo = document.getElementById('aboutHeroVideo');
 if (aboutHeroVideo) {
-    aboutHeroVideo.addEventListener('loadedmetadata', function() {
-        this.play().catch(err => console.log('About video autoplay engellendi:', err));
-    });
+    lazyLoadVideo(aboutHeroVideo);
 }
 
 // Sayfa gerçek yüklenme ilerlemesini takip et
@@ -244,7 +284,17 @@ function initHeroParticles() {
 
 // Start typing animation when page loads
 document.addEventListener('DOMContentLoaded', () => {
-    setTimeout(typeWriter, 1000);
+    // Initialize DOM elements
+    typingText = document.getElementById('typing-text');
+    scrollToTopBtn = document.getElementById('scrollToTop');
+    contactForm = document.getElementById('contactForm');
+    
+    console.log('DOM Content Loaded - Initializing...');
+    
+    // Start typing animation
+    if (typingText) {
+        setTimeout(typeWriter, 1000);
+    }
     
     // Initialize hero particles
     initHeroParticles();
@@ -254,66 +304,125 @@ document.addEventListener('DOMContentLoaded', () => {
     
     // Initialize consultation functionality
     initializeConsultation();
-});
-
-// Modern Mobile Menu Toggle with improved UX
-function toggleMobileMenu() {
-    const isActive = hamburger.classList.toggle('active');
-    navMenu.classList.toggle('active');
-    document.body.classList.toggle('menu-open', isActive);
     
-    hamburger.setAttribute('aria-expanded', isActive ? 'true' : 'false');
-    navMenu.setAttribute('aria-hidden', isActive ? 'false' : 'true');
+    // Initialize mobile menu
+    console.log('Initializing mobile menu...');
+    initializeMobileMenu();
     
-    // Announce to screen readers
-    if (isActive) {
-        navMenu.focus();
-    }
-}
-
-function closeMobileMenu() {
-    hamburger.classList.remove('active');
-    navMenu.classList.remove('active');
-    document.body.classList.remove('menu-open');
-    hamburger.setAttribute('aria-expanded', 'false');
-    navMenu.setAttribute('aria-hidden', 'true');
-}
-
-// Hamburger click handler
-hamburger.addEventListener('click', (e) => {
-    e.stopPropagation();
-    toggleMobileMenu();
+    // Initialize search functionality
+    console.log('Initializing search...');
+    const searchManager = new ModernSearch();
+    
+    console.log('All features initialized successfully!');
 });
 
-// Keyboard support for hamburger
-hamburger.addEventListener('keydown', (e) => {
-    if (e.key === 'Enter' || e.key === ' ') {
-        e.preventDefault();
-        toggleMobileMenu();
+// Modern Mobile Menu Toggle with Glassmorphic Backdrop
+function initializeMobileMenu() {
+    console.log('=== Mobile Menu Initialization Started ===');
+    
+    const hamburger = document.getElementById('hamburger');
+    const navMenu = document.getElementById('nav-menu');
+    const menuBackdrop = document.getElementById('menuBackdrop');
+    
+    console.log('Hamburger element:', hamburger);
+    console.log('NavMenu element:', navMenu);
+    console.log('MenuBackdrop element:', menuBackdrop);
+    
+    if (!hamburger) {
+        console.error('❌ Hamburger element not found!');
+        return;
     }
-});
-
-// Close on outside tap (mobile) with improved performance
-document.addEventListener('click', (e) => {
-    if (window.innerWidth < 900 && navMenu.classList.contains('active')) {
-        if (!navMenu.contains(e.target) && !hamburger.contains(e.target)) {
-            closeMobileMenu();
+    if (!navMenu) {
+        console.error('❌ Nav menu element not found!');
+        return;
+    }
+    if (!menuBackdrop) {
+        console.error('❌ Menu backdrop element not found!');
+        return;
+    }
+    
+    console.log('✅ All mobile menu elements found');
+    
+    function toggleMobileMenu() {
+        console.log('🍔 Toggle mobile menu called');
+        const isActive = hamburger.classList.toggle('active');
+        navMenu.classList.toggle('active');
+        menuBackdrop.classList.toggle('active');
+        document.body.classList.toggle('menu-open', isActive);
+        
+        hamburger.setAttribute('aria-expanded', isActive ? 'true' : 'false');
+        navMenu.setAttribute('aria-hidden', isActive ? 'false' : 'true');
+        
+        console.log('Menu is now:', isActive ? 'OPEN' : 'CLOSED');
+        
+        // Announce to screen readers
+        if (isActive) {
+            navMenu.focus();
         }
     }
-}, { passive: true });
-
-// Close menu on Escape key
-document.addEventListener('keydown', (e) => {
-    if (e.key === 'Escape' && navMenu.classList.contains('active')) {
-        closeMobileMenu();
-        hamburger.focus();
+    
+    function closeMobileMenu() {
+        console.log('🚪 Close mobile menu called');
+        hamburger.classList.remove('active');
+        navMenu.classList.remove('active');
+        menuBackdrop.classList.remove('active');
+        document.body.classList.remove('menu-open');
+        hamburger.setAttribute('aria-expanded', 'false');
+        navMenu.setAttribute('aria-hidden', 'true');
     }
-});
+    
+    // Hamburger click handler
+    console.log('📌 Attaching click event to hamburger');
+    hamburger.addEventListener('click', (e) => {
+        console.log('🖱️ Hamburger clicked!');
+        e.preventDefault();
+        e.stopPropagation();
+        toggleMobileMenu();
+    }, { capture: true });
+    
+    // Keyboard support for hamburger
+    hamburger.addEventListener('keydown', (e) => {
+        if (e.key === 'Enter' || e.key === ' ') {
+            console.log('⌨️ Keyboard trigger:', e.key);
+            e.preventDefault();
+            toggleMobileMenu();
+        }
+    });
+    
+    // Close on backdrop click
+    menuBackdrop.addEventListener('click', () => {
+        console.log('🎭 Backdrop clicked');
+        closeMobileMenu();
+    });
+    
+    // Close menu on ESC key
+    document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape' && navMenu.classList.contains('active')) {
+            console.log('⎋ ESC key pressed, closing menu');
+            closeMobileMenu();
+        }
+    });
+    
+    // Close on nav link click
+    const navLinks = navMenu.querySelectorAll('.nav-link');
+    console.log('📝 Found', navLinks.length, 'nav links');
+    navLinks.forEach(link => {
+        link.addEventListener('click', () => {
+            console.log('🔗 Nav link clicked, closing menu');
+            closeMobileMenu();
+        });
+    });
+    
+    console.log('✅ Mobile menu initialization complete!');
+}
 
 // Improve scroll hide/show throttling
 let lastScrollYNav = window.scrollY;
 let tickingNav = false;
 function handleNavScroll() {
+    const navbar = document.getElementById('navbar');
+    if (!navbar) return;
+    
     const currentY = window.scrollY;
     if (currentY > lastScrollYNav && currentY > 120) {
         navbar.classList.add('hide-up');
@@ -330,15 +439,8 @@ window.addEventListener('scroll', () => {
     }
 }, { passive: true });
 
-// Close mobile menu when clicking on nav links
-document.querySelectorAll('.nav-link').forEach(link => {
-    link.addEventListener('click', () => {
-        closeMobileMenu();
-    });
-});
-
-// Navbar Scroll Effect & Floating Elements
-window.addEventListener('scroll', () => {
+// Navbar Scroll Effect & Floating Elements - Optimized with throttle
+const handleScrollEffects = throttle(() => {
     const scrollY = window.scrollY;
     const scrollHeight = document.documentElement.scrollHeight - window.innerHeight;
     const scrollProgress = (scrollY / scrollHeight) * 100;
@@ -379,7 +481,9 @@ window.addEventListener('scroll', () => {
             }
         });
     }
-});
+}, 100); // Throttle to 100ms
+
+window.addEventListener('scroll', handleScrollEffects, { passive: true });
 
 // Smooth Scrolling for Navigation Links
 document.querySelectorAll('.nav-link, .btn[href^="#"]').forEach(link => {
@@ -1131,20 +1235,7 @@ document.addEventListener('DOMContentLoaded', () => {
     window.addEventListener('resize', () => { detectHorizontalOverflow(); }, { passive:true });
 });
 
-// Performance optimization: Debounce scroll events
-function debounce(func, wait) {
-    let timeout;
-    return function executedFunction(...args) {
-        const later = () => {
-            clearTimeout(timeout);
-            func(...args);
-        };
-        clearTimeout(timeout);
-        timeout = setTimeout(later, wait);
-    };
-}
-
-// Apply debouncing to scroll events
+// Apply debouncing to scroll events (using debounce from top of file)
 const debouncedScrollHandler = debounce(() => {
     updateActiveNavLink();
 }, 10);
@@ -1367,50 +1458,73 @@ class ModernSearch {
     }
 
     bindEvents() {
-        // Eğer widget kaldırılmışsa tüm event bağlama işlemlerini atla
-        if (!this.widget) {
+        // Check if essential elements exist
+        if (!this.searchOverlay || !this.searchInput) {
+            console.warn('Search elements not found');
             return;
         }
+        
         // Navbar search trigger
         if (this.navSearchTrigger) {
-            this.navSearchTrigger.addEventListener('click', () => this.openSearch());
+            this.navSearchTrigger.addEventListener('click', () => {
+                console.log('Search triggered from navbar');
+                this.openSearch();
+            });
         }
         // Hero search trigger
         if (this.heroSearchTrigger) {
-            this.heroSearchTrigger.addEventListener('click', () => this.openSearch());
+            this.heroSearchTrigger.addEventListener('click', () => {
+                console.log('Search triggered from hero');
+                this.openSearch();
+            });
         }
         
         // Close search
-        this.searchClose.addEventListener('click', () => this.closeSearch());
-        this.searchOverlay.addEventListener('click', (e) => {
-            if (e.target === this.searchOverlay) this.closeSearch();
-        });
+        if (this.searchClose) {
+            this.searchClose.addEventListener('click', () => this.closeSearch());
+        }
+        
+        if (this.searchOverlay) {
+            this.searchOverlay.addEventListener('click', (e) => {
+                if (e.target === this.searchOverlay) this.closeSearch();
+            });
+        }
         
         // Search input
-        this.searchInput.addEventListener('input', (e) => this.handleSearch(e.target.value));
-        this.searchInput.addEventListener('focus', () => this.showSuggestions());
+        if (this.searchInput) {
+            this.searchInput.addEventListener('input', (e) => this.handleSearch(e.target.value));
+            this.searchInput.addEventListener('focus', () => this.showSuggestions());
+        }
         
         // Clear search
-        this.searchClear.addEventListener('click', () => this.clearSearch());
+        if (this.searchClear) {
+            this.searchClear.addEventListener('click', () => this.clearSearch());
+        }
         
         // Voice search (placeholder)
-        this.searchVoice.addEventListener('click', () => this.handleVoiceSearch());
+        if (this.searchVoice) {
+            this.searchVoice.addEventListener('click', () => this.handleVoiceSearch());
+        }
         
         // Suggestion clicks
-        this.searchSuggestions.addEventListener('click', (e) => {
-            const suggestionItem = e.target.closest('.suggestion-item');
-            if (suggestionItem) {
-                this.handleSuggestionClick(suggestionItem);
-            }
-        });
+        if (this.searchSuggestions) {
+            this.searchSuggestions.addEventListener('click', (e) => {
+                const suggestionItem = e.target.closest('.suggestion-item');
+                if (suggestionItem) {
+                    this.handleSuggestionClick(suggestionItem);
+                }
+            });
+        }
         
         // Result clicks
-        this.searchResults.addEventListener('click', (e) => {
-            const resultItem = e.target.closest('.search-result-item');
-            if (resultItem) {
-                this.handleResultClick(resultItem);
-            }
-        });
+        if (this.searchResults) {
+            this.searchResults.addEventListener('click', (e) => {
+                const resultItem = e.target.closest('.search-result-item');
+                if (resultItem) {
+                    this.handleResultClick(resultItem);
+                }
+            });
+        }
     }
 
     setupKeyboardShortcuts() {
@@ -1429,10 +1543,16 @@ class ModernSearch {
     }
 
     openSearch() {
+        console.log('Opening search overlay');
         this.isOpen = true;
-        this.searchOverlay.classList.add('active');
+        if (this.searchOverlay) {
+            this.searchOverlay.classList.add('active');
+            console.log('Search overlay active class added');
+        }
         setTimeout(() => {
-            this.searchInput.focus();
+            if (this.searchInput) {
+                this.searchInput.focus();
+            }
         }, 100);
         this.trackEvent('search_opened');
     }

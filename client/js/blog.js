@@ -2,6 +2,30 @@
 // BLOG PAGE JAVASCRIPT - ULTRA MODERN 2025
 // ==========================================
 
+// Performance Utilities
+const debounce = (func, wait) => {
+    let timeout;
+    return function executedFunction(...args) {
+        const later = () => {
+            clearTimeout(timeout);
+            func(...args);
+        };
+        clearTimeout(timeout);
+        timeout = setTimeout(later, wait);
+    };
+};
+
+const throttle = (func, limit) => {
+    let inThrottle;
+    return function(...args) {
+        if (!inThrottle) {
+            func.apply(this, args);
+            inThrottle = true;
+            setTimeout(() => inThrottle = false, limit);
+        }
+    };
+};
+
 document.addEventListener('DOMContentLoaded', () => {
     // Check if we're on the blog page
     if (!document.querySelector('.blog-hero')) {
@@ -47,6 +71,9 @@ function initBlogFunctionality() {
     
     // Make blog cards fully clickable
     initClickableCards();
+
+    // Mobile account panel (auth) toggle
+    initMobileAccountPanel();
     
     console.log('✨ Blog page initialized with ultra-modern features!');
 }
@@ -924,3 +951,95 @@ if (navbar) {
 }
 
 console.log('✨ Blog page fully loaded and interactive!');
+
+// ==========================================
+// MOBILE ACCOUNT / AUTH PANEL TOGGLE
+// ==========================================
+function initMobileAccountPanel() {
+    const toggleBtn = document.getElementById('navAccountToggle');
+    const panel = document.getElementById('mobileAuthPanel');
+    if (!toggleBtn || !panel) return;
+
+    let isOpen = false;
+
+    const focusableSelector = 'a[href], button:not([disabled])';
+    let focusableElements = [];
+    let firstFocusable, lastFocusable;
+
+    function setAria() {
+        toggleBtn.setAttribute('aria-expanded', String(isOpen));
+        panel.setAttribute('aria-hidden', String(!isOpen));
+        if (isOpen) {
+            panel.removeAttribute('hidden');
+        } else {
+            panel.setAttribute('hidden', '');
+        }
+    }
+
+    function trapFocus(e) {
+        if (!isOpen) return;
+        if (e.key !== 'Tab') return;
+        focusableElements = Array.from(panel.querySelectorAll(focusableSelector));
+        if (!focusableElements.length) return;
+        firstFocusable = focusableElements[0];
+        lastFocusable = focusableElements[focusableElements.length - 1];
+        if (e.shiftKey) {
+            if (document.activeElement === firstFocusable) {
+                e.preventDefault();
+                lastFocusable.focus();
+            }
+        } else {
+            if (document.activeElement === lastFocusable) {
+                e.preventDefault();
+                firstFocusable.focus();
+            }
+        }
+    }
+
+    function onKeydown(e) {
+        if (!isOpen) return;
+        if (e.key === 'Escape') {
+            closePanel();
+        } else {
+            trapFocus(e);
+        }
+    }
+
+    function onDocumentClick(e) {
+        if (!isOpen) return;
+        if (panel.contains(e.target) || e.target === toggleBtn) return;
+        closePanel();
+    }
+
+    function openPanel() {
+        isOpen = true;
+        setAria();
+        panel.classList.add('is-open');
+        panel.style.pointerEvents = 'auto';
+        focusableElements = Array.from(panel.querySelectorAll(focusableSelector));
+        if (focusableElements.length) {
+            focusableElements[0].focus();
+        }
+        document.addEventListener('keydown', onKeydown);
+        document.addEventListener('click', onDocumentClick);
+    }
+
+    function closePanel() {
+        isOpen = false;
+        setAria();
+        panel.classList.remove('is-open');
+        panel.style.pointerEvents = 'none';
+        document.removeEventListener('keydown', onKeydown);
+        document.removeEventListener('click', onDocumentClick);
+        toggleBtn.focus();
+    }
+
+    toggleBtn.addEventListener('click', () => {
+        isOpen ? closePanel() : openPanel();
+    });
+
+    // Initialize hidden state
+    panel.setAttribute('hidden', '');
+    panel.setAttribute('aria-hidden', 'true');
+    panel.style.pointerEvents = 'none';
+}

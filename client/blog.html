@@ -125,7 +125,10 @@
                     <a href="login.html" class="btn-auth btn-auth--login" aria-label="Giriş Yap">Giriş Yap</a>
                     <a href="signup.html" class="btn-auth btn-auth--signup" aria-label="Kaydol">Kaydol</a>
                 </div>
-                <div class="hamburger" id="hamburger" aria-label="Mobil menü aç/kapat" role="button">
+                    <button class="nav-account-toggle" id="navAccountToggle" aria-label="Hesap işlemleri menüsünü aç" aria-expanded="false" aria-controls="mobileAuthPanel">
+                        <i class="fas fa-user"></i>
+                    </button>
+                    <div class="hamburger" id="hamburger" aria-label="Mobil menü aç/kapat" role="button">
                     <span></span>
                     <span></span>
                     <span></span>
@@ -190,10 +193,10 @@
                     <!-- Blog Post 1 - YENİ EKLENEN -->
                     <article class="blog-card" data-category="business">
                         <div class="blog-card-image">
-                            <div class="blog-placeholder-image" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);">
+                            <div class="blog-placeholder-image gradient-purple">
                                 <i class="fas fa-rocket"></i>
                             </div>
-                            <span class="blog-category-badge" style="background: linear-gradient(135deg, #667eea, #764ba2);">İşletme Gelişimi</span>
+                            <span class="blog-category-badge badge-gradient-purple">İşletme Gelişimi</span>
                             <span class="badge-new">🔥 YENİ</span>
                         </div>
                         <div class="blog-card-content">
@@ -348,10 +351,10 @@
                     <!-- Blog Post 7 - YENİ -->
                     <article class="blog-card" data-category="tips">
                         <div class="blog-card-image">
-                            <div class="blog-placeholder-image" style="background: linear-gradient(135deg, #11998e 0%, #38ef7d 100%);">
+                            <div class="blog-placeholder-image gradient-green">
                                 <i class="fas fa-search"></i>
                             </div>
-                            <span class="blog-category-badge" style="background: linear-gradient(135deg, #11998e, #38ef7d);">SEO & Marketing</span>
+                            <span class="blog-category-badge badge-gradient-green">SEO & Marketing</span>
                             <span class="badge-new">🔥 YENİ</span>
                         </div>
                         <div class="blog-card-content">
@@ -588,6 +591,20 @@
       fbq('init', 'YOUR_PIXEL_ID');
       fbq('track', 'PageView');
     </script>
+
+    <!-- Mobil Hesap Paneli -->
+    <div class="mobile-auth-panel" id="mobileAuthPanel" aria-hidden="true" role="dialog" aria-label="Hesap işlemleri" hidden>
+        <div class="panel-title">Hesap İşlemleri</div>
+        <div class="panel-actions">
+            <a href="login.html" class="btn-auth btn-auth--login" aria-label="Giriş Yap">Giriş Yap</a>
+            <a href="signup.html" class="btn-auth btn-auth--signup" aria-label="Kaydol">Kaydol</a>
+        </div>
+        <div class="quick-links" aria-label="Hızlı bağlantılar">
+            <a href="index.html#services" class="quick-link">Hizmetler</a>
+            <a href="index.html#portfolio" class="quick-link">Portföy</a>
+            <a href="index.html#contact" class="quick-link">İletişim</a>
+        </div>
+    </div>
 
 </body>
 </html>

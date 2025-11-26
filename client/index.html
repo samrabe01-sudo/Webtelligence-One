@@ -42,6 +42,12 @@
     <link rel="apple-touch-icon" href="/images/head_logo.png">
     <link rel="apple-touch-startup-image" href="/images/head_logo.png">
     
+    <!-- Preconnect for performance -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="preconnect" href="https://cdnjs.cloudflare.com">
+    <link rel="dns-prefetch" href="https://www.googletagmanager.com">
+    
     <!-- Google Analytics 4 (GA4) -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-XXXXXXXXXX"></script>
     <script>
@@ -62,7 +68,8 @@
     })(window,document,'script','dataLayer','GTM-XXXXXXX');</script>
     <!-- End Google Tag Manager -->
     
-    <!-- Facebook Pixel Code -->
+    <!-- Facebook Pixel Code - Disabled (Add your Pixel ID when ready) -->
+    <!--
     <script>
       !function(f,b,e,v,n,t,s)
       {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
@@ -78,9 +85,11 @@
     <noscript><img height="1" width="1" style="display:none"
       src="https://www.facebook.com/tr?id=YOUR_PIXEL_ID&ev=PageView&noscript=1"
     /></noscript>
+    -->
     <!-- End Facebook Pixel Code -->
     
-    <!-- Hotjar Tracking Code -->
+    <!-- Hotjar Tracking Code - Disabled (Add your ID when ready) -->
+    <!--
     <script>
         (function(h,o,t,j,a,r){
             h.hj=h.hj||function(){(h.hj.q=h.hj.q||[]).push(arguments)};
@@ -91,6 +100,7 @@
             a.appendChild(r);
         })(window,document,'https://static.hotjar.com/c/hotjar-','.js?sv=');
     </script>
+    -->
     
     <!-- Schema.org JSON-LD -->
     <script type="application/ld+json">
@@ -161,10 +171,15 @@
     }
     </script>
     
-    <!-- Font Awesome Icons -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <!-- Google Fonts -->
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Font Awesome Icons - Deferred -->
+    <link rel="preload" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+    <noscript><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"></noscript>
+    
+    <!-- Google Fonts - Optimized with display=swap -->
+    <link rel="preload" href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" as="style" onload="this.onload=null;this.rel='stylesheet'">
+    <noscript><link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet"></noscript>
+    
+    <!-- Critical CSS Inline (consider inlining above-the-fold CSS here) -->
     <!-- Custom CSS -->
     <link rel="stylesheet" href="css/main.css">
 </head>
@@ -190,13 +205,27 @@
         </div>
     </div>
     
+    <!-- Anında Loading Ekranını Kapat -->
+    <script>
+        // Sayfa parse edilir edilmez çalışır
+        setTimeout(function() {
+            var ls = document.getElementById('loadingScreen');
+            if (ls) {
+                ls.classList.add('hidden');
+                setTimeout(function() {
+                    ls.style.display = 'none';
+                }, 600);
+            }
+        }, 800);
+    </script>
+    
     <!-- Navigation -->
     <nav class="navbar" id="navbar" role="navigation" aria-label="Ana site navigasyonu">
             <div class="nav-container" role="presentation">
                 <div class="nav-left" role="presentation">
                     <div class="nav-logo" role="presentation">
                         <a href="#home" class="logo-link" aria-label="MEXSU ana sayfa">
-                            <img src="images/head_logo.png" alt="Mexsuweb Logo" class="nav-logo-img">
+                            <img src="images/head_logo.png" alt="Mexsuweb Logo" class="nav-logo-img" loading="eager" fetchpriority="high">
                             <div class="brand-text" aria-hidden="false">
                                 <span class="brand-me">ME</span><span class="brand-x">X</span><span class="brand-su">SU</span>
                             </div>
@@ -211,10 +240,6 @@
                 <li><a href="#packages" class="nav-link">Paketler</a></li>
                 <li><a href="#services" class="nav-link">Hizmetler</a></li>
                 <li><a href="#contact" class="nav-link">İletişim</a></li>
-                <!-- Auth links for mobile menu -->
-                <li class="nav-auth-inline"><a href="blog.html" class="nav-link blog-mobile" aria-label="Blog yazıları" title="Blog">Blog</a></li>
-                <li class="nav-auth-inline"><a href="login.html" class="nav-link login-cta" aria-label="Giriş Yap sayfası">Giriş Yap</a></li>
-                <li class="nav-auth-inline"><a href="signup.html" class="nav-link signup-cta" aria-label="Kaydol sayfası">Kaydol</a></li>
             </ul>
             <div class="nav-right" role="presentation">
                 <a href="blog.html" class="nav-blog-standalone" aria-label="Blog yazıları" title="Blog yazıları">Blog
@@ -223,11 +248,6 @@
                 <button class="nav-search-btn" id="navSearchTrigger" aria-label="Site içi arama aç"> 
                     <i class="fas fa-search" aria-hidden="true"></i>
                 </button>
-                <!-- Desktop Auth CTA Group -->
-                <div class="nav-auth-group" aria-label="Kimlik işlemleri">
-                    <button id="openLogin" class="btn-auth btn-auth--login" aria-haspopup="dialog" aria-controls="modal-login">Giriş Yap</button>
-                    <button id="openSignup" class="btn-auth btn-auth--signup" aria-haspopup="dialog" aria-controls="modal-signup">Kaydol</button>
-                </div>
                 <div class="hamburger" id="hamburger" aria-label="Mobil menüyü aç" aria-expanded="false" role="button" tabindex="0">
                     <span></span>
                     <span></span>
@@ -237,6 +257,9 @@
         </div>
 
     </nav>
+
+    <!-- Mobile Menu Backdrop -->
+    <div class="menu-backdrop" id="menuBackdrop"></div>
 
     <!-- Modern Search Bar -->
     <div class="search-overlay" id="searchOverlay">
@@ -398,7 +421,7 @@
                 <div class="hero-cyber-world">
                     <!-- Hero Video (animasyon katmanları kaldırıldı) -->
                     <div class="hero-media" aria-label="Tanıtım Videosu">
-                        <video id="heroVideo" class="hero-video" autoplay muted loop playsinline preload="metadata" poster="../images/profile/ai_asistan.png">
+                        <video id="heroVideo" class="hero-video" autoplay muted loop playsinline preload="none" poster="../images/profile/ai_asistan.png" loading="lazy">
                             <source src="../images/profile/Robot_Göğsünde_Kırmızı_Yazı_Dönüşümü.mp4" type="video/mp4" />
                             Tarayıcınız video etiketini desteklemiyor.
                         </video>
@@ -444,7 +467,7 @@
                             <div class="profile-ring"></div>
                         </div>
                         <div class="profile-avatar">
-                            <video id="aboutHeroVideo" class="profile-video" autoplay muted loop playsinline preload="metadata" poster="../images/profile/ai_asistan.png">
+                            <video id="aboutHeroVideo" class="profile-video" autoplay muted loop playsinline preload="none" poster="../images/profile/ai_asistan.png" loading="lazy">
                                 <source src="../images/profile/Robot_Göğsünde_Kırmızı_Yazı_Dönüşümü.mp4" type="video/mp4" />
                                 Tarayıcınız video etiketini desteklemiyor.
                             </video>
@@ -602,7 +625,7 @@
             <div class="consultation-intro">
                 <div class="consultant-card">
                     <div class="consultant-avatar">
-                        <video id="consultantVideo" class="consultant-video" autoplay muted loop playsinline preload="metadata" poster="../images/profile/ai_asistan.png">
+                        <video id="consultantVideo" class="consultant-video" autoplay muted loop playsinline preload="none" poster="../images/profile/ai_asistan.png" loading="lazy">
                             <source src="../images/profile/Robot_Göğsünde_Kırmızı_Yazı_Dönüşümü.mp4" type="video/mp4" />
                             Tarayıcınız video etiketini desteklemiyor.
                         </video>

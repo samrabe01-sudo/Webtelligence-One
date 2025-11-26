@@ -401,8 +401,62 @@ body {
 @media (max-width: 640px) {
     .nav-container { padding: 12px 16px; }
     .nav-auth-group { gap: 8px; }
-    .btn-auth { padding: 6px 14px; font-size: 12px; }
-    .nav-return-home { padding: 8px 14px 8px 12px; font-size: 13px; }
+    .btn-auth { padding: 6px 12px; font-size: 11px; }
+    .nav-return-home { padding: 8px 12px 8px 10px; font-size: 12px; }
+    /* Mobilde auth butonlarını ana çubuktan gizle, toggle panel kullan */
+    .nav-auth-group { display: none; }
+    .nav-account-toggle {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        width: 42px;
+        height: 42px;
+        border-radius: 50%;
+        background: linear-gradient(135deg,#1c2540,#23304f);
+        color: #fff;
+        border: 1px solid rgba(255,255,255,0.18);
+        box-shadow: 0 4px 14px -4px rgba(0,0,0,0.6);
+        cursor: pointer;
+        font-size: 16px;
+        transition: background .35s, box-shadow .35s, transform .35s;
+    }
+    .nav-account-toggle:hover,
+    .nav-account-toggle:focus-visible { background: linear-gradient(135deg,#2d3a55,#384b6e); transform: translateY(-2px); }
+    .nav-account-toggle:active { transform: translateY(0); }
+    .nav-account-toggle[aria-expanded="true"] { box-shadow: 0 8px 28px -6px rgba(0,0,0,0.7); }
+    .mobile-auth-panel {
+        position: fixed;
+        top: 60px;
+        left: 0;
+        right: 0;
+        z-index: 1500;
+        padding: 18px 20px 26px;
+        background: linear-gradient(135deg,#0f172a 0%, #1e293b 100%);
+        -webkit-backdrop-filter: blur(18px) saturate(160%);
+        backdrop-filter: blur(18px) saturate(160%);
+        border-bottom: 1px solid rgba(255,255,255,0.08);
+        box-shadow: 0 24px 64px -12px rgba(0,0,0,0.5);
+        display: flex;
+        flex-direction: column;
+        gap: 14px;
+        transform: translateY(-30px);
+        opacity: 0;
+        pointer-events: none;
+        transition: opacity .4s var(--transition-smooth), transform .4s var(--transition-smooth);
+    }
+    .mobile-auth-panel.open { opacity: 1; transform: translateY(0); pointer-events: auto; }
+    .mobile-auth-panel .panel-title { font-size: 14px; font-weight: 600; color: #fff; letter-spacing: .5px; }
+    .mobile-auth-panel .panel-actions { display: flex; gap: 10px; }
+    .mobile-auth-panel .btn-auth { flex: 1; display: inline-flex; justify-content: center; }
+    .mobile-auth-panel .quick-links { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 6px; }
+    .mobile-auth-panel .quick-link { font-size: 11px; padding: 6px 10px; border-radius: 18px; background: rgba(255,255,255,0.08); color:#fff; text-decoration:none; }
+}
+
+@media (max-width: 420px) {
+    .nav-account-toggle { width: 38px; height: 38px; font-size: 15px; }
+    .mobile-auth-panel { top: 56px; }
+    .mobile-auth-panel .btn-auth { padding: 6px 10px; font-size: 11px; }
+}
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -2322,4 +2376,12 @@ body {
 .trend-color-pastel-3 { background: #fef3c7; }
 
 .trend-visual.monochrome { background: linear-gradient(90deg, #000 0%, #fff 100%); }
+
+/* ==========================================
+    Utility Gradients (migrated from inline styles)
+    ========================================== */
+.blog-placeholder-image.gradient-purple { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); }
+.blog-category-badge.badge-gradient-purple { background: linear-gradient(135deg, #667eea, #764ba2); }
+.blog-placeholder-image.gradient-green { background: linear-gradient(135deg, #11998e 0%, #38ef7d 100%); }
+.blog-category-badge.badge-gradient-green { background: linear-gradient(135deg, #11998e, #38ef7d); }
 
