@@ -1,23 +1,114 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="tr">
 <head>
-  <meta charset="utf-8" />
-  <title>Yönlendiriliyor... | Webtelligence</title>
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <!-- Yönlendirme kaldırıldı: kök alan adında kal -->
-  <link rel="canonical" href="https://mexsuweb.com/" />
-  <style>
-    body{font-family:system-ui,-apple-system,Segoe UI,Roboto,Ubuntu,sans-serif;display:flex;align-items:center;justify-content:center;min-height:100vh;margin:0;background:#0d0f17;color:#fff;}a{color:#61dafb;text-decoration:none}main{max-width:520px;padding:32px;border:1px solid #222;border-radius:12px;background:#141824;box-shadow:0 8px 32px rgba(0,0,0,.4)}h1{font-size:1.4rem;margin:0 0 1rem}p{line-height:1.5;margin:.5rem 0}.spinner{width:42px;height:42px;border:4px solid #1f2533;border-top-color:#61dafb;border-radius:50%;animation:spin 1s linear infinite;margin:0 auto 1.25rem}@keyframes spin{to{transform:rotate(360deg)}}
-  </style>
-  <meta name="robots" content="noindex" />
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Mert Yüksel - Profesyonel Web Tasarımcısı & Full-Stack Developer | Webtelligence</title>
+    <meta name="description" content="Mert Yüksel - Modern web tasarım ve geliştirme hizmetleri. React, Node.js, UI/UX tasarım uzmanı. 10+ başarılı proje, SEO optimize ve responsive web siteleri.">
+    <meta name="keywords" content="web tasarım, web geliştirme, frontend, responsive design, UI/UX, React, Node.js, full-stack developer, Türkiye">
+    <meta name="author" content="Mert Yüksel">
+    <link rel="canonical" href="https://mexsuweb.com/">
+    <!-- Geçici Çözüm: client içeriğini kökten servis etmek için base kullanıyoruz -->
+    <base href="/client/">
+    <!-- Favicon -->
+    <link rel="icon" type="image/svg+xml" href="images/favicon.svg">
+    <link rel="apple-touch-icon" sizes="180x180" href="images/head_logo.png">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="preload" href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" as="style" onload="this.onload=null;this.rel='stylesheet'">
+    <noscript><link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet"></noscript>
+    <link rel="stylesheet" href="css/main.css">
+    <style>
+      /* Geçici stil iyileştirmeleri */
+      body { margin:0; background:#0d0f17; color:#fff; font-family: Poppins, system-ui, -apple-system, Segoe UI, Roboto, Ubuntu, sans-serif; }
+    </style>
 </head>
 <body>
-  <main role="status" aria-live="polite">
-    <div class="spinner" aria-hidden="true"></div>
-    <h1>Webtelligence</h1>
-    <p>Bu kök dizin sayfası, ana domaine hizmet verir. İçerik otomatik olarak frontend tarafından sunulur.</p>
-    <p><a href="/" aria-label="Ana sayfa">Ana sayfaya dön</a></p>
-  </main>
-  <!-- Yönlendirme scripti kaldırıldı; URL kök dizinde kalır -->
+    <!-- Loading Screen (client içinden kopyalandı) -->
+    <div class="loading-screen" id="loadingScreen">
+        <div class="loading-content">
+            <div class="loading-logo">
+                <div class="logo-circle">
+                    <svg class="logo-svg" viewBox="0 0 100 100">
+                        <circle class="logo-ring" cx="50" cy="50" r="45"></circle>
+                        <path class="logo-checkmark" d="M30 50 L45 65 L70 35" stroke-dasharray="100" stroke-dashoffset="100"></path>
+                    </svg>
+                </div>
+                <h2 class="loading-brand">MEXSU</h2>
+            </div>
+            <div class="loading-progress">
+                <div class="progress-bar">
+                    <div class="progress-fill" id="progressFill"></div>
+                </div>
+                <p class="loading-text" id="loadingText">Yükleniyor...</p>
+            </div>
+        </div>
+    </div>
+    <script>
+      // Client loading davranışını taklit eden geçici kapatma
+      setTimeout(function(){
+        var ls = document.getElementById('loadingScreen');
+        if(ls){ ls.classList.add('hidden'); setTimeout(()=>{ ls.style.display='none'; },600); }
+      },800);
+    </script>
+    <!-- Navigasyon (client versiyonundan) -->
+    <nav class="navbar" id="navbar" role="navigation" aria-label="Ana site navigasyonu">
+        <div class="nav-container" role="presentation">
+            <div class="nav-left" role="presentation">
+                <div class="nav-logo" role="presentation">
+                    <a href="#home" class="logo-link" aria-label="MEXSU ana sayfa">
+                        <img src="images/head_logo.png" alt="Mexsuweb Logo" class="nav-logo-img" loading="eager" fetchpriority="high">
+                        <div class="brand-text" aria-hidden="false">
+                            <span class="brand-me">ME</span><span class="brand-x">X</span><span class="brand-su">SU</span>
+                        </div>
+                    </a>
+                </div>
+            </div>
+            <ul class="nav-menu" id="nav-menu" aria-label="Birincil bölümler">
+                <li><a href="#home" class="nav-link">Ana Sayfa</a></li>
+                <li><a href="#about" class="nav-link">Hakkımda</a></li>
+                <li><a href="#consultation" class="nav-link">Danışmanlık</a></li>
+                <li><a href="#skills" class="nav-link">Yetenekler</a></li>
+                <li><a href="#packages" class="nav-link">Paketler</a></li>
+                <li><a href="#services" class="nav-link">Hizmetler</a></li>
+                <li><a href="#contact" class="nav-link">İletişim</a></li>
+                <li><a href="blog.html" class="nav-link blog-mobile nav-blog-btn" aria-label="Blog yazıları" title="Blog">Blog</a></li>
+            </ul>
+            <div class="nav-right" role="presentation">
+                <a href="blog.html" class="nav-blog-standalone" aria-label="Blog yazıları" title="Blog yazıları">Blog
+                    <span class="nav-blog-glow" aria-hidden="true"></span>
+                </a>
+                <button class="nav-search-btn" id="navSearchTrigger" aria-label="Site içi arama aç">
+                    <i class="fas fa-search" aria-hidden="true"></i>
+                </button>
+                <div class="hamburger" id="hamburger" aria-label="Mobil menüyü aç" aria-expanded="false" role="button" tabindex="0">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </div>
+            </div>
+        </div>
+    </nav>
+    <div class="menu-backdrop" id="menuBackdrop"></div>
+    <!-- Hero (kısaltılmış) -->
+    <section id="home" class="hero">
+      <div class="hero-container">
+        <div class="hero-content">
+          <h1>Merhaba,</h1>
+          <h1>Ben <span class="highlight">Mert Yüksel</span></h1>
+          <p>Modern, kullanıcı dostu ve etkileyici web siteleri geliştiriyorum.</p>
+          <div class="hero-buttons">
+            <a href="#packages" class="btn btn-primary"><i class="fas fa-briefcase"></i> Portföyümü İncele</a>
+            <a href="#contact" class="btn btn-secondary"><i class="fas fa-paper-plane"></i> İletişime Geç</a>
+          </div>
+        </div>
+      </div>
+    </section>
+    <!-- Tam içerik için kalıcı çözümde doğrudan client klasörü yayınlanacak -->
+    <script defer src="js/main.js"></script>
+    <script defer src="js/profile.js"></script>
+    <script defer src="js/blog.js"></script>
+    <!-- Geçici not: Bu dosya kalıcı çözüm uygulanınca sadeleştirilecek -->
 </body>
 </html>
