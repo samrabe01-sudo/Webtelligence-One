@@ -1,3 +1,33 @@
 {
-    "liveServer.settings.port": 5501
+    // Live Server configuration
+    "liveServer.settings.port": 5501,
+    "liveServer.settings.root": "/",
+    
+    // Editor configuration
+    "editor.formatOnSave": true,
+    "editor.defaultFormatter": "esbenp.prettier-vscode",
+    "editor.tabSize": 2,
+    "editor.insertSpaces": true,
+    
+    // JavaScript/Node.js configuration
+    "javascript.updateImportsOnFileMove.enabled": "always",
+    "javascript.preferences.importModuleSpecifier": "relative",
+    "javascript.suggest.autoImports": true,
+    
+    // Files configuration
+    "files.exclude": {
+        "node_modules": true,
+        ".git": true
+    },
+    "files.watcherExclude": {
+        "**/node_modules/**": true
+    },
+    
+    // Git configuration
+    "git.ignoreLimitWarning": true,
+    
+    // CSS/HTML configuration
+    "css.validate": true,
+    "html.autoClosingTags": true,
+    "html.format.wrapAttributes": "auto"
 }
