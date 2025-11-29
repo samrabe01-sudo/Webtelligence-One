@@ -4380,8 +4380,8 @@ body.menu-open {
     fill: none;
     stroke: url(#scrollGradient);
     stroke-width: 3.5;
-    stroke-dasharray: 220;
-    stroke-dashoffset: 220;
+    stroke-dasharray: 201;
+    stroke-dashoffset: 201;
     stroke-linecap: round;
     transition: stroke-dashoffset 0.35s cubic-bezier(0.4, 0, 0.2, 1);
     filter: drop-shadow(0 0 4px rgba(108, 92, 231, 0.4));
