@@ -8812,53 +8812,128 @@ body.menu-open {
 /* Hero Auth CTA */
 .hero-auth-cta{ 
     margin-top: 40px; 
-    padding: 40px 36px; 
-    background: linear-gradient(135deg, rgba(255,255,255,.95) 0%, rgba(248,250,252,.95) 100%);
-    -webkit-backdrop-filter: blur(20px); 
-    backdrop-filter: blur(20px); 
-    border-radius: 24px; 
-    border: 2px solid transparent;
+    padding: 48px 40px; 
+    background: 
+        linear-gradient(135deg, rgba(255,255,255,.98) 0%, rgba(251,252,255,.98) 50%, rgba(248,250,255,.98) 100%),
+        radial-gradient(circle at 100% 0%, rgba(108,92,231,.03) 0%, transparent 50%),
+        radial-gradient(circle at 0% 100%, rgba(162,155,254,.03) 0%, transparent 50%);
+    -webkit-backdrop-filter: blur(32px) saturate(180%); 
+    backdrop-filter: blur(32px) saturate(180%); 
+    border-radius: 28px; 
+    border: 1px solid rgba(255,255,255,.8);
     background-clip: padding-box;
     box-shadow: 
-        0 8px 32px rgba(108,92,231,.12),
-        0 2px 8px rgba(0,0,0,.04),
-        inset 0 1px 0 rgba(255,255,255,.8);
+        0 1px 2px rgba(108,92,231,.05),
+        0 4px 12px rgba(108,92,231,.08),
+        0 12px 40px rgba(108,92,231,.12),
+        0 20px 60px rgba(0,0,0,.04),
+        inset 0 1px 1px rgba(255,255,255,.95),
+        inset 0 -1px 1px rgba(108,92,231,.04);
     position: relative;
     overflow: hidden;
-    min-height: 180px;
+    min-height: 200px;
     display: flex;
     flex-direction: column;
     justify-content: center;
+    transition: all 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
+    isolation: isolate;
+}
+
+.hero-auth-cta:hover {
+    transform: translateY(-4px) scale(1.01);
+    box-shadow: 
+        0 2px 4px rgba(108,92,231,.06),
+        0 8px 20px rgba(108,92,231,.12),
+        0 20px 60px rgba(108,92,231,.16),
+        0 30px 80px rgba(0,0,0,.06),
+        inset 0 1px 2px rgba(255,255,255,1),
+        inset 0 -1px 2px rgba(108,92,231,.06);
 }
 
 .hero-auth-cta::before {
     content: '';
     position: absolute;
-    inset: 0;
-    border-radius: 24px;
+    inset: -1px;
+    border-radius: 28px;
     padding: 2px;
-    background: linear-gradient(135deg, #6c5ce7, #a29bfe, #6c5ce7);
-    -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+    background: linear-gradient(135deg, 
+        rgba(108,92,231,.6) 0%, 
+        rgba(162,155,254,.7) 25%,
+        rgba(138,180,248,.5) 50%,
+        rgba(162,155,254,.7) 75%,
+        rgba(108,92,231,.6) 100%);
+    -webkit-mask: 
+        linear-gradient(#fff 0 0) content-box, 
+        linear-gradient(#fff 0 0);
     -webkit-mask-composite: xor;
-    mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+    mask: 
+        linear-gradient(#fff 0 0) content-box, 
+        linear-gradient(#fff 0 0);
     mask-composite: exclude;
     pointer-events: none;
+    opacity: 0.7;
+    animation: borderPulse 4s ease-in-out infinite;
+}
+
+@keyframes borderPulse {
+    0%, 100% { opacity: 0.7; filter: brightness(1); }
+    50% { opacity: 0.9; filter: brightness(1.15); }
+}
+
+.hero-auth-cta::after {
+    content: '';
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: radial-gradient(circle, rgba(255,255,255,.4) 0%, transparent 70%);
+    pointer-events: none;
+    transform: rotate(0deg);
+    animation: shimmer 8s linear infinite;
+    opacity: 0;
+}
+
+.hero-auth-cta:hover::after {
+    opacity: 1;
+}
+
+@keyframes shimmer {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
 }
 
 .hero-auth-text{ 
     text-align: center; 
-    font-size: 1.1rem; 
-    color: #1e293b; 
-    margin-bottom: 20px; 
+    font-size: 1.15rem; 
+    background: linear-gradient(135deg, #1e293b 0%, #334155 50%, #1e293b 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    margin-bottom: 28px; 
     font-weight: 700;
-    letter-spacing: -0.02em;
+    letter-spacing: -0.03em;
     position: relative;
     z-index: 1;
+    line-height: 1.4;
+    text-shadow: 0 1px 2px rgba(0,0,0,.02);
+    animation: fadeInUp 0.8s ease-out 0.2s both;
+}
+
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(12px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
 }
 
 .hero-auth-buttons{ 
     display: flex; 
-    gap: 16px; 
+    gap: 18px; 
     justify-content: center; 
     flex-wrap: wrap;
     position: relative;
@@ -8866,51 +8941,124 @@ body.menu-open {
 }
 
 .btn-auth--hero{ 
-    height: 54px; 
-    padding: 0 32px; 
+    height: 58px; 
+    padding: 0 36px; 
     font-size: 1.05rem; 
-    min-width: 180px;
+    min-width: 190px;
     font-weight: 600;
-    border-radius: 14px;
-    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-    box-shadow: 0 4px 12px rgba(0,0,0,.08);
+    border-radius: 16px;
+    border: none;
+    cursor: pointer;
+    position: relative;
+    overflow: hidden;
+    transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+    box-shadow: 
+        0 2px 8px rgba(0,0,0,.06),
+        0 4px 16px rgba(0,0,0,.08),
+        inset 0 1px 1px rgba(255,255,255,.3);
+}
+
+.btn-auth--hero::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(135deg, rgba(255,255,255,.2) 0%, transparent 100%);
+    opacity: 0;
+    transition: opacity 0.4s ease;
+}
+
+.btn-auth--hero:hover::before {
+    opacity: 1;
 }
 
 .btn-auth--hero:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 8px 20px rgba(0,0,0,.12);
+    transform: translateY(-3px) scale(1.02);
+    box-shadow: 
+        0 4px 12px rgba(0,0,0,.08),
+        0 8px 28px rgba(0,0,0,.12),
+        inset 0 1px 2px rgba(255,255,255,.4);
 }
 
-.btn-auth--hero i{ margin-right: 10px; font-size: 1.1rem; }
+.btn-auth--hero:active {
+    transform: translateY(-1px) scale(0.98);
+    transition-duration: 0.1s;
+}
+
+.btn-auth--hero.btn-auth--login {
+    background: linear-gradient(135deg, #6c5ce7 0%, #8b7ff5 100%);
+    color: #ffffff;
+}
+
+.btn-auth--hero.btn-auth--login:hover {
+    background: linear-gradient(135deg, #5b4cd6 0%, #7a6ee4 100%);
+}
+
+.btn-auth--hero.btn-auth--signup {
+    background: linear-gradient(135deg, #8ab4f8 0%, #a8c7fa 100%);
+    color: #1e293b;
+    font-weight: 700;
+}
+
+.btn-auth--hero.btn-auth--signup:hover {
+    background: linear-gradient(135deg, #79a3e7 0%, #97b6e9 100%);
+}
+
+.btn-auth--hero i{ 
+    margin-right: 10px; 
+    font-size: 1.15rem;
+    transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.btn-auth--hero:hover i {
+    transform: scale(1.1) rotate(-5deg);
+}
 
 @media (max-width: 768px){
     .hero-auth-cta{ 
-        padding: 32px 20px; 
+        padding: 36px 24px; 
         margin-top: 32px;
-        border-radius: 20px;
-        min-height: 160px;
+        border-radius: 24px;
+        min-height: 180px;
     }
     
     .hero-auth-cta::before {
-        border-radius: 20px;
+        border-radius: 24px;
+    }
+    
+    .hero-auth-cta::after {
+        display: none;
     }
     
     .hero-auth-text{ 
-        font-size: 1rem; 
-        margin-bottom: 18px;
+        font-size: 1.05rem; 
+        margin-bottom: 22px;
+        letter-spacing: -0.02em;
     }
     
     .btn-auth--hero{ 
-        height: 50px; 
-        padding: 0 24px; 
-        font-size: 1rem; 
+        height: 54px; 
+        padding: 0 28px; 
+        font-size: 1.02rem; 
         width: 100%; 
         min-width: unset;
+        border-radius: 14px;
     }
     
     .hero-auth-buttons{ 
         flex-direction: column; 
-        gap: 14px;
+        gap: 16px;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .hero-auth-cta,
+    .hero-auth-cta::before,
+    .hero-auth-cta::after,
+    .btn-auth--hero,
+    .btn-auth--hero i,
+    .hero-auth-text {
+        animation: none !important;
+        transition-duration: 0.01ms !important;
     }
 }
 
